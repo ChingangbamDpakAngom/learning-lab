@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+
+# Data and secrets: download it, don't commit it
+data/
+*.parquet
+*.duckdb
+.env
+
+# Editors / OS
+.vscode/
+.idea/
+.obsidian/workspace*.json
+.DS_Store
+Thumbs.db

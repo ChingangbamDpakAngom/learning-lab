@@ -1,0 +1,166 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Two Pointers Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.r1{grid-template-columns:1.1fr 1fr}
+.r3{grid-template-columns:1fr 1fr 1fr}
+.r4{grid-template-columns:1.25fr 1fr}
+.sig td:first-child{font-weight:700;width:48%}
+.cmp td:last-child{white-space:nowrap}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Two <span>Pointers</span> Cheat Sheet</h1>
+    <p class="sub">Two indices walk the data together so one pass replaces a nested loop: O(n²) → <b>O(n)</b>, usually O(1) extra space</p>
+  </div>
+  <div class="tag">DSA pattern · Week 2<b>Sorted? Pairs? In place? Think two pointers.</b></div>
+</header>
+
+<!-- ROW 1: when + the core idea -->
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>Spot it: signals in the problem</h2>
+    <table class="sig">
+      <tr><th>If the problem says…</th><th>Reach for</th></tr>
+      <tr><td>Sorted array + find a pair / triplet with a target sum</td><td><span class="b bg-blue">Opposite ends</span></td></tr>
+      <tr><td>Palindrome, reverse in place, "compare both ends"</td><td><span class="b bg-blue">Opposite ends</span></td></tr>
+      <tr><td>Maximise area / width between two lines</td><td><span class="b bg-blue">Opposite ends</span></td></tr>
+      <tr><td>Remove duplicates / zeros / a value <b>in place</b>, O(1) space</td><td><span class="b bg-green">Read / write</span></td></tr>
+      <tr><td>Merge two sorted lists, "is a subsequence of"</td><td><span class="b bg-amber">Two sequences</span></td></tr>
+      <tr><td>Linked list cycle / middle node</td><td><span class="b bg-teal">Fast / slow</span> (week 4)</td></tr>
+    </table>
+    <p class="note">Unsorted + "find a pair"? Use a <b>hash map</b> (Two Sum, O(n)), or sort first (O(n log n)) if indices don't matter.</p>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Why it works: every move throws away options safely</h2>
+    <p style="font-size:16px">Sorted array, looking for <code>a[L] + a[R] = 9</code>:</p>
+    <div class="cells"><span class="L" data-p="L">1</span><span>2</span><span>4</span><span>5</span><span>7</span><span class="R" data-p="R">11</span></div>
+    <p style="font-size:15px">1 + 11 = 12 &gt; 9 → <b>too big</b>. 11 plus <i>anything</i> is ≥ 12, so 11 can never be in the answer → <b>R−−</b></p>
+    <div class="cells"><span class="L" data-p="L">1</span><span>2</span><span>4</span><span>5</span><span class="R" data-p="R">7</span><span class="dim">11</span></div>
+    <p style="font-size:15px">1 + 7 = 8 &lt; 9 → <b>too small</b>. 1 plus anything left is ≤ 8, so 1 is useless → <b>L++</b></p>
+    <div class="cells"><span class="dim">1</span><span class="L" data-p="L">2</span><span>4</span><span>5</span><span class="R" data-p="R">7</span><span class="dim">11</span></div>
+    <p style="font-size:15px">2 + 7 = 9 ✅ found. Each step removes one element for good → at most n steps → <b class="good">O(n)</b></p>
+  </div>
+</div>
+
+<!-- ROW 2: the three templates -->
+<div class="card" style="margin-bottom:22px">
+  <h2><i>3</i>The three templates (memorise these)</h2>
+  <div class="row r3" style="margin-bottom:0">
+    <div>
+      <h3><span style="color:var(--blue)">A.</span> Opposite ends<small>Start at both ends, move inward. Needs order (sorted / symmetric).</small></h3>
+      <div class="cells"><span class="L" data-p="L">·</span><span>→</span><span></span><span></span><span>←</span><span class="R" data-p="R">·</span></div>
+<pre>l, r = 0, len(a) - 1
+while l &lt; r:
+    s = a[l] + a[r]
+    if s == target:
+        return [l, r]
+    if s &lt; target:
+        l += 1        # need bigger
+    else:
+        r -= 1        # need smaller</pre>
+    </div>
+    <div>
+      <h3><span style="color:var(--green)">B.</span> Read / write (same direction)<small><code>r</code> reads every item, <code>w</code> marks where the next kept item goes.</small></h3>
+      <div class="cells"><span class="W" data-p="w">0</span><span>1</span><span class="R" data-p="r">0</span><span>3</span><span>12</span><span></span></div>
+<pre>w = 0
+for r in range(len(a)):
+    if keep(a[r]):        # e.g. a[r] != 0
+        a[w] = a[r]
+        w += 1
+return w                  # new length
+# Move Zeroes: swap a[w], a[r] instead</pre>
+    </div>
+    <div>
+      <h3><span style="color:var(--amber)">C.</span> Two sequences<small>One pointer per input; advance the one that "loses".</small></h3>
+      <div class="cells"><span class="L" data-p="i">1</span><span>4</span><span>7</span><span style="border:none;width:14px"></span><span class="R" data-p="j">2</span><span>3</span><span>9</span></div>
+<pre>i = j = 0
+out = []
+while i &lt; len(a) and j &lt; len(b):
+    if a[i] &lt;= b[j]:
+        out.append(a[i]); i += 1
+    else:
+        out.append(b[j]); j += 1
+out += a[i:] + b[j:]      # leftovers</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 3: the week's problems -->
+<div class="card" style="margin-bottom:22px">
+  <h2><i>4</i>Your problems: the one idea that cracks each</h2>
+  <div class="row c2" style="margin-bottom:0">
+    <div>
+      <h3>Valid Palindrome <span class="b bg-green">Easy</span></h3>
+      <p style="font-size:15px">Opposite ends; <b>skip non-alphanumerics</b>, compare lowercase.</p>
+<pre>l, r = 0, len(s) - 1
+while l &lt; r:
+    if not s[l].isalnum(): l += 1
+    elif not s[r].isalnum(): r -= 1
+    elif s[l].lower() != s[r].lower(): return False
+    else: l += 1; r -= 1
+return True</pre>
+      <p class="note">O(n) time · O(1) space (no cleaned copy needed)</p>
+    </div>
+    <div>
+      <h3>Two Sum II (sorted input) <span class="b bg-amber">Medium</span></h3>
+      <p style="font-size:15px">Template A exactly. Sum too small → <code>l += 1</code>; too big → <code>r -= 1</code>. Return <b>1-indexed</b> positions.</p>
+      <p class="note">O(n) time · O(1) space. Beats the hash-map version on space because the input is already sorted.</p>
+      <h3 style="margin-top:14px">Container With Most Water <span class="b bg-amber">Medium</span></h3>
+      <p style="font-size:15px">Area = <code>(r − l) × min(h[l], h[r])</code>. <b>Always move the shorter line</b>: the width only shrinks, so keeping the short line can never give a bigger area.</p>
+<pre>l, r, best = 0, len(h) - 1, 0
+while l &lt; r:
+    best = max(best, (r - l) * min(h[l], h[r]))
+    if h[l] &lt; h[r]: l += 1
+    else: r -= 1</pre>
+    </div>
+  </div>
+  <div class="pill" style="margin-top:16px">
+    <h3>3Sum <span class="b bg-amber">Medium</span> <span style="font-size:15px;font-weight:500;color:var(--muted)">= sort + fix one number + Two Sum II on the rest → O(n²) time, O(1) extra space (besides output)</span></h3>
+<pre>a.sort(); res = []
+for i in range(len(a) - 2):
+    if i &gt; 0 and a[i] == a[i - 1]: continue          # skip duplicate anchors
+    l, r = i + 1, len(a) - 1
+    while l &lt; r:
+        s = a[i] + a[l] + a[r]
+        if s &lt; 0: l += 1
+        elif s &gt; 0: r -= 1
+        else:
+            res.append([a[i], a[l], a[r]]); l += 1; r -= 1
+            while l &lt; r and a[l] == a[l - 1]: l += 1   # skip duplicate lefts</pre>
+  </div>
+</div>
+
+<!-- ROW 4: pitfalls + compare -->
+<div class="row r4">
+  <div class="card">
+    <h2><i>5</i>Bugs interviewers watch for</h2>
+    <ul class="list">
+      <li><b><code>l &lt; r</code> vs <code>l &lt;= r</code></b>: pairs need two <i>different</i> elements → <code>l &lt; r</code>. (<code>&lt;=</code> is for binary search.)</li>
+      <li><b>Forgetting to sort</b>: opposite-ends only works on sorted / ordered data. Sorting costs O(n log n) and loses original indices.</li>
+      <li><b>Duplicates in 3Sum</b>: skip repeated anchors <i>and</i> repeated left values after a hit, or you return the same triplet twice.</li>
+      <li><b>Infinite loop</b>: every branch must move at least one pointer.</li>
+      <li><b>Off-by-one</b>: <code>r = len(a) - 1</code>, not <code>len(a)</code>. Two Sum II wants 1-indexed output.</li>
+      <li><b>Moving the wrong side</b> in Container: move the <i>shorter</i> one, never the taller.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2><i>6</i>Two pointers vs neighbours</h2>
+    <table class="cmp">
+      <tr><th>Pattern</th><th>Use when</th><th>Cost</th></tr>
+      <tr><td><b>Two pointers</b></td><td>Sorted / ordered data, pairs, in-place edits</td><td><span class="b bg-green">O(n)</span> · O(1)</td></tr>
+      <tr><td><b>Hash map</b></td><td>Unsorted, need a pair or original indices</td><td><span class="b bg-green">O(n)</span> · O(n)</td></tr>
+      <tr><td><b>Sliding window</b></td><td>Contiguous subarray / substring with a condition (next topic)</td><td><span class="b bg-green">O(n)</span> · O(k)</td></tr>
+      <tr><td><b>Brute force</b></td><td>Say it first, then improve</td><td><span class="b bg-red">O(n²)</span></td></tr>
+    </table>
+    <p class="note">A sliding window <i>is</i> a same-direction two-pointer: <code>l</code> and <code>r</code> bound a range instead of pointing at two items.</p>
+  </div>
+</div>
+
+<div class="quote">
+  <h2>How to say it in the interview</h2>
+  <p>"Brute force checks every pair, <em>O(n²)</em>. Because the array is <em>sorted</em>, I put one pointer at each end: if the sum is too small I move left up, if it's too big I move right down. Each step <em>rules out one element for good</em>, so it's <em>O(n) time and O(1) space</em>."</p>
+</div>
+
+</body></html>

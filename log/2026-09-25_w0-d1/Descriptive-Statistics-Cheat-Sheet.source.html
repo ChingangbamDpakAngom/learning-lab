@@ -1,0 +1,177 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Descriptive Statistics Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.steps td{font-family:"Cascadia Code",Consolas,monospace;font-size:15px}
+.steps td:first-child{font-family:"Segoe UI",sans-serif;font-weight:700;width:34%}
+.big{font-size:30px;font-weight:800}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.kv div{background:var(--sunk);border-radius:12px;padding:10px 12px;text-align:center}
+.kv b{display:block;font-family:Consolas,monospace;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.formula{font-family:"Cascadia Code",Consolas,monospace;font-size:22px;font-weight:700;text-align:center;background:var(--sunk);border-radius:12px;padding:14px;margin:8px 0}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Descriptive <span>Statistics</span></h1>
+    <p class="sub">Summarise any dataset in three questions: <b>where is the centre?</b> · <b>how spread out?</b> · <b>what shape?</b></p>
+  </div>
+  <div class="tag">ML core · Week 0<b>Plot the histogram before trusting any number.</b></div>
+</header>
+
+<!-- ROW 1 -->
+<div class="row c2">
+  <div class="card">
+    <h2><i>1</i>Centre: mean vs median vs mode</h2>
+    <p style="font-size:16px">Salaries (£k): <code>[25, 28, 30, 32, 35, 300]</code>, where 300 is the CEO</p>
+    <div class="kv">
+      <div><b>Mean</b><span class="big" style="color:var(--red)">75</span><br><span class="note">sum ÷ n: pulled up by the CEO</span></div>
+      <div><b>Median</b><span class="big" style="color:var(--green)">31</span><br><span class="note">middle of sorted data: robust</span></div>
+      <div><b>Mode</b><span class="big" style="color:var(--muted)">–</span><br><span class="note">most frequent; use for categories</span></div>
+    </div>
+    <table>
+      <tr><th>Data looks like…</th><th>Report</th></tr>
+      <tr><td>Symmetric, no big outliers</td><td><span class="b bg-blue">mean ± SD</span></td></tr>
+      <tr><td>Skewed or has outliers (income, prices, latency)</td><td><span class="b bg-green">median + IQR</span></td></tr>
+      <tr><td>Categories (city, device type)</td><td><span class="b bg-amber">mode / counts</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Spread: variance &amp; SD, worked by hand</h2>
+    <p style="font-size:16px"><code>x = [2, 4, 4, 4, 5, 5, 7, 9]</code> → mean = 5</p>
+    <table class="steps">
+      <tr><td>Deviations x − x̄</td><td>−3 −1 −1 −1 0 0 2 4 → sum is <b>always 0</b></td></tr>
+      <tr><td>Squared</td><td>9 1 1 1 0 0 4 16 → sum = <b>32</b></td></tr>
+      <tr><td>Variance (population, ÷ n)</td><td>32 / 8 = <b>4</b> &nbsp;(units²)</td></tr>
+      <tr><td>SD = √variance</td><td>√4 = <b class="good">2</b> &nbsp;← back in original units</td></tr>
+      <tr><td>Sample (÷ n−1, Bessel)</td><td>32 / 7 = 4.57 → SD 2.14</td></tr>
+    </table>
+    <div class="pill" style="margin-top:12px;font-size:15px">
+      <b>Why square?</b> Stops + and − cancelling, and punishes big misses more. <b>Why n−1?</b> Deviations from the <i>sample</i> mean underestimate the true spread.<br>
+      <b class="bad">Gotcha:</b> <code>np.var(x)</code> uses ÷n (ddof=0) · pandas <code>s.var()</code> uses ÷(n−1) (ddof=1)
+    </div>
+  </div>
+</div>
+
+<!-- ROW 2 -->
+<div class="row c2">
+  <div class="card">
+    <h2><i>3</i>Shape: the mean is pulled toward the tail</h2>
+    <svg id="skew" width="660" height="230" viewBox="0 0 660 230"></svg>
+    <table style="margin-top:8px">
+      <tr><th>Shape</th><th>Mean vs median</th><th>Examples</th></tr>
+      <tr><td><b>Symmetric</b></td><td>mean ≈ median</td><td>heights, measurement error</td></tr>
+      <tr><td><b>Right-skewed</b></td><td class="bad">mean &gt; median</td><td>income, prices, latency, session time</td></tr>
+      <tr><td><b>Left-skewed</b></td><td>mean &lt; median</td><td>scores on an easy exam</td></tr>
+      <tr><td><b>Bimodal</b></td><td>mean describes nobody</td><td>two groups mixed (weekday vs weekend)</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Percentiles, IQR &amp; outliers (box plot)</h2>
+    <svg width="660" height="150" viewBox="0 0 660 150" font-family="Consolas,monospace" font-size="14">
+      <line x1="60" y1="70" x2="160" y2="70" stroke="#18212B" stroke-width="2"/>
+      <line x1="440" y1="70" x2="540" y2="70" stroke="#18212B" stroke-width="2"/>
+      <line x1="60" y1="50" x2="60" y2="90" stroke="#18212B" stroke-width="2"/>
+      <line x1="540" y1="50" x2="540" y2="90" stroke="#18212B" stroke-width="2"/>
+      <rect x="160" y="40" width="280" height="60" rx="6" fill="#DCE6F7" stroke="#2563B8" stroke-width="2.5"/>
+      <line x1="270" y1="40" x2="270" y2="100" stroke="#1E8A55" stroke-width="4"/>
+      <circle cx="615" cy="70" r="7" fill="#B3202F"/>
+      <text x="160" y="125" text-anchor="middle" fill="#2563B8" font-weight="700">Q1 (25%)</text>
+      <text x="270" y="30" text-anchor="middle" fill="#1E8A55" font-weight="700">median (50%)</text>
+      <text x="440" y="125" text-anchor="middle" fill="#2563B8" font-weight="700">Q3 (75%)</text>
+      <text x="355" y="75" text-anchor="middle" fill="#2563B8" font-weight="700">IQR</text>
+      <text x="60" y="112" text-anchor="middle" fill="#5E6873">whisker</text>
+      <text x="615" y="100" text-anchor="middle" fill="#B3202F" font-weight="700">outlier</text>
+    </svg>
+    <div class="formula">outlier if &lt; Q1 − 1.5·IQR &nbsp;or&nbsp; &gt; Q3 + 1.5·IQR</div>
+    <p style="font-size:15px">Salaries: Q1 = 28.5, Q3 = 34.25, IQR = 5.75 → upper fence 42.9 → <b class="bad">300 is an outlier</b></p>
+    <div class="pill" style="margin-top:10px;font-size:15px"><b>In production:</b> latency is reported as <b>p50 / p95 / p99</b>, not the mean. p99 = the slowest 1% of requests, and those are the users who complain.</div>
+  </div>
+</div>
+
+<!-- ROW 3 -->
+<div class="row c3">
+  <div class="card">
+    <h2><i>5</i>z-score: same scale for everything</h2>
+    <div class="formula">z = (x − mean) / SD</div>
+    <p style="font-size:15.5px">How many SDs from the mean. Score 80, mean 70, SD 5 → <b>z = +2</b> (unusual).</p>
+    <ul class="list" style="margin-top:8px">
+      <li>Normal data: <b>68 / 95 / 99.7 %</b> within 1 / 2 / 3 SD</li>
+      <li>|z| &gt; 3 → flag as outlier</li>
+      <li><code>StandardScaler</code> = z-score every feature</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2><i>6</i>Range vs IQR vs SD</h2>
+    <table>
+      <tr><th>Measure</th><th>Robust?</th><th>Pairs with</th></tr>
+      <tr><td><b>Range</b> max − min</td><td class="bad">No: 1 outlier ruins it</td><td>–</td></tr>
+      <tr><td><b>SD</b></td><td class="warn">No: squares big misses</td><td>mean</td></tr>
+      <tr><td><b>IQR</b> Q3 − Q1</td><td class="good">Yes: middle 50%</td><td>median</td></tr>
+    </table>
+    <p class="note">Rule: robust centre + robust spread go together.</p>
+  </div>
+  <div class="card">
+    <h2><i>7</i>Where ML engineers use it</h2>
+    <ul class="list">
+      <li><b>EDA:</b> <code>df.describe()</code> + histograms first</li>
+      <li><b>Skewed feature:</b> log-transform it</li>
+      <li><b>Missing values:</b> fill with <b>median</b> if skewed</li>
+      <li><b>CV results:</b> report <b>mean ± SD</b> over folds</li>
+      <li><b>Drift:</b> compare today's distribution vs training</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ROW 4 -->
+<div class="row c2">
+  <div class="card">
+    <h2><i>8</i>Code you'll actually write</h2>
+<pre>import numpy as np, pandas as pd
+x = np.array([2, 4, 4, 4, 5, 5, 7, 9])
+x.mean(), np.median(x)            # 5.0, 4.5
+x.std(), x.std(ddof=1)            # 2.0 (population), 2.14 (sample)
+q1, q3 = np.percentile(x, [25, 75])
+iqr = q3 - q1
+
+s = pd.Series([25, 28, 30, 32, 35, 300])
+s.describe()      # count, mean, std (ddof=1), min, 25%, 50%, 75%, max
+s.skew()          # 2.44 &gt; 0 → right-skewed
+s.plot.hist(bins=30); s.plot.box()</pre>
+  </div>
+  <div class="card">
+    <h2><i>9</i>Interview questions: one-line answers</h2>
+    <table>
+      <tr><td><b>Median over mean when?</b></td><td>Skewed data / outliers; median is robust</td></tr>
+      <tr><td><b>Variance vs SD?</b></td><td>SD = √variance, in original units</td></tr>
+      <tr><td><b>Why n−1?</b></td><td>Sample mean sits inside the data → spread underestimated</td></tr>
+      <tr><td><b>Mean &gt; median means?</b></td><td>Right-skewed: long tail of large values</td></tr>
+      <tr><td><b>Detect outliers?</b></td><td>1.5×IQR rule, |z| &gt; 3, and <i>look at the plot</i></td></tr>
+      <tr><td><b>Why p99 not mean latency?</b></td><td>Mean hides the slow tail users feel</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="quote">
+  <h2>How to say it in the interview</h2>
+  <p>"First I'd plot the distribution. This feature is <em>right-skewed</em>, since the mean is well above the median, so I'd summarise it with the <em>median and IQR</em>, flag outliers with the <em>1.5×IQR rule</em>, and <em>log-transform</em> it before modelling. Numeric features get <em>standardised with z-scores</em> so they're on the same scale."</p>
+</div>
+
+<script>
+(function(){
+  var svg=document.getElementById('skew'),ns='http://www.w3.org/2000/svg',W=660,H=230,L=20,B=40,T=20;
+  function el(t,a,txt){var e=document.createElementNS(ns,t);for(var k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;svg.appendChild(e);return e;}
+  // gamma(k=2, theta=1) density x*e^-x: mode 1, median ~1.678, mean 2
+  var xmax=8, sx=function(x){return L+x/xmax*(W-2*L)}, f=function(x){return x*Math.exp(-x)}, sy=function(v){return H-B-v/0.3679*(H-B-T)};
+  var d='M'+sx(0)+' '+sy(0); for(var x=0.02;x<=xmax;x+=0.02)d+='L'+sx(x).toFixed(1)+' '+sy(f(x)).toFixed(1);
+  el('path',{d:d+'L'+sx(xmax)+' '+sy(0)+'Z',fill:'#DCE6F7',stroke:'#2563B8','stroke-width':3});
+  el('line',{x1:L,x2:W-L,y1:H-B,y2:H-B,stroke:'#18212B','stroke-width':2});
+  [[1,'mode','#5E6873'],[1.678,'median','#1E8A55'],[2,'mean','#B3202F']].forEach(function(m,i){
+    el('line',{x1:sx(m[0]),x2:sx(m[0]),y1:sy(f(m[0])),y2:H-B,stroke:m[2],'stroke-width':3,'stroke-dasharray':i?'':'5 4'});
+    el('text',{x:sx(m[0])+(i==0?-6:i==1?0:6),y:H-B+20+(i==1?16:0),'text-anchor':i==0?'end':i==1?'middle':'start','font-size':15,'font-weight':700,fill:m[2],'font-family':'Consolas'},m[1]);
+  });
+  el('text',{x:sx(5.0),y:sy(0.1),'font-size':16,'font-weight':700,fill:'#2563B8','font-family':'Segoe UI'},'long right tail →');
+  el('text',{x:sx(3.6),y:T+22,'font-size':15,fill:'#5E6873','font-family':'Segoe UI'},'Right-skewed: mode < median < mean');
+})();
+</script>
+</body></html>

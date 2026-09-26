@@ -1,0 +1,252 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Big-O Cheat Sheet</title>
+<style>
+:root{
+  --bg:#F6F4EE; --card:#FFFFFF; --ink:#18212B; --muted:#5E6873; --line:#E1DDD2; --sunk:#F0EDE5;
+  --c1:#1E8A55; --clog:#15817A; --cn:#2563B8; --cnlog:#B7791F; --cn2:#D1541B; --c2n:#B3202F;
+  --accent:#2B4ACB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1600px;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.45;padding:52px 56px 44px}
+code,.mono,pre{font-variant-ligatures:none}
+code,.mono{font-family:"Cascadia Code",Consolas,monospace}
+header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--ink);padding-bottom:18px;margin-bottom:28px}
+h1{font-size:64px;font-weight:800;letter-spacing:-1.5px;line-height:1}
+h1 span{color:var(--accent)}
+.sub{color:var(--muted);font-size:19px;margin-top:8px}
+.tag{font-family:Consolas,monospace;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:right}
+.tag b{display:block;font-size:22px;color:var(--ink);letter-spacing:0;text-transform:none;margin-top:4px}
+.row{display:grid;gap:22px;margin-bottom:22px}
+.r1{grid-template-columns:640px 1fr}
+.r2{grid-template-columns:repeat(4,1fr)}
+.r3{grid-template-columns:1fr 500px}
+.r4{grid-template-columns:1fr 470px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+h2{font-size:14px;font-family:Consolas,monospace;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+h2 i{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;background:var(--ink);color:#fff;font-style:normal;font-size:13px;letter-spacing:0}
+table{width:100%;border-collapse:collapse}
+th{font-family:Consolas,monospace;font-size:12.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:600;padding:6px 8px;border-bottom:2px solid var(--line)}
+td{padding:8px 8px;border-bottom:1px solid var(--sunk);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.b{display:inline-block;font-family:Consolas,monospace;font-weight:700;font-size:16px;padding:3px 10px;border-radius:8px;color:#fff;white-space:nowrap}
+.k1{background:var(--c1)}.klog{background:var(--clog)}.kn{background:var(--cn)}.knlog{background:var(--cnlog)}.kn2{background:var(--cn2)}.k2n{background:var(--c2n)}
+.verdict{font-size:14px;font-weight:600}
+.g{color:var(--c1)}.y{color:var(--cnlog)}.r{color:var(--c2n)}
+.steps{font-family:Consolas,monospace;text-align:right}
+pre{font-family:"Cascadia Code",Consolas,monospace;font-size:14.5px;background:var(--sunk);border-radius:10px;padding:10px 12px;line-height:1.5;white-space:pre}
+.rule{font-size:22px;font-weight:800;margin-bottom:6px}
+.rule small{display:block;font-size:14.5px;font-weight:500;color:var(--muted);margin-top:2px}
+.res{margin-top:10px;font-family:Consolas,monospace;font-weight:700;font-size:17px}
+.simp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+.simp div{background:var(--sunk);border-radius:12px;padding:12px 14px}
+.simp b{display:block;font-size:16px}
+.simp code{font-size:15px}
+.hot{background:#FDECE6}
+.bad{color:var(--c2n);font-weight:700}
+.ok{color:var(--c1);font-weight:700}
+.trap{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--sunk)}
+.trap:last-child{border-bottom:none}
+.trap .n{width:28px;height:28px;border-radius:50%;background:var(--cn2);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+.trap b{font-size:16.5px}
+.trap .fix{font-family:Consolas,monospace;font-size:14.5px;margin-top:3px}
+.hash{display:flex;gap:18px;margin-top:12px}
+.hash>div{flex:1;background:var(--sunk);border-radius:12px;padding:12px 14px;font-size:15px}
+.cells{display:flex;gap:4px;margin:8px 0}
+.cells span{width:30px;height:30px;border-radius:6px;background:#fff;border:1.5px solid var(--line);display:grid;place-items:center;font-family:Consolas,monospace;font-size:13px}
+.cells .hit{background:var(--c1);border-color:var(--c1);color:#fff;font-weight:700}
+.cells .scan{background:#FBE3D8;border-color:var(--cn2)}
+.foot{display:grid;grid-template-columns:1.25fr 1fr;gap:22px}
+.quote{background:var(--ink);color:#fff;border-radius:18px;padding:24px 28px}
+.quote h2{color:#AEB8C4}
+.quote p{font-size:21px;line-height:1.5}
+.quote em{font-style:normal;color:#9FB4FF;font-weight:700}
+.space li{margin:0 0 9px 20px;font-size:16px}
+.space li b{font-family:Consolas,monospace}
+.lim td{font-size:16px}
+.lim td:first-child,.lim td:nth-child(3){font-family:Consolas,monospace;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:8px;font-family:Consolas,monospace;font-size:14px;font-weight:700}
+.legend span::before{content:"";display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle;background:currentColor}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Big-<span>O</span> Cheat Sheet</h1>
+    <p class="sub">How much more work does the code do as the input <b>n</b> grows? Time &amp; space · Python edition</p>
+  </div>
+  <div class="tag">Interview prep · DSA<b>Worst case, unless it's a hash table (average)</b></div>
+</header>
+
+<!-- ROW 1 -->
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>Growth curves</h2>
+    <svg id="chart" width="590" height="400" viewBox="0 0 590 400"></svg>
+    <div class="legend">
+      <span style="color:var(--c2n)">2ⁿ</span><span style="color:var(--cn2)">n²</span><span style="color:var(--cnlog)">n log n</span><span style="color:var(--cn)">n</span><span style="color:var(--clog)">log n</span><span style="color:var(--c1)">1</span>
+    </div>
+  </div>
+  <div class="card">
+    <h2><i>2</i>The complexity ladder</h2>
+    <table>
+      <tr><th>Big-O</th><th>Name</th><th>Typical code</th><th style="text-align:right">n = 1,000</th><th>Verdict</th></tr>
+      <tr><td><span class="b k1">O(1)</span></td><td>Constant</td><td><code>d[k]</code> · <code>a[i]</code> · <code>append</code></td><td class="steps">1</td><td class="verdict g">Excellent</td></tr>
+      <tr><td><span class="b klog">O(log n)</span></td><td>Logarithmic</td><td>Binary search · heap push/pop</td><td class="steps">~10</td><td class="verdict g">Excellent</td></tr>
+      <tr><td><span class="b kn">O(n)</span></td><td>Linear</td><td>One loop · <code>x in list</code> · <code>sum</code></td><td class="steps">1,000</td><td class="verdict g">Good</td></tr>
+      <tr><td><span class="b knlog">O(n log n)</span></td><td>Linearithmic</td><td><code>sorted()</code> · merge sort</td><td class="steps">~10,000</td><td class="verdict y">Fine</td></tr>
+      <tr><td><span class="b kn2">O(n²)</span></td><td>Quadratic</td><td>Loop inside a loop (all pairs)</td><td class="steps">1,000,000</td><td class="verdict r">Slow at scale</td></tr>
+      <tr><td><span class="b k2n">O(2ⁿ)</span></td><td>Exponential</td><td>Naive recursive <code>fib</code> · all subsets</td><td class="steps">10³⁰¹</td><td class="verdict r">Tiny n only</td></tr>
+    </table>
+    <div style="margin-top:16px">
+      <h2 style="margin-bottom:8px">Constraint → target (Python ≈ 10⁷ simple steps / s)</h2>
+      <table class="lim">
+        <tr><td>n ≤ 20</td><td>O(2ⁿ) OK: backtracking, subsets</td><td>n ≤ 10³–10⁴</td><td>O(n²) OK</td></tr>
+        <tr><td>n ≤ 10⁵–10⁶</td><td>Need O(n) or O(n log n)</td><td>n ≥ 10⁹</td><td>O(log n) or O(1)</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 2 -->
+<div class="card" style="margin-bottom:22px">
+  <h2><i>3</i>Read Big-O straight off the code</h2>
+  <div class="row r2" style="margin-bottom:14px">
+    <div>
+      <div class="rule">One after another → <span style="color:var(--cn)">add</span><small>Sequential blocks</small></div>
+<pre>for x in a: ...   # n
+for y in a: ...   # n</pre>
+      <div class="res">n + n = O(n)</div>
+    </div>
+    <div>
+      <div class="rule">Nested → <span style="color:var(--cn2)">multiply</span><small>Loop inside a loop</small></div>
+<pre>for x in a:       # n
+    for y in a:   #  × n</pre>
+      <div class="res">n × n = O(n²)</div>
+    </div>
+    <div>
+      <div class="rule">Halving → <span style="color:var(--clog)">log</span><small>Discard half each step</small></div>
+<pre>while n &gt; 1:
+    n //= 2       # 1000→500→…→1</pre>
+      <div class="res">~10 steps = O(log n)</div>
+    </div>
+    <div>
+      <div class="rule">Hidden loops <span style="color:var(--c2n)">count</span><small>One line, many steps</small></div>
+<pre>x in lst    a[i:j]
+lst.index() sorted(a)
+sum(a)      s1 + s2</pre>
+      <div class="res">each is O(n) or more</div>
+    </div>
+  </div>
+  <div class="simp">
+    <div><b>Drop constants</b><code>3n + 5</code> → <code>O(n)</code></div>
+    <div><b>Keep the biggest term</b><code>n² + 100n + 7</code> → <code>O(n²)</code></div>
+    <div><b>Different inputs, different letters</b>loop <code>a</code> × loop <code>b</code> → <code>O(a·b)</code>, not O(n²)</div>
+  </div>
+</div>
+
+<!-- ROW 3 -->
+<div class="row r3">
+  <div class="card">
+    <h2><i>4</i>Python operation costs</h2>
+    <table>
+      <tr><th>Structure</th><th>Operation</th><th>Time</th><th>Why</th></tr>
+      <tr><td rowspan="4"><b>list</b></td><td><code>a[i]</code> · <code>len(a)</code> · <code>append</code> · <code>pop()</code></td><td><span class="b k1">O(1)</span></td><td>Direct index; works at the end (append is amortised)</td></tr>
+      <tr class="hot"><td><code>insert(0,x)</code> · <code>pop(0)</code></td><td><span class="b kn">O(n)</span></td><td>Every item shifts one place</td></tr>
+      <tr class="hot"><td><code>x in a</code> · <code>index</code> · <code>remove</code></td><td><span class="b kn">O(n)</span></td><td>Scans item by item</td></tr>
+      <tr><td><code>a[i:j]</code> · <code>sort()</code> / <code>sorted()</code></td><td><span class="b kn">O(k)</span> <span class="b knlog">O(n log n)</span></td><td>Slice copies k items · Timsort</td></tr>
+      <tr><td><b>dict / set</b></td><td><code>d[k]</code> · <code>d[k]=v</code> · <code>x in s</code> · <code>add</code></td><td><span class="b k1">O(1)</span> avg</td><td>Hash jumps straight to the slot</td></tr>
+      <tr><td><b>deque</b></td><td><code>append</code> · <code>appendleft</code> · <code>popleft</code></td><td><span class="b k1">O(1)</span></td><td>Built for both ends: use it as a queue</td></tr>
+      <tr><td><b>heapq</b></td><td><code>heappush</code> · <code>heappop</code> · peek <code>h[0]</code></td><td><span class="b klog">O(log n)</span> · <span class="b k1">O(1)</span></td><td>Re-balances one root-to-leaf path</td></tr>
+      <tr><td><b>str</b></td><td><code>s1 + s2</code> · <code>"".join(parts)</code></td><td><span class="b kn">O(n)</span></td><td>Immutable → builds a new string</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>5</i>Why <code>x in set</code> beats <code>x in list</code></h2>
+    <div class="hash">
+      <div><b>list · O(n)</b><br>checks one by one until found
+        <div class="cells"><span class="scan">4</span><span class="scan">9</span><span class="scan">2</span><span class="scan">7</span><span class="hit">5</span><span>1</span></div>
+        5 comparisons to find 5
+      </div>
+    </div>
+    <div class="hash">
+      <div><b>set · O(1) average</b><br><code>hash(5)</code> → slot 3 → done
+        <div class="cells"><span></span><span>9</span><span></span><span class="hit">5</span><span>2</span><span></span></div>
+        1 jump, whatever the size
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:15px;color:var(--muted)">Collisions make the worst case O(n), but they're rare: say <b style="color:var(--ink)">"average O(1)"</b>. Items must be <b style="color:var(--ink)">hashable</b> (int, str, tuple, but not list).</p>
+  </div>
+</div>
+
+<!-- ROW 4 -->
+<div class="row r4">
+  <div class="card">
+    <h2><i>6</i>Traps interviewers look for</h2>
+    <div class="trap"><div class="n">1</div><div><b>Hidden O(n) inside a loop</b> <span class="bad">O(n²)</span>
+      <div class="fix">for x in a: if x in b_list → <span class="ok">b = set(b_list)</span> first → O(n)</div></div></div>
+    <div class="trap"><div class="n">2</div><div><b><code>list.pop(0)</code> as a queue</b> <span class="bad">O(n²)</span>
+      <div class="fix">→ <span class="ok">collections.deque().popleft()</span> → O(1) each</div></div></div>
+    <div class="trap"><div class="n">3</div><div><b>String <code>+=</code> in a loop</b> <span class="bad">up to O(n²)</span>
+      <div class="fix">→ <span class="ok">"".join(words)</span> → O(n)</div></div></div>
+    <div class="trap"><div class="n">4</div><div><b>Slicing inside recursion</b> <code>f(a[1:])</code> <span class="bad">O(n²)</span>
+      <div class="fix">→ <span class="ok">pass an index: f(a, i + 1)</span> → O(n)</div></div></div>
+    <div class="trap"><div class="n">5</div><div><b>Two pointers look nested but aren't</b> <span class="ok">O(n)</span>
+      <div class="fix">count total steps: i and j together move ≤ n times</div></div></div>
+  </div>
+  <div class="card">
+    <h2><i>7</i>Space complexity (extra memory)</h2>
+    <ul class="space">
+      <li><b>O(1)</b>: a few variables; in-place swaps (<code>a.sort()</code>, two pointers)</li>
+      <li><b>O(n)</b>: new list/set/dict of n items; <code>sorted(a)</code>; <code>a[::-1]</code></li>
+      <li><b>Recursion</b>: every unfinished call sits on the stack → depth <i>d</i> costs O(d)</li>
+      <li><b>Amortised O(1)</b>: <code>append</code> sometimes copies everything, but rarely enough that the average stays O(1)</li>
+    </ul>
+    <div style="background:var(--sunk);border-radius:12px;padding:12px 14px;margin-top:6px">
+      <b>The #1 trade: memory for speed</b>
+<pre style="background:#fff;margin-top:8px">seen = set()                # O(n) space
+for x in a:                 # O(n) time
+    if x in seen: return True
+    seen.add(x)</pre>
+      <div style="font-size:15px;margin-top:6px">Nested-loop duplicate check: <span class="bad">O(n²)</span> → hash set: <span class="ok">O(n)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="foot">
+  <div class="quote">
+    <h2>How to say it in the interview</h2>
+    <p>"It's <em>O(n) time</em>, where <em>n is the length of the array</em>, because I pass through it once and each set lookup is O(1) on average. Space is <em>O(n)</em> for the set. The brute force was O(n²); <em>I traded memory for time</em>."</p>
+  </div>
+  <div class="card">
+    <h2>Checklist</h2>
+    <ul class="space">
+      <li>Find every loop, <b>including hidden ones</b></li>
+      <li>Nested → multiply · sequential → add · halving → log</li>
+      <li>Name each input: <b>O(a·b)</b>, not O(n²)</li>
+      <li>Always give <b>time AND space</b>, and define n</li>
+      <li>Start from brute force, then improve out loud</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function(){
+  var W=590,H=400,L=46,B=34,T=12,R=70, pw=W-L-R, ph=H-T-B, N=20, YMAX=60;
+  var svg=document.getElementById('chart'), ns='http://www.w3.org/2000/svg';
+  function el(t,a){var e=document.createElementNS(ns,t);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e;}
+  function X(n){return L+n/N*pw} function Y(v){return T+ph-Math.min(v,YMAX)/YMAX*ph}
+  for(var i=0;i<=4;i++){var y=T+ph*i/4;el('line',{x1:L,x2:W-R,y1:y,y2:y,stroke:'#EAE6DC','stroke-width':1});}
+  el('line',{x1:L,x2:L,y1:T,y2:T+ph,stroke:'#18212B','stroke-width':2});
+  el('line',{x1:L,x2:W-R,y1:T+ph,y2:T+ph,stroke:'#18212B','stroke-width':2});
+  var t=el('text',{x:L+pw/2,y:H-6,'text-anchor':'middle','font-size':15,fill:'#5E6873','font-family':'Consolas'});t.textContent='input size n →';
+  var t2=el('text',{x:14,y:T+ph/2,'text-anchor':'middle','font-size':15,fill:'#5E6873','font-family':'Consolas',transform:'rotate(-90 14 '+(T+ph/2)+')'});t2.textContent='work (steps) →';
+  var f=[['#B3202F',function(n){return Math.pow(2,n)}],['#D1541B',function(n){return n*n}],['#B7791F',function(n){return n*Math.log2(Math.max(n,1))}],
+         ['#2563B8',function(n){return n}],['#15817A',function(n){return Math.log2(Math.max(n,1))}],['#1E8A55',function(){return 1}]];
+  f.forEach(function(c){var d='';for(var n=0.05;n<=N;n+=0.05){var v=c[1](n);d+=(d?'L':'M')+X(n).toFixed(1)+' '+Y(v).toFixed(1);if(v>YMAX)break;}
+    el('path',{d:d,fill:'none',stroke:c[0],'stroke-width':4,'stroke-linecap':'round'});});
+  [['2ⁿ',5.4,'#B3202F'],['n²',7.3,'#D1541B'],['n log n',11.6,'#B7791F'],['n',N,'#2563B8'],['log n',N,'#15817A'],['1',N,'#1E8A55']].forEach(function(l,i){
+    var fn=f[i][1],v=Math.min(fn(l[1]),YMAX), anchor=i==0?'end':'start', dy=i<3?0:(i==4?-3:6);
+    var tx=el('text',{x:X(l[1])+(i==0?-10:8),y:Y(v)+dy+(i<3?14:0),'text-anchor':anchor,'font-size':17,'font-weight':700,fill:l[2],'font-family':'Consolas'});tx.textContent=l[0];});
+})();
+</script>
+</body></html>
