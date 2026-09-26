@@ -1,6 +1,6 @@
 # learning-lab
 
-Hands-on micro-projects I build while preparing for UK Data Analyst and junior ML/AI roles (Sep–Nov 2026).
+Hands-on micro-projects I build on my path to a UK AI/ML role, starting with data roles (Sep–Nov 2026).
 Each one rebuilds a single real component of one of my portfolio projects (NHS prescribing analysis, Aegis Gateway, EPC house-price MLOps, GridPulse-TFT), so I understand every line of them.
 
 ## Layout
