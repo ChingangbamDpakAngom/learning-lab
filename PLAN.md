@@ -119,9 +119,22 @@ Every LEARN step starts with a tag that says how deep to go:
 - Don't learn tools the ads don't ask for (December list stays in December).
 - Stop reading after the 15-min LEARN and start building; questions get answered in BUILD.
 
+### Active recall activities (built into the day, no extra block)
+| When | Activity | Time | How |
+|---|---|---|---|
+| End of every LEARN | **Blurt** | 5 min | Close the notes. Write everything you remember on a blank page (or `notes.md`). Then open the notes and mark what you missed in red; the misses are tomorrow's warm-up. |
+| End of every LEARN | **3 recall questions** | 5 min | Claude asks 3 questions (1 concept, 1 "why / trade-off", 1 tiny example or toy calculation). Answer without notes; score yourself /3 in `notes.md`. |
+| Start of the next day | **Warm-up quiz** (`Quiz`) | 5 min | Claude asks 5 mixed questions on yesterday + one older topic. Anything wrong goes in `log/weak-spots.md`. |
+| During BUILD | **Code from memory** | 10 min | Before looking anything up, write the key function (e.g. retry loop, cosine top-k, train/val split) from memory; then compare and fix. |
+| Light-maths topics | **Recompute** | 5 min | Redo the toy example (2–3 numbers) on paper with no notes, e.g. softmax of [1, 2, 3], precision/recall from a 2×2 matrix. |
+| Sunday review | **Blank-page cheat sheet** | 20 min | Rebuild the week's cheat sheets from memory, compare with the real ones, and re-study only the gaps. Then redo 3 questions from `weak-spots.md`. |
+| Day 3 + day 7 after a topic | **Spaced re-quiz** | 5 min | `Quiz` picks topics due on that day; score must reach 4/5 or the topic goes back into `weak-spots.md`. |
+
+Rule: **recall before re-reading.** If you can't recall it, that's the signal to re-read, and only that part.
+
 ## Commands (learning chat)
-`Topic: X` start the loop · `Hint` · `Stuck` · `Review` (paste code) · `Status` · `Weekly post`.
-Loop per topic: LEARN (15 min read) → SPEC (60–150 min task, acceptance criteria, stretch) → BUILD (hints) → REVIEW (/10 + top 3 fixes) → SHIP (folder, README, commit, git commands explained; labs 06/08/10/16 also get their own showcase repo if they pass the gate) → INTERVIEW (3 Qs, answers checked) → LOG (row in README.md, next topic).
+`Topic: X` start the loop · `Hint` · `Stuck` · `Review` (paste code) · `Quiz` (5 recall questions: yesterday + spaced topics + weak spots) · `Status` · `Weekly post`.
+Loop per topic: LEARN (15 min read) → RECALL (blurt + 3 questions, 10 min) → SPEC (60–150 min task, acceptance criteria, stretch) → BUILD (hints) → REVIEW (/10 + top 3 fixes) → SHIP (folder, README, commit, git commands explained; labs 06/08/10/16 also get their own showcase repo if they pass the gate) → INTERVIEW (3 Qs, answers checked) → LOG (row in README.md, next topic).
 
 ## Resources
 Checklist: [DeepLearning.AI AI Engineering Skills Map](https://www.deeplearning.ai/resources/ai-engineering-skills)
