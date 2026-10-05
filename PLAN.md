@@ -100,6 +100,25 @@ Behind schedule? Cut the stretch goal first, then the Drill. Never cut Apply.
 
 Behind by more than 2 days? Use Sunday morning first, then the buffer week. Never push a W2–W7 topic into December.
 
+## How to study (so no time goes on the wrong depth)
+Every LEARN step starts with a tag that says how deep to go:
+
+| Tag | Topics | How to study | Done when |
+|---|---|---|---|
+| **Concept** (most topics) | RAG, agents, evals, APIs, Docker, CI, cloud | What it is, why it exists, trade-offs, when to use it. Draw the flow, then build it in the lab. No maths. | You can explain it in 60 s and answer "why not X instead?" |
+| **Light maths** | Metrics, cosine similarity, softmax, cross-entropy, gradient descent, attention, p-values | Formula + what each symbol means + intuition. One tiny example by hand (2–3 numbers), then code it in NumPy and check against the library. | You can compute a toy example and say what changes if an input grows |
+| **Derivation** (only these) | Backprop through one neuron; logistic-regression gradient | Work it on paper once, re-derive from memory 3 days later. | You can re-derive it in under 10 min |
+
+**Habits:** active recall (close the notes, write what you remember) over re-reading · spaced review on day 1 → 3 → 7 (Sunday review covers day 7) · Feynman test (explain it simply; the gap is what to re-learn) · interview framing: what → why → trade-off → example from my project.
+
+**Don't (time sinks):**
+- No proofs or derivations beyond the two above; no maths textbooks cover to cover.
+- No full courses or whole playlists: only the sections a topic links to.
+- Don't memorise library APIs or syntax: know what exists and look it up.
+- Don't polish a lab past its acceptance criteria; stretch goals only when ahead of schedule.
+- Don't learn tools the ads don't ask for (December list stays in December).
+- Stop reading after the 15-min LEARN and start building; questions get answered in BUILD.
+
 ## Commands (learning chat)
 `Topic: X` start the loop · `Hint` · `Stuck` · `Review` (paste code) · `Status` · `Weekly post`.
 Loop per topic: LEARN (15 min read) → SPEC (60–150 min task, acceptance criteria, stretch) → BUILD (hints) → REVIEW (/10 + top 3 fixes) → SHIP (folder, README, commit, git commands explained; labs 06/08/10/16 also get their own showcase repo if they pass the gate) → INTERVIEW (3 Qs, answers checked) → LOG (row in README.md, next topic).
