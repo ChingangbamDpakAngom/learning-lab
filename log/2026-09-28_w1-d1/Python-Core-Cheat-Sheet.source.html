@@ -1,0 +1,96 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Python Core Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.r1{grid-template-columns:1.2fr 1fr}
+.r2{grid-template-columns:1fr 1fr}
+.sig td:first-child{font-weight:700;white-space:nowrap}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Python <span>Core</span> Cheat Sheet</h1>
+    <p class="sub">Functions, the four built-in collections and comprehensions: the part of Python every interview assumes</p>
+  </div>
+  <div class="tag">Python · Week 1<b>Pick the collection by the operation you repeat most.</b></div>
+</header>
+
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>Pick the right collection</h2>
+    <table class="sig">
+      <tr><th>Type</th><th>Use it for</th><th>Fast (O(1))</th><th>Slow (O(n))</th></tr>
+      <tr><td><code>list</code></td><td>ordered, changes, duplicates OK</td><td><code>a[i]</code>, <code>append</code>, <code>pop()</code></td><td><code>x in a</code>, <code>insert(0,x)</code>, <code>pop(0)</code></td></tr>
+      <tr><td><code>tuple</code></td><td>fixed record, dict key <code>(icb, month)</code></td><td><code>t[i]</code>, unpacking</td><td><code>x in t</code></td></tr>
+      <tr><td><code>dict</code></td><td>look up / count / group by key</td><td><code>d[k]</code>, <code>d.get(k, 0)</code>, <code>k in d</code></td><td>search by value</td></tr>
+      <tr><td><code>set</code></td><td>unique items, "seen before?"</td><td><code>x in s</code>, <code>add</code></td><td>—</td></tr>
+    </table>
+    <p class="note">Dict keys and set items must be <b>hashable</b>: int, str, tuple of hashables. <code>d[[1, 2]]</code> → <code>TypeError: unhashable type: 'list'</code>.</p>
+    <p class="note">1M checks against 50k codes: list = 1M × 50k steps; set = 1M steps after one O(n) build. <b class="good">Always name the alternative's cost.</b></p>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Names are references, not boxes</h2>
+<pre>a = [1, 2]
+b = a              # same list, two names
+b.append(3)
+print(a)           # [1, 2, 3]
+
+c = a.copy()       # shallow copy (also list(a), a[:])
+import copy
+d = copy.deepcopy(nested)   # copies inner lists too
+
+x is y             # same object?
+x == y             # same value?</pre>
+    <p class="note">Mutable: list, dict, set. Immutable: int, str, tuple. Changing a mutable object is seen through every name.</p>
+  </div>
+</div>
+
+<div class="row r2">
+  <div class="card">
+    <h2><i>3</i>Functions</h2>
+<pre>def load(path, *, sep=",", **opts):   # after * = keyword-only
+    ...
+def stats(xs):
+    return min(xs), max(xs)            # returns a tuple
+lo, hi = stats([3, 1, 2])              # unpack
+
+# TRAP: default evaluated ONCE, at def time
+def add(x, items=[]):   # one shared list
+    items.append(x); return items
+add(1); add(2)          # → [1, 2]
+
+def add(x, items=None): # fix
+    items = [] if items is None else items</pre>
+    <p class="note"><code>*args</code> collects extra positional args into a tuple, <code>**kwargs</code> extra keyword args into a dict.</p>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Comprehensions + everyday tools</h2>
+<pre>[r["bnf_code"] for r in rows if r["cost"] > 100]  # list
+{n: n * n for n in range(4) if n % 2}  # {1: 1, 3: 9}
+{r["icb"] for r in rows}               # set: unique ICBs
+sum(r["cost"] for r in rows)           # generator: lazy
+
+from collections import Counter, defaultdict
+Counter(codes).most_common(3)          # top 3 counts
+g = defaultdict(list); g[icb].append(row)  # group
+
+for i, x in enumerate(xs): ...         # index + item
+for a, b in zip(xs, ys): ...           # walk in pairs
+sorted(d.items(), key=lambda kv: kv[1], reverse=True)[:3]
+#   → 3 (key, value) pairs with the HIGHEST values</pre>
+    <p class="note"><b>Truthiness:</b> <code>0 "" [] {} None</code> are falsy, so <code>if n % 2</code> = "if odd". Two <code>if</code>s + nested loop? Write a normal loop.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2><i>5</i>Interview questions</h2>
+  <table class="sig">
+    <tr><td>List vs tuple?</td><td>List is mutable; tuple is immutable, so it's hashable (dict key) and signals a fixed record.</td></tr>
+    <tr><td>Why is <code>items=[]</code> a bug?</td><td>Defaults are built once at <code>def</code> time, so every call shares and mutates the same list. Use <code>None</code>.</td></tr>
+    <tr><td>How is dict lookup O(1)?</td><td>The key's hash picks a slot directly; no scan. Average O(1), worst O(n) with many collisions.</td></tr>
+    <tr><td>Shallow vs deep copy?</td><td>Shallow copies the outer container only; inner objects are shared. Deep copies everything, recursively.</td></tr>
+    <tr><td>Generator vs list?</td><td>Generator yields items one at a time with O(1) memory and can be consumed once; a list holds all items.</td></tr>
+  </table>
+</div>
+
+</body></html>

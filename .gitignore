@@ -20,3 +20,9 @@ data/
 .obsidian/workspace*.json
 .DS_Store
 Thumbs.db
+
+# Personal tracker (private)
+roadmap-tracker.html
+
+#logging
+*.log 

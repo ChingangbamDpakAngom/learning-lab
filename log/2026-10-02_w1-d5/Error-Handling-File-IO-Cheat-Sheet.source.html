@@ -1,0 +1,97 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Error Handling + File I/O Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.r1{grid-template-columns:1.15fr 1fr}
+.r2{grid-template-columns:1fr 1fr}
+.sig td:first-child{font-weight:700;white-space:nowrap}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Error Handling <span>+ File I/O</span> Cheat Sheet</h1>
+    <p class="sub">Exceptions, context managers, pathlib, CSV/JSON and safe retries: the code every data pipeline and API client is built on</p>
+  </div>
+  <div class="tag">Python · Week 1<b>Catch narrow, fail loud, retry only what's transient.</b></div>
+</header>
+
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>try / except / else / finally</h2>
+<pre>try:
+    text = Path(path).read_text(encoding="utf-8")
+except FileNotFoundError:            # SPECIFIC error
+    log.warning("missing %s", path)
+    return []
+else:
+    print("runs only if nothing raised")
+finally:
+    print("always runs: cleanup")
+
+raise ValueError(f"bad file {path}") from e  # keep cause
+class DownloadError(Exception): pass         # your own type</pre>
+    <p class="note"><b>Never</b> <code>except:</code> or <code>except Exception: pass</code>: the program carries on with bad data, fails later somewhere unrelated, and the traceback is gone.</p>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Rules interviewers check</h2>
+    <table class="sig">
+      <tr><td>Catch narrow</td><td>Only the errors you can actually handle; let the rest propagate.</td></tr>
+      <tr><td>Fail loud</td><td>Raise early with a clear message: <code>"month must be YYYYMM"</code>.</td></tr>
+      <tr><td>Keep the cause</td><td><code>raise X from e</code> chains the original traceback.</td></tr>
+      <tr><td>Custom types</td><td>When callers need to tell your errors apart (<code>DownloadError</code>).</td></tr>
+      <tr><td><code>with</code></td><td>Closes files / connections <b>even if an exception is raised</b>.</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row r2">
+  <div class="card">
+    <h2><i>3</i>pathlib + CSV + JSON</h2>
+<pre>raw = Path("data") / "raw"              # OS-independent join
+raw.mkdir(parents=True, exist_ok=True)
+out = raw / "epd_202401.csv"
+out.exists(); out.suffix; out.stem     # True ".csv" "epd_202401"
+list(raw.glob("*.csv"))
+
+with open(out, "w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=["drug", "cost"])
+    w.writeheader(); w.writerows(rows)
+with open(out, newline="", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))     # list of dicts
+
+cfg = json.loads(Path("cfg.json").read_text(encoding="utf-8"))
+Path("out.json").write_text(json.dumps(cfg, indent=2))</pre>
+    <p class="note">Always <code>encoding="utf-8"</code> (Windows defaults differ) and <code>newline=""</code> for CSV (no blank rows on Windows). CSV values come back as <b>strings</b>.</p>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Retries: only transient errors</h2>
+    <table class="sig">
+      <tr><th>Error</th><th>Retry?</th></tr>
+      <tr><td>Timeout, 500, 502, 503, 504</td><td class="good">Yes: the server may recover</td></tr>
+      <tr><td>429 rate limited</td><td class="good">Yes, after waiting (honour <code>Retry-After</code>)</td></tr>
+      <tr><td>400, 401, 403, 404</td><td>No: same request fails the same way</td></tr>
+    </table>
+<pre>for attempt in range(1, 4):
+    try:
+        return fetch(url)
+    except TimeoutError:
+        if attempt == 3:
+            raise DownloadError(f"gave up on {url}")
+        log.warning("retry %d for %s", attempt, url)
+        time.sleep(2 ** attempt)       # backoff 2s, 4s</pre>
+    <p class="note">Cap the attempts, back off exponentially, log every retry, and set a <code>timeout=</code> on every request.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2><i>5</i>Interview questions</h2>
+  <table class="sig">
+    <tr><td>Why not a bare except?</td><td>It hides bugs (even typos) and the traceback; the failure appears later with no clue why.</td></tr>
+    <tr><td><code>else</code> vs <code>finally</code>?</td><td><code>else</code> runs only if no exception; <code>finally</code> always runs, for cleanup.</td></tr>
+    <tr><td>What does <code>with</code> do?</td><td>Calls the object's exit/cleanup (closes the file) even if the block raises.</td></tr>
+    <tr><td>Which errors do you retry?</td><td>Transient ones (timeouts, 5xx, 429) with backoff and a cap. Never 4xx client errors.</td></tr>
+    <tr><td>What is idempotent?</td><td>Running it twice has the same effect as once: e.g. skip the download if the file already exists.</td></tr>
+  </table>
+</div>
+
+</body></html>

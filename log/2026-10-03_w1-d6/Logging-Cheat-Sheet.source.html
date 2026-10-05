@@ -1,0 +1,88 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Logging Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.r1{grid-template-columns:1.15fr 1fr}
+.r2{grid-template-columns:1fr 1fr}
+.sig td:first-child{font-weight:700;white-space:nowrap}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Python <span>Logging</span> Cheat Sheet</h1>
+    <p class="sub">Levels, named loggers and one-time configuration: how real services tell you what happened without a debugger</p>
+  </div>
+  <div class="tag">Python · Week 1<b>Modules get loggers. Only main configures.</b></div>
+</header>
+
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>The setup every project uses</h2>
+<pre># downloader.py  (any module)
+import logging
+log = logging.getLogger(__name__)   # name = "downloader"
+
+def download(month):
+    log.info("downloading %s", month)   # lazy %s, not f-string
+
+# main.py  (entry point ONLY)
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    # filename="app.log",          # file instead of console
+)</pre>
+    <p class="note"><code>basicConfig</code> only applies on the <b>first</b> call. If an imported module calls it, that module decides the config for the whole program and main's call is ignored.</p>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Levels: pick by who needs to know</h2>
+    <table class="sig">
+      <tr><th>Level</th><th>Use for</th></tr>
+      <tr><td>DEBUG</td><td>Detail for developers: full URLs, payload sizes</td></tr>
+      <tr><td>INFO</td><td>Normal milestones: started, saved 5,000 rows</td></tr>
+      <tr><td>WARNING</td><td>Unexpected but handled: retry 2 of 3</td></tr>
+      <tr><td>ERROR</td><td>An operation failed: gave up after 3 attempts</td></tr>
+      <tr><td>CRITICAL</td><td>The program can't continue</td></tr>
+    </table>
+    <p class="note">Default level is <b>WARNING</b>, so <code>info()</code> and <code>debug()</code> print nothing until you lower it. Setting a level shows that level and everything above.</p>
+  </div>
+</div>
+
+<div class="row r2">
+  <div class="card">
+    <h2><i>3</i>Errors, files and noisy libraries</h2>
+<pre>try:
+    a / b
+except ZeroDivisionError:
+    log.exception("division failed")   # ERROR + full traceback
+
+logging.basicConfig(filename="app.log", level=logging.DEBUG)
+
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+# silence one library, keep your own code at DEBUG</pre>
+    <p class="note">Handler = <b>where</b> logs go (console, file, monitoring). Formatter = <b>how they look</b>. <code>basicConfig</code> sets both for you.</p>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Rules</h2>
+    <table class="sig">
+      <tr><td>Not <code>print</code></td><td>Logs have levels, timestamps and the source module, and can be switched off or sent to a file.</td></tr>
+      <tr><td>One per module</td><td><code>getLogger(__name__)</code>: every line shows which file wrote it.</td></tr>
+      <tr><td>Lazy format</td><td><code>log.info("n=%s", n)</code>: the string is only built if the level is on.</td></tr>
+      <tr><td>No secrets</td><td>Never log API keys, passwords or personal data.</td></tr>
+      <tr><td>Production</td><td>Structured JSON logs + a request ID per request (as in Aegis) so logs can be searched.</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2><i>5</i>Interview questions</h2>
+  <table class="sig">
+    <tr><td>Why logging over print?</td><td>Levels you can turn on/off, timestamps, source module, and output to files or monitoring tools.</td></tr>
+    <tr><td>Why <code>getLogger(__name__)</code>?</td><td>Each module gets a named logger: you see where a line came from and can set levels per module.</td></tr>
+    <tr><td>Where do you configure logging?</td><td>Once, in the entry point. Libraries and modules only create loggers.</td></tr>
+    <tr><td>What do you log in an API client?</td><td>Start/finish at INFO, retries at WARNING, final failure at ERROR, request details at DEBUG. Never secrets.</td></tr>
+    <tr><td>Why structured logs?</td><td>JSON fields (request ID, latency, status) can be filtered and aggregated; free text can't.</td></tr>
+  </table>
+</div>
+
+</body></html>
