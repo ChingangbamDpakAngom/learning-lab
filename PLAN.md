@@ -27,7 +27,7 @@ Source: 16 current Indeed UK ads (junior ML engineer, AI engineer, AI/ML enginee
 | Deep learning, PyTorch, transformers | about half | W6 (concepts); PyTorch lab in Dec |
 | Hugging Face, fine-tuning (LoRA), NLP | some | W6 (concepts); LoRA lab in Dec |
 | SQL, pandas | most | W2, then the Saturday Drill |
-| Git, Linux | most | W1 |
+| Git, Linux/shell | most | W2 (Missing Semester 1–2) |
 | Communication, explaining trade-offs | nearly every ad | W8 + buffer week mocks, LinkedIn posts |
 
 ## Targeting: direct AI route (5 Oct audit)
@@ -89,10 +89,10 @@ Behind schedule? Cut the stretch goal first, then the Drill. Never cut Apply.
 | 0 | 25–27 Sep | Setup, Big-O, descriptive stats | Create `learning-lab` | NHS business question + metrics |
 | 1 | 28 Sep–4 Oct | Python core, errors + files, logging; SQL basics (Drill) | — (lab 01 spec written) | NHS ingestion → DuckDB → dbt |
 | 2 | 5–11 Oct | Modules + CLI + git, OOP + pytest, NumPy (essentials), pandas, type hints + Pydantic; SQL joins/CTEs/windows (Drill) | 01 NHSBSA API downloader + tests · 03 clean + profile a dataset (NumPy stats folded in, replaces 02) | NHS v1 ships · study Aegis 0–2 |
-| 3 | 12–18 Oct | async + HTTP/REST, FastAPI, how LLMs work (incl. prompt caching, reasoning effort, multimodal), prompting, structured output, tool calling | 04+05 FastAPI LLM service with an async retrying client + tests · 06 LLM extractor + eval | New project spec + ingestion · study Aegis 3–7 |
+| 3 | 12–18 Oct | async + HTTP/REST, FastAPI (incl. streaming responses / SSE), how LLMs work (incl. prompt caching, reasoning effort, multimodal), prompting, structured output, tool calling | 04+05 FastAPI LLM service with an async retrying client + tests · 06 LLM extractor + eval | New project spec + ingestion · study Aegis 3–7 |
 | 4 | 19–25 Oct | Document parsing, embeddings, vector DBs, chunking, hybrid search, reranking, citations, grounding options (prompt vs tool retrieval vs text-to-SQL), LLM evals + evaluating the judge | 07 RAG API on Chroma · 08 eval harness + error analysis | Project: retrieval + eval suite |
 | 5 | 26 Oct–1 Nov | Agents: tool loop, memory + context management, single vs multi-agent, sandboxed execution, guardrails (OWASP LLM Top 10), LangGraph, MCP, agent evals | 09 agent from scratch + guardrails · 10 LangGraph + MCP + agent eval | Project: agent + guardrails |
-| 6 | 2–8 Nov | ML fundamentals (metrics, overfitting, CV, trees); DL concepts (backprop, PyTorch basics, transformers); NLP basics, Hugging Face, fine-tuning vs RAG vs prompting, LoRA + quantisation (concepts); stats for interviews (probability, p-values, A/B tests) | 11 sklearn pipeline + feature engineering + metrics from scratch + MLflow tracking · optional 2 h mini PyTorch loop (Sat) | **Project v1 ships** (demo video) |
+| 6 | 2–8 Nov | ML fundamentals (metrics, overfitting, CV, trees, k-means + PCA); maths for ML (vectors, dot product, softmax, cross-entropy); DL concepts (backprop, PyTorch basics, transformers); NLP basics, Hugging Face, fine-tuning vs RAG vs prompting, LoRA + quantisation (concepts); stats for interviews (probability, p-values, A/B tests) | 11 sklearn pipeline + feature engineering + metrics from scratch + MLflow tracking · optional 2 h mini PyTorch loop (Sat) | **Project v1 ships** (demo video) |
 | 7 | 9–15 Nov | Docker (+ Kubernetes in 20 min, concept), dependency/secret scanning, cloud (Azure), CI/CD with an eval gate, observability (Langfuse), monitoring + drift (concepts) | 13 Dockerise + deploy RAG API to Azure (Azure OpenAI as the model provider) · 14 CI + eval gate + tracing | Live demo link on README + CV (**end-to-end project done**) |
 | 8 | 16–22 Nov | AI system design, responsible AI, question bank (~60 Qs), STAR stories + "how I build with coding agents" story; 2-min dissertation pitch, "why AI engineering?", right-to-work answer; Skills Map checklist | 17 AI take-home practice (3 h) | Project explanations + final polish |
 | Buffer | 23–29 Nov | No new topics: catch-up on any slipped lab, 2–3 mock interviews, re-drill weak questions | — | — |
