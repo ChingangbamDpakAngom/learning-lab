@@ -1,38 +1,28 @@
-"""Logging warm-up drill, step 1: log inputs and failures in divide().
+"""Logging drill, steps 1–4: one file that logs and configures itself.
 
-Run:  python drill/logging/practice.py
+Run (from learning-lab/):  python drill/logging/practice.py  → logs go to app.log
 """
 import logging
 
-# TODO 1: create a module-level logger named after this module
-log = logging.getLogger(__name__)
+log = logging.getLogger(__name__)   # one logger per module, named after it
+
 
 def divide(a, b):
-    # TODO 2: log at INFO: "dividing %s by %s" with a and b (lazy %s args, not an f-string)
-    log.info("dividing %s by %s",a,b)
+    log.info("dividing %s by %s", a, b)   # lazy %s args, not an f-string
     try:
-        # TODO 3: return the result of a / b
-        return a/b
+        return a / b
     except ZeroDivisionError:
-        # TODO 4: log "division failed" with the method that also records the traceback
-        # TODO 5: return None
-        log.exception("division failed")
+        log.exception("division failed")  # ERROR level + full traceback
         return None
-        
 
 
 if __name__ == "__main__":
-    # TODO 6: configure logging ONCE here so INFO messages are shown
-    logging.basicConfig(filename='app.log',
-                        level=logging.INFO, 
-                        format = '%(asctime)s : %(levelname)s : %(name)s : %(message)s' )
-    # STEP 2 · TODO 7: add format= so each line shows time, level, logger name, message
-    #                  (attributes: asctime, levelname, name, message → "%(attr)s")
-    # STEP 3 · TODO 8: change the level to WARNING and run: which lines disappear, and why?
-    #                  Then set it back to INFO.
-    logging.basicConfig(filename='app.log',
-                            level=logging.WARNING, 
-                            format = '%(asctime)s : %(levelname)s : %(name)s : %(message)s' )
-    # STEP 4 · TODO 9: add filename="app.log": where do the logs go now? Open app.log.
-    print(divide(10, 2))   # expect 5.0
-    print(divide(5, 0))    # expect None (plus an ERROR log with a traceback)
+    # Configure ONCE, in the entry point. basicConfig only works the FIRST time it's called:
+    # a second call (e.g. level=WARNING) is silently ignored.
+    logging.basicConfig(
+        filename="app.log",   # step 4: file instead of console (appends; path is relative to where you run)
+        level=logging.INFO,   # step 3: WARNING would hide the two INFO lines
+        format="%(asctime)s : %(levelname)s : %(name)s : %(message)s",   # step 2
+    )
+    print(divide(10, 2))   # 5.0
+    print(divide(5, 0))    # None (+ ERROR with traceback in app.log)

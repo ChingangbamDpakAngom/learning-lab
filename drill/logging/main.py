@@ -1,19 +1,19 @@
-"""Logging drill, step 5: the entry point. The ONLY place logging is configured.
+"""Logging drill, step 5: the entry point, the ONLY place logging is configured.
 
 Run (from learning-lab/):  python drill/logging/main.py
 """
 import logging
 
-# TODO 3: import divide from mathutils
-from drill.logging.mathutils import divide
+from mathutils import divide   # works because this script's folder is sys.path[0]
 
 if __name__ == "__main__":
-    # TODO 4: basicConfig with level INFO and your step-2 format (console this time, no filename)
-    logging.basicConfig(level = logging.INFO, format = '%(message)s')
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s : %(levelname)s : %(name)s : %(message)s",
+    )
     print(divide(10, 2))
     print(divide(5, 0))
 
-# After running, answer:
-#   Q1: what logger name appears in the output now, and why did it change from __main__?
-#   Q2: add  log = logging.getLogger(__name__)  here and log.info("starting")
-#       before the divide calls. What name does THAT line show?
+# Q1: why do the log lines say "mathutils", not "__main__"?
+#     The logger was created in mathutils, and mathutils was IMPORTED, so its __name__ is "mathutils".
+# Q2: a logger created in THIS file would show "__main__", because main.py is run directly.

@@ -1,0 +1,94 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Modules + Imports Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.r1{grid-template-columns:1.1fr 1fr}
+.r2{grid-template-columns:1fr 1fr}
+.sig td:first-child{font-weight:700;white-space:nowrap}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>Modules <span>+ Imports</span> Cheat Sheet</h1>
+    <p class="sub">How Python finds your code, how to structure a package, and how to run and install it without import errors</p>
+  </div>
+  <div class="tag">Python · Week 1–2<b>Which folder did I run from, and can Python see the package?</b></div>
+</header>
+
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>How import finds things: sys.path</h2>
+<pre>import sys; from pprint import pprint
+pprint(sys.path)     # folders searched, IN ORDER:
+# [0] folder of the script you RAN   ← key line
+# ... standard library
+# ... site-packages (pip / uv installs)</pre>
+    <table class="sig">
+      <tr><td>Module</td><td>one <code>.py</code> file</td></tr>
+      <tr><td>Package</td><td>folder of modules + <code>__init__.py</code> (can be empty)</td></tr>
+      <tr><td>Cached</td><td>a module runs <b>once</b>; later imports reuse <code>sys.modules</code></td></tr>
+      <tr><td>Shadowing</td><td>your <code>random.py</code> hides the real <code>random</code>: never name files after libraries</td></tr>
+    </table>
+    <p class="note"><code>python drill/logging/main.py</code> → <code>sys.path[0]</code> = <code>drill/logging/</code>, so <code>from mathutils import divide</code> works but <code>from drill.logging...</code> doesn't.</p>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Import styles</h2>
+<pre>import mymodule                      # mymodule.greet()
+import numpy as np                   # alias
+from mypackage.module1 import add    # ABSOLUTE: default
+from .module1 import add             # RELATIVE: inside a package only
+from mypackage import add            # works if __init__.py re-exports it
+from x import *                      # NEVER: hides where names come from</pre>
+    <table class="sig">
+      <tr><td>Absolute</td><td>default; explicit; PEP 8; works from any file</td></tr>
+      <tr><td>Relative</td><td>only inside a package; survives renaming the package; fails in a script run directly</td></tr>
+      <tr><td>Circular</td><td>A imports B imports A → <code>ImportError</code>; move shared code to a third module</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row r2">
+  <div class="card">
+    <h2><i>3</i>__name__, -m and -e</h2>
+<pre>if __name__ == "__main__":   # run directly → "__main__"
+    main()                   # imported → "mymodule": block skipped
+
+python -m package.moduleA    # run a file INSIDE a package, from the root
+python -m pip install x      # pip of THIS python
+python -m pytest
+
+pip install -e .             # editable install of MY project
+                             # → importable from anywhere, edits apply live</pre>
+    <p class="note"><code>sys.path.append("...")</code> works but hard-codes a path: breaks on other machines and in Docker. Use <code>-m</code> or <code>pip install -e .</code> instead.</p>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Environments: venv + uv</h2>
+<pre>python -m venv .venv               # create
+.venv\Scripts\activate             # PowerShell
+source .venv/Scripts/activate      # Git Bash
+pip install -r requirements.txt
+pip freeze > requirements.txt
+
+uv init · uv add requests · uv add --dev pytest
+uv sync                            # make .venv match uv.lock
+uv run python main.py              # run without activating</pre>
+    <table class="sig">
+      <tr><td><code>pyproject.toml</code></td><td>what you <b>asked for</b> (ranges) + project info</td></tr>
+      <tr><td><code>uv.lock</code></td><td><b>exact</b> versions of everything, incl. sub-dependencies</td></tr>
+      <tr><td><code>.venv/</code></td><td>never commit: machine/OS-specific, rebuilt by <code>uv sync</code></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2><i>5</i>Interview questions</h2>
+  <table class="sig">
+    <tr><td>How does Python find a module?</td><td>Searches <code>sys.path</code> in order: the script's folder first, then the standard library, then site-packages.</td></tr>
+    <tr><td>What does <code>if __name__ == "__main__"</code> do?</td><td>Runs the block only when the file is run directly, not when it's imported.</td></tr>
+    <tr><td>Absolute or relative imports?</td><td>Absolute by default (explicit, PEP 8). Relative only within one package.</td></tr>
+    <tr><td><code>-m</code> and <code>pip install -e .</code>?</td><td><code>-m</code> runs a module by name from the current folder; <code>-e</code> installs my project editable so it imports from anywhere.</td></tr>
+    <tr><td>Lock file vs <code>pyproject.toml</code>?</td><td>toml declares needs; lock pins exact versions so every machine is identical. <code>.venv</code> is rebuilt, never committed.</td></tr>
+  </table>
+</div>
+
+</body></html>
