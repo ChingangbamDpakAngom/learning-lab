@@ -70,6 +70,26 @@ Standard dev set for every project: `uv add --dev pytest ruff`.
 Kid version: flour = runtime dependency (the cake needs it) · taste-test spoon = dev dependency (only the baker needs it).
 **Interview line:** "In an existing repo I use `uv init --bare`. Runtime deps (what the app imports) go in `dependencies`; tools like pytest and ruff go in the dev group, so production installs stay lean."
 
+## Learn · pytest ✅
+**Video:** [Tech With Tim: Pytest Tutorial](https://www.youtube.com/watch?v=EgpLj86ZHFQ) (0:00–30:24). Code: `drill/testing/` → **16 passed**.
+
+| Topic | Why | How | When |
+|---|---|---|---|
+| Plain `assert` | prove the code gives the right answer | `assert add(2, 3) == 5` | every function with logic |
+| `pytest.raises` | the error path matters as much as the happy path | `with pytest.raises(ValueError, match="..."):` | code that should refuse bad input |
+| Fixture (+ `yield`) | fresh setup per test, no shared state | `@pytest.fixture`; a test asks for it by parameter name; code after `yield` = cleanup | several tests need the same object |
+| `parametrize` | many cases, one test | `@pytest.mark.parametrize("num, expected", [...])` | one behaviour, many inputs |
+| `tmp_path` | never touch real files | `save_totals(rows, tmp_path / "totals.csv")` | code that writes files |
+| `mocker` (pytest-mock) | no real API / DB calls in tests | `mocker.patch("main.requests.get")`, `return_value`, `assert_called_once_with` | APIs, LLMs, databases |
+
+**Mistakes I hit (and fixed):**
+- Commented out the fixture → `fixture 'user_manager' not found`: a test parameter means "give me the fixture with this name"; globals don't count.
+- A global object shared by tests → the second test sees the first test's data. Fixtures give each test a clean one.
+- `ModuleNotFoundError: requests` even though it's mocked: the mock replaces the function after the import, so the library must be installed. `uv add requests` (no `--dev`, because my code imports it).
+- `assert_called_once_with("Users.db")` failed against `"User.db"`: mock checks are exact, filename and SQL text included.
+
+**Depth for now:** happy path + error path + mocked external call = interview-ready. Skip for now: conftest.py, fixture scopes, skip/xfail, coverage, async tests (W3).
+
 ## Still open
 - PYnative OOP exercises (practice, ~1 h).
 - pytest basics (next) → lab 01.

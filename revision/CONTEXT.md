@@ -55,7 +55,7 @@ Drill: NeetCode Mon/Wed (+Fri until W3; AI coding katas from W4), interview ques
 - **W1:** Python core (data structures, mutability, mutable default trap, comprehensions, truthiness) · error handling + file I/O (try/except/else/finally, `with`, `raise from`, custom exceptions, retries with backoff, idempotency, CSV encoding) · logging (levels, `getLogger(__name__)`, `basicConfig` once, `log.exception`, lazy `%s` formatting) · SQL part 1 (SELECT, WHERE, ORDER BY, LIMIT, NULL handling)
 - **W2:** modules + imports (`sys.path`, `__name__`, module cache, absolute vs relative, `-m`, `pip install -e .`) · environments (venv, uv, `pyproject.toml` vs `uv.lock`, never commit `.venv`) · OOP (classes, `self`, class vs instance variables, classmethod/staticmethod, inheritance + `super()` + MRO, `@property`, `__repr__`/`__str__`, 4 pillars, ABC) · dataclasses (`field(default_factory)`, `__post_init__`, `frozen`, dataclass vs Pydantic)
 
-**Still open this week:** pytest · argparse · git basics · lab 01 build + tests · NumPy · pandas · SQL GROUP BY/joins/CTEs/windows · lab 03 · Python Qs on generators, decorators, `*args/**kwargs`, the GIL.
+**Done this week:** modules + uv, OOP, dataclasses, pytest (16 tests: fixtures, parametrize, tmp_path, mocks). **Still open this week:** argparse · git basics · lab 01 build + tests · NumPy · pandas · SQL GROUP BY/joins/CTEs/windows · lab 03 · Python Qs on generators, decorators, `*args/**kwargs`, the GIL.
 
 ## Weak spots (quiz these first)
 - How `import` finds modules = `sys.path` in order, first match wins (I said "absolute vs relative" once).

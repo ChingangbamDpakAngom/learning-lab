@@ -102,6 +102,15 @@ Levels: 🟢 screening · 🟡 technical · 🔴 follow-up probe. Last updated: 
 - 🟡 **`frozen=True` and its gotcha?** Read-only and hashable; it also blocks assignments in your own `__post_init__`.
 - 🔴 **Dataclass or Pydantic for an API request body?** Pydantic: it validates and converts untrusted input (FastAPI returns 422). Dataclass type hints aren't checked.
 
+## pytest
+- 🟢 **Why write unit tests?** To prove each piece works and to catch it when a later change breaks something. Each test: Arrange → Act → Assert.
+- 🟢 **How does pytest find tests?** Files named `test_*.py`, functions named `test_*`; plain `assert`, and pytest shows exactly what didn't match.
+- 🟡 **How do you test that code raises an error?** `with pytest.raises(ValueError, match="..."):` around the call.
+- 🟡 **What is a fixture?** Reusable setup a test asks for by naming it as a parameter; a fresh one per test, so tests don't share state. `yield` in a fixture = setup, test, then cleanup.
+- 🟡 **What do `parametrize` and `tmp_path` do?** `parametrize` runs one test with many inputs; `tmp_path` is a fresh temporary folder, so file tests never touch real files.
+- 🔴 **How do you test code that calls an external API?** Mock it: `mocker.patch("main.requests.get")` (patch where it's used), set `return_value`, then `assert_called_once_with(...)`. Test the error path too (e.g. status 404 → `pytest.raises`).
+- 🔴 **Unit vs integration test?** Unit = one function alone, outside world mocked, fast. Integration = real pieces together. Too many mocks can hide real breakage.
+
 ## Docker
 - 🟢 **Image vs container?** Image = read-only template built in layers; container = a running instance with a writable layer.
 - 🟢 **Why Docker for ML?** Reproducible environments, easy deployment, isolation, fast start.
@@ -120,4 +129,4 @@ Levels: 🟢 screening · 🟡 technical · 🔴 follow-up probe. Last updated: 
 - 🟡 **Redis vs Postgres for everything?** RAM is costly, durability weaker, no rich queries: Redis sits beside the database.
 
 ## Coming next (added as I learn them)
-pytest · argparse · git · NumPy · pandas · SQL joins/CTEs/windows · generators, decorators, `*args/**kwargs`, the GIL · then W3 (async, FastAPI, LLM basics, prompting, structured output, tool calling).
+argparse · git · NumPy · pandas · SQL joins/CTEs/windows · generators, decorators, `*args/**kwargs`, the GIL · then W3 (async, FastAPI, LLM basics, prompting, structured output, tool calling).
