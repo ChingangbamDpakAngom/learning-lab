@@ -6,17 +6,17 @@
 /* Layout: revision flashcards. Each card: plain-English story first, then four answer panels (What · Why · How · Solves) in a 2×2 grid, then "Where I've used it" + "Common mistake", the likely follow-up, and the interview line. Recall mode hides everything below the title until revealed. */
 :root{
   --bg:#F2F5F7; --surface:#FFFFFF; --ink:#15202B; --muted:#576476; --line:#DAE1E8; --soft:#EEF2F5;
-  --what:#1E5DAA; --why:#A86F06; --how:#16705B; --solves:#6A4BB5; --warn:#B3263E; --accent:#15202B;
+  --what:#1E5DAA; --why:#A86F06; --how:#16705B; --solves:#6A4BB5; --when:#0E7C86; --warn:#B3263E; --accent:#15202B;
   --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0E141B; --surface:#151E28; --ink:#E5EBF1; --muted:#98A5B5; --line:#253140; --soft:#0F1821;
-  --what:#7DB2F2; --why:#E6B444; --how:#4FC4A4; --solves:#B39CF2; --warn:#F07A8E; --accent:#E5EBF1; color-scheme:dark}}
+  --what:#7DB2F2; --why:#E6B444; --how:#4FC4A4; --solves:#B39CF2; --when:#5FD0D9; --warn:#F07A8E; --accent:#E5EBF1; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0E141B; --surface:#151E28; --ink:#E5EBF1; --muted:#98A5B5; --line:#253140; --soft:#0F1821;
-  --what:#7DB2F2; --why:#E6B444; --how:#4FC4A4; --solves:#B39CF2; --warn:#F07A8E; --accent:#E5EBF1; color-scheme:dark}
+  --what:#7DB2F2; --why:#E6B444; --how:#4FC4A4; --solves:#B39CF2; --when:#5FD0D9; --warn:#F07A8E; --accent:#E5EBF1; color-scheme:dark}
 
 body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
 .wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:32px 64px}
@@ -27,7 +27,7 @@ h1{font:800 clamp(34px,6vw,54px)/1.02 var(--display);letter-spacing:-.02em;margi
 .method{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .method li{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 6px;font-size:14px}
 .k{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:999px;color:var(--surface)}
-.k-what{background:var(--what)} .k-why{background:var(--why)} .k-how{background:var(--how)} .k-solves{background:var(--solves)}
+.k-what{background:var(--what)} .k-why{background:var(--why)} .k-how{background:var(--how)} .k-solves{background:var(--solves)} .k-when{background:var(--when)}
 
 .controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:12px;margin-block:18px 8px;border-bottom:1px solid var(--line)}
 .controls input[type=search]{flex:1 1 220px;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
@@ -59,7 +59,9 @@ article.card{background:var(--surface);border:1px solid var(--line);border-radiu
 .panel{border-top:3px solid var(--c);padding:10px 2px 2px;min-width:0}
 .lab{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);margin-bottom:6px;display:block}
 .panel p,.extra p{margin:0}
-.p-what{--c:var(--what)} .p-why{--c:var(--why)} .p-how{--c:var(--how)} .p-solves{--c:var(--solves)} .p-used{--c:var(--muted)} .p-gotcha{--c:var(--warn)}
+.p-what{--c:var(--what)} .p-why{--c:var(--why)} .p-how{--c:var(--how)} .p-solves{--c:var(--solves)} .p-when{--c:var(--when)}
+.whenrow{margin-top:12px;border-top:3px solid var(--c);padding:10px 2px 2px}
+.whenrow p{margin:0} .p-used{--c:var(--muted)} .p-gotcha{--c:var(--warn)}
 pre{margin:6px 0 0;background:var(--soft);border-radius:8px;padding:10px 12px;overflow-x:auto;font:500 13px/1.5 var(--mono);color:var(--ink)}
 .extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
 @media (max-width:640px){.extras{grid-template-columns:minmax(0,1fr)}}
@@ -89,6 +91,7 @@ footer{margin-top:36px;color:var(--muted);font-size:14px}
     <li><span class="k k-why">Why</span>why we need it</li>
     <li><span class="k k-how">How</span>the few lines to know</li>
     <li><span class="k k-solves">Solves</span>the problem it fixes</li>
+    <li><span class="k k-when">When</span>when to use it, and when not</li>
   </ul>
 
   <div class="controls">
@@ -112,6 +115,7 @@ const T=[
   why:"Code that's fine on 100 rows can freeze on 1 million. Big-O warns you before that happens.",
   how:"for x in a:            # O(n): one pass\n  for y in a: ...      # nested → O(n²)\nx in my_set            # O(1) on average\nbinary search          # O(log n): halves each step",
   solves:"Picking an approach that still works when the data gets big.",
+  when:"Use it every time you choose between two approaches, and say the time and space cost in every coding interview. Don't over-optimise tiny inputs.",
   used:"NeetCode Contains Duplicate: a set turned the obvious O(n²) pair check into O(n).",
   gotcha:"Big-O ignores constants and small inputs: for 10 items an O(n²) loop can beat O(n). And set/dict lookups are O(1) on average, not guaranteed.",
   fq:"What's the cost of checking if an item is in a list vs a set?",
@@ -124,6 +128,7 @@ const T=[
   why:"Checking every pair takes n × n steps. On sorted data, two pointers needs only about n.",
   how:"l, r = 0, len(a) - 1\nwhile l < r:\n    s = a[l] + a[r]\n    if s == target: return l, r\n    if s < target: l += 1\n    else: r -= 1",
   solves:"Pair sums, palindromes and merging sorted lists in O(n) instead of O(n²).",
+  when:"Use it on sorted arrays or strings: pair sums, palindromes, removing duplicates, merging. Avoid it on unsorted data where you need the original positions (use a dict).",
   used:"NeetCode Valid Palindrome: compare the first and last letters, then move both inward.",
   gotcha:"Most two-pointer tricks need sorted input; sorting first costs O(n log n) and loses the original positions.",
   fq:"When would you not use two pointers?",
@@ -136,6 +141,7 @@ const T=[
   why:"Charts and models mislead you if you don't know the shape of the data first.",
   how:"df.describe()\nnp.median(x); np.percentile(x, 95)\nnp.std(x)",
   solves:"Being fooled by outliers. One billionaire makes the average salary useless; the median stays honest.",
+  when:"Use it first on any new dataset, before charts or models. Median and percentiles when skewed; mean when roughly symmetric.",
   used:"W0 drill: 1,000 random numbers → mean, median, SD and a histogram in NumPy.",
   gotcha:"Using the mean on skewed data (salaries, prices). Look at a histogram first.",
   fq:"Mean or median for house prices?",
@@ -148,6 +154,7 @@ const T=[
   why:"The right container makes code faster and easier to read.",
   how:"seen = set()\nif x in seen: ...          # O(1)\ncounts = {}\ncounts[w] = counts.get(w, 0) + 1",
   solves:"Slow lookups. Searching a list checks every item; a set or dict goes straight there.",
+  when:"set for 'have I seen this?', dict for lookup by key or counting, list when order matters, tuple for fixed records or dict keys.",
   used:"NeetCode Contains Duplicate (set) and Valid Anagram (dict of letter counts).",
   gotcha:"Lists and dicts are mutable: a function you pass them to can change your original. Only unchangeable things (tuples, strings) can be dict keys.",
   fq:"Why can a tuple be a dict key but a list can't?",
@@ -160,6 +167,7 @@ const T=[
   why:"For simple cases it's shorter and reads almost like English.",
   how:"[x * 2 for x in nums if x > 0]\n{w: len(w) for w in words}",
   solves:"Repetitive append loops.",
+  when:"Use it for one simple transform or filter of a collection. Avoid it for nested logic or side effects like printing or writing files.",
   used:"W1 Python core drill.",
   gotcha:"Nested comprehensions get hard to read fast. If you have to think to read it, use a normal loop.",
   fq:"List comprehension vs generator expression?",
@@ -172,6 +180,7 @@ const T=[
   why:"Real data and networks fail. You want a clear message or a fallback, not a crash in the middle of a job.",
   how:"try:\n    data = load(path)\nexcept FileNotFoundError as e:\n    raise DataError(f\"missing {path}\") from e\nfinally:\n    cleanup()",
   solves:"Crashes, and errors that disappear silently.",
+  when:"Use it around things outside your control: files, network calls, user input, parsing. Don't use it to hide bugs in your own logic.",
   used:"Aegis: if one local LLM fails, the gateway falls back to the second model instead of returning an error.",
   gotcha:"A bare except: catches everything, even typos and Ctrl+C, and hides real bugs. Catch the narrowest error you can handle.",
   fq:"Bare except vs except Exception?",
@@ -184,6 +193,7 @@ const T=[
   why:"Pipelines read and write files all the time, on both Windows and Linux, which write paths differently.",
   how:"from pathlib import Path\nwith Path(\"data.csv\").open(newline=\"\", encoding=\"utf-8\") as f:\n    rows = list(csv.reader(f))\nobj = json.loads(Path(\"a.json\").read_text(encoding=\"utf-8\"))",
   solves:"Files left open, Windows path bugs, and garbled characters.",
+  when:"Every time you read or write a file. CSV for tables, JSON for nested data, Parquet for big data.",
   used:"Error handling + file I/O drill (W1); lab 01 will save downloaded data the same way.",
   gotcha:"Forgetting encoding=\"utf-8\" (breaks on Windows with £ or accents) and newline=\"\" for CSV (blank lines between rows on Windows).",
   fq:"Why use a with block?",
@@ -196,6 +206,7 @@ const T=[
   why:"Networks have temporary hiccups: timeouts, busy servers (5xx), and 'slow down' replies (429).",
   how:"for attempt in range(3):\n    try:\n        return get(url, timeout=10)\n    except (Timeout, ServerError):\n        time.sleep(2 ** attempt)",
   solves:"One temporary glitch killing a long download job.",
+  when:"Use it on network calls: APIs, downloads, LLM calls. Avoid it for 4xx errors and for actions that aren't safe to repeat.",
   used:"Lab 01 (NHSBSA downloader, this week): retries on timeouts and 5xx while downloading a month of data.",
   gotcha:"Retrying 4xx errors like 404 (it won't fix itself) and retrying actions that aren't safe to repeat, like 'charge the card'.",
   fq:"What is idempotency, and why does it matter for retries?",
@@ -208,6 +219,7 @@ const T=[
   why:"print can't be switched off, filtered, or traced back to a module. Logs can.",
   how:"log = logging.getLogger(__name__)       # in every module\nlogging.basicConfig(level=logging.INFO)  # once, in main\nlog.info(\"loaded %s rows\", n)\nlog.exception(\"download failed\")         # inside except",
   solves:"Debugging code that runs unattended, without drowning in print output.",
+  when:"Use it in any code that runs without you watching: pipelines, APIs, scheduled jobs. print is fine for a quick throwaway script.",
   used:"Aegis: logs with request IDs, so one request can be traced through the gateway. Logging drill: the mathutils logger.",
   gotcha:"Calling basicConfig in several modules (only the first call counts), and f-strings in log calls (use %s so formatting is skipped when the level is off).",
   fq:"Which log level for a retry?",
@@ -220,6 +232,7 @@ const T=[
   why:"Most ModuleNotFoundError bugs come from running code from a different folder than you think.",
   how:"import sys\nfrom pprint import pprint\npprint(sys.path)   # [0] = folder of the script you ran",
   solves:"\"It works from one folder but not another\" import errors.",
+  when:"When you hit ModuleNotFoundError, or an import picks up the wrong file. Check where you ran from first.",
   used:"Logging drill: from mathutils import divide worked because main.py and mathutils.py sit in the same folder (sys.path[0]).",
   gotcha:"Naming your own file random.py or json.py: it hides the real library. Fixing imports with sys.path.append breaks on other machines.",
   fq:"How do you fix ModuleNotFoundError for your own package?",
@@ -232,6 +245,7 @@ const T=[
   why:"The same file is often both a script you run and a module others import.",
   how:"def main(): ...\n\nif __name__ == \"__main__\":\n    main()",
   solves:"Start-up code (prints, downloads) running by accident when another file imports it.",
+  when:"In every file that can be run as a script. Put the start-up code in main() under it.",
   used:"Every drill file: main() runs only when I start that file.",
   gotcha:"Leaving it out, so simply importing your module starts a download or prints test output.",
   fq:"What is __name__ when the file is imported?",
@@ -244,6 +258,7 @@ const T=[
   why:"Files inside a package need to import each other.",
   how:"from mypackage.module1 import add   # absolute (default)\nfrom .module1 import add             # relative, inside a package only",
   solves:"Messy, brittle imports between files of the same project.",
+  when:"Absolute imports everywhere by default. Relative imports only between files inside the same package.",
   used:"own_modules drill: mypackage/__init__.py uses from .module1 import add.",
   gotcha:"Running a file with relative imports directly fails: \"attempted relative import with no known parent package\". Run it with python -m instead.",
   fq:"When are relative imports useful?",
@@ -256,6 +271,7 @@ const T=[
   why:"A file inside a package can't see its own package when you run it by its path.",
   how:"python -m pkg.module\npython -m pytest\npip install -e .     # with uv: uv sync",
   solves:"ModuleNotFoundError for your own package, and tests that can't import your code.",
+  when:"-m to run a file inside a package, or tools like pytest, pip and venv. -e (or uv sync) when tests or notebooks must import your own project.",
   used:"python -m venv and python -m pytest; uv sync installs a packaged project in editable mode.",
   gotcha:"pip install . without -e: you'd have to reinstall after every code change.",
   fq:"Why python -m pip instead of just pip?",
@@ -268,6 +284,7 @@ const T=[
   why:"Projects need different package versions, and every machine should install exactly the same ones.",
   how:"uv init --bare          # existing repo: only pyproject.toml\nuv add requests         # what my code imports\nuv sync                 # build .venv from uv.lock\nuv run python main.py   # no need to activate",
   solves:"\"It works on my machine\" problems.",
+  when:"Every project, from day one. uv init --bare for a folder that already has files.",
   used:"learning-lab: uv init --bare, then uv add --dev pytest pytest-mock.",
   gotcha:"Committing .venv (huge, machine-specific) or not committing uv.lock (others get different versions).",
   fq:"pyproject.toml vs uv.lock?",
@@ -280,6 +297,7 @@ const T=[
   why:"The running app never needs test tools.",
   how:"uv add requests          # my code imports it\nuv add --dev pytest ruff  # only tests/checks use it",
   solves:"Bloated production installs and Docker images.",
+  when:"Every time you add a tool only used for testing, linting or type-checking.",
   used:"learning-lab: pytest and pytest-mock are dev dependencies.",
   gotcha:"Putting a library your code imports in the dev group: tests pass locally, but production crashes with an ImportError.",
   fq:"Name typical dev dependencies.",
@@ -292,6 +310,7 @@ const T=[
   why:"To keep data and the code that works on it together.",
   how:"class Employee:\n    def __init__(self, first, pay):\n        self.first = first\n        self.pay = pay\nemp_1 = Employee(\"Corey\", 50000)   # emp_1.m() == Employee.m(emp_1)",
   solves:"Loose dicts and functions that drift apart as code grows.",
+  when:"When data and the functions that use it belong together, or you need many similar objects. A plain function is enough for one-off logic.",
   used:"OOP drills: Employee objects, each with its own name and pay.",
   gotcha:"Forgetting self in a method: \"takes 0 positional arguments but 1 was given\". Writing first instead of self.first inside a method.",
   fq:"Is self a keyword?",
@@ -304,6 +323,7 @@ const T=[
   why:"Some data differs per object (pay); some is the same for everyone (the raise percentage).",
   how:"class Employee:\n    raise_amt = 1.04          # class: shared\n    def __init__(self, pay):\n        self.pay = pay        # instance: one each",
   solves:"Changing a shared setting in one place instead of on every object.",
+  when:"Class variable for constants and settings shared by all objects; instance variable for anything that differs per object.",
   used:"OOP 2 drill: raise_amt shared by every Employee; Developer overrides it with 1.10.",
   gotcha:"emp_1.raise_amt = 1.05 doesn't change the class; it creates a private copy on emp_1. Change shared values through the class.",
   fq:"Where are instance variables stored?",
@@ -316,6 +336,7 @@ const T=[
   why:"Some actions belong to the class as a whole, and some are just helpers that sit with it.",
   how:"@classmethod\ndef from_string(cls, s):\n    first, last, pay = s.split(\"-\")\n    return cls(first, last, int(pay))\n\n@staticmethod\ndef is_workday(day): return day.weekday() < 5",
   solves:"Building objects from other formats (alternative constructors), and keeping helpers with their class.",
+  when:"classmethod to build objects from another format or change a class-wide setting; staticmethod for a helper that belongs with the class but needs no object.",
   used:"OOP 3 drill: Employee.from_string(\"John-Doe-70000\") and Employee.is_workday(day).",
   gotcha:"Hard-coding Employee(...) inside from_string. Using cls(...) means Developer.from_string returns a Developer.",
   fq:"Give a real example of an alternative constructor.",
@@ -328,6 +349,7 @@ const T=[
   why:"Similar classes (Developer, Manager) share most of their code.",
   how:"class Developer(Employee):\n    raise_amt = 1.10                  # override\n    def __init__(self, first, pay, lang):\n        super().__init__(first, pay)  # reuse parent setup\n        self.lang = lang",
   solves:"Copy-pasting the same code across similar classes.",
+  when:"When B truly 'is a' kind of A and reuses most of it. Otherwise use composition ('has a').",
   used:"OOP 4 drill: Developer and Manager inherit from Employee.",
   gotcha:"employees=[] as a default argument: that one list is shared by every manager. Use None and create the list inside.",
   fq:"Inheritance or composition?",
@@ -340,6 +362,7 @@ const T=[
   why:"Values worked out from other data should never go out of date, and some changes need checking.",
   how:"@property\ndef email(self):\n    return f\"{self.first}.{self.last}@email.com\"\n\n@fullname.setter\ndef fullname(self, name):\n    self.first, self.last = name.split()",
   solves:"Stale values, and uncontrolled changes to an object's data.",
+  when:"When a value is computed from other fields, or setting it needs checking. Avoid it for slow work: reading an attribute should feel instant.",
   used:"OOP 6 drill: email and fullname as properties, with a setter and a deleter.",
   gotcha:"Doing slow work inside a property: people expect reading an attribute to be instant.",
   fq:"How do you make something private in Python?",
@@ -352,6 +375,7 @@ const T=[
   why:"To enforce a contract, so every Shape is guaranteed to have area().",
   how:"from abc import ABC, abstractmethod\nclass Shape(ABC):\n    @abstractmethod\n    def area(self): ...\n# Shape() → TypeError until a subclass implements area",
   solves:"Forgetting a required method and only finding out later, when it crashes.",
+  when:"When several classes must share the same methods, e.g. a common interface for different LLM providers or data sources.",
   used:"OOP 6 drill: Shape with Circle and Square.",
   gotcha:"Forgetting @abstractmethod: then nothing is enforced and Shape() works.",
   fq:"Why an abstract class instead of just documenting the method?",
@@ -364,6 +388,7 @@ const T=[
   why:"Code can treat different types the same way, without checking each type.",
   how:"for shape in [Circle(1), Square(2)]:\n    print(shape.area())   # each knows its own area",
   solves:"Long if/elif chains that check what type something is.",
+  when:"When you'd otherwise write if/elif on types: give each class the same method instead.",
   used:"OOP 6 drill: one loop calling area() on every shape.",
   gotcha:"Writing if isinstance(x, Circle) ... elif isinstance(x, Square) ...: that's exactly the code polymorphism removes.",
   fq:"What is duck typing?",
@@ -376,6 +401,7 @@ const T=[
   why:"Without them, printing an object shows something like <Employee object at 0x...>.",
   how:"def __repr__(self):\n    return f\"Employee({self.first!r}, {self.last!r})\"",
   solves:"Unreadable objects in lists, logs and the debugger.",
+  when:"Every class you'll print, log or debug. Add __str__ only if end users will see it.",
   used:"OOP 6 drill: printing a list of employees.",
   gotcha:"Writing only __str__: lists, logs and the debugger still show <object at 0x...>.",
   fq:"Why use !r inside __repr__?",
@@ -388,6 +414,7 @@ const T=[
   why:"Classes that mainly hold data need a lot of repetitive code.",
   how:"@dataclass\nclass Point:\n    x: int\n    y: int = 0\n    tags: list[str] = field(default_factory=list)",
   solves:"Repetitive code, and == comparing identity instead of values.",
+  when:"Classes that mostly hold data inside your code: configs, records, results. Avoid it for untrusted input (use Pydantic).",
   used:"Dataclasses drill: Person with default_factory, __post_init__ and frozen=True.",
   gotcha:"Type hints aren't checked at runtime. And frozen=True plus a __post_init__ that sets a field raises FrozenInstanceError.",
   fq:"Dataclass or dict?",
@@ -400,6 +427,7 @@ const T=[
   why:"Data from outside (API requests, LLM output, config files) can't be trusted.",
   how:"class Item(BaseModel):\n    name: str\n    price: float\nItem(name=\"pen\", price=\"2.5\")   # → price 2.5\nItem(name=\"pen\", price=\"abc\")   # → ValidationError",
   solves:"Bad input crashing deep inside your code. In FastAPI, bad requests get a 422 error automatically.",
+  when:"At the boundaries: API requests and responses, LLM structured output, config files.",
   used:"Aegis: FastAPI request and response models. Coming in W3 lab 06: validating LLM output into a Pydantic object.",
   gotcha:"Validating everything everywhere: it adds overhead. Validate at the edges, then trust the data inside.",
   fq:"How do you get reliable structured output from an LLM?",
@@ -412,6 +440,7 @@ const T=[
   why:"To prove the code works, and to catch the moment a later change breaks it.",
   how:"def test_add():\n    assert add(2, 3) == 5\n\ndef test_divide_by_zero():\n    with pytest.raises(ValueError):\n        divide(1, 0)\n# uv run pytest -v",
   solves:"Breaking something without noticing when you change code.",
+  when:"For every function with real logic: parsing, calculations, error handling. Write the test when you write the code.",
   used:"Aegis: 54 tests run in CI on every change. pytest drill: calc.py.",
   gotcha:"Testing many things in one test, so a failure doesn't tell you what broke. One behaviour per test: Arrange → Act → Assert.",
   fq:"Unit test vs integration test?",
@@ -424,6 +453,7 @@ const T=[
   why:"Tests repeat setup, and must never touch your real files.",
   how:"@pytest.mark.parametrize(\"n, want\", [(2, True), (3, False)])\ndef test_even(n, want):\n    assert is_even(n) == want\n\ndef test_save(tmp_path):\n    save(rows, tmp_path / \"out.csv\")",
   solves:"Copy-pasted tests, and tests that leave files behind or overwrite real data.",
+  when:"Fixture when several tests need the same setup; tmp_path when code writes files; parametrize when one behaviour needs many inputs.",
   used:"pytest drill: parametrize for is_even, tmp_path for save_totals.",
   gotcha:"Tests that share state: one test changes something global, and another fails only when run after it.",
   fq:"Where do you put fixtures used by many test files?",
@@ -436,6 +466,7 @@ const T=[
   why:"Real APIs are slow, cost money, change, and are sometimes down.",
   how:"def test_download(mocker):\n    fake = mocker.patch(\"downloader.requests.get\")\n    fake.return_value.json.return_value = {\"records\": []}\n    download_month(\"202409\")",
   solves:"Tests that need the internet, or that fail because someone else's service is down.",
+  when:"When code calls something slow, paid or unreliable: APIs, LLMs, databases, the current time.",
   used:"Coming in lab 01 (this week): the downloader's tests mock requests.get.",
   gotcha:"Patching the wrong place: patch where it's used (downloader.requests.get), not where it's defined (requests.get).",
   fq:"What's the risk of mocking too much?",
@@ -448,6 +479,7 @@ const T=[
   why:"Different machines have different Python versions and libraries installed.",
   how:"docker build -t app .\ndocker run -p 8000:8000 app\ndocker compose up      # app + Redis together",
   solves:"\"It works on my machine\" at deploy time.",
+  when:"When you deploy, or need services like Redis to run the same way on every machine.",
   used:"Aegis: the gateway runs in Docker alongside Redis.",
   gotcha:"Putting secrets inside the image, or building huge images by copying everything (use .dockerignore and a slim base image).",
   fq:"Image vs container?",
@@ -460,6 +492,7 @@ const T=[
   why:"Some work (an LLM call, a slow query) gets repeated with exactly the same input.",
   how:"r.set(\"answer:\" + key, text, ex=3600)   # keep for 1 hour\nr.get(\"answer:\" + key)\nr.incr(\"rate:\" + api_key)                # rate limiting",
   solves:"Slow, costly repeated work.",
+  when:"When the same expensive request repeats (caching), or you need fast shared counters (rate limiting).",
   used:"Aegis: a Redis answer cache cut repeat questions from 2–11 s to 11 ms, and Redis counters handle rate limiting.",
   gotcha:"Caching forever: always set an expiry (TTL), or users get out-of-date answers. Redis lives in memory, so it isn't your main database.",
   fq:"What is a cache hit rate, and why does it matter?",
@@ -484,7 +517,7 @@ function render(){
     const id=slug(t.n), r=state.rate[id];
     if(state.g!=="All"&&t.g!==state.g)return;
     if(state.shaky&&r!=="shaky")return;
-    if(q&&!(t.n+" "+t.plain+" "+t.what+" "+t.why+" "+t.solves+" "+t.how+" "+t.g).toLowerCase().includes(q))return;
+    if(q&&!(t.n+" "+t.plain+" "+t.what+" "+t.why+" "+t.when+" "+t.solves+" "+t.how+" "+t.g).toLowerCase().includes(q))return;
     count++;
     if(t.g!==last){html+=`<h2 class="group">${esc(t.g)}</h2>`;last=t.g}
     html+=`<article class="card${state.shown.has(i)?" shown":""}" id="${id}">
@@ -492,7 +525,7 @@ function render(){
         <div class="right"><span class="meta">${esc(t.wk)}</span>
           <div class="conf" role="group" aria-label="How well do I know it?">${RATES.map(([v,l])=>`<button type="button" data-id="${id}" data-v="${v}" aria-pressed="${r===v}">${l}</button>`).join("")}</div></div></div>
       <p class="hook">${esc(t.hook)}</p>
-      <p class="prompt">Explain it out loud: what it is, why we need it, how to use it, what it solves. Then reveal.</p>
+      <p class="prompt">Explain it out loud: what it is, why we need it, how to use it, what it solves, and when you'd use it. Then reveal.</p>
       <button type="button" class="reveal" data-i="${i}">Reveal answer</button>
       <div class="answer">
         <p class="plain"><b>In plain English</b>${esc(t.plain)}</p>
@@ -502,6 +535,7 @@ function render(){
           <div class="panel p-how"><span class="lab">How</span><pre><code>${esc(t.how)}</code></pre></div>
           <div class="panel p-solves"><span class="lab">Solves</span><p>${esc(t.solves)}</p></div>
         </div>
+        <div class="whenrow p-when"><span class="lab">When to use it</span><p>${esc(t.when)}</p></div>
         <div class="extras">
           <div class="extra p-used"><span class="lab">Where I've used it</span><p>${esc(t.used)}</p></div>
           <div class="extra p-gotcha"><span class="lab">Common mistake</span><p>${esc(t.gotcha)}</p></div>
