@@ -1,6 +1,6 @@
 # Tue 6 Oct 2026 · Week 2, Day 2 (modules lesson, continued)
 
-**Revision:** [Modules + Imports cheat sheet](Modules-Imports-Cheat-Sheet.jpg) · [9 interview questions](Interview-Questions.md) (covers W2 D1 + D2)
+**Revision:** [Modules + Imports cheat sheet](Modules-Imports-Cheat-Sheet.jpg) · [9 interview questions](Interview-Questions.md) (covers W2 D1 + D2) · [OOP cheat sheet](OOP-Cheat-Sheet.jpg) · [29 OOP questions](OOP-Interview-Questions.md)
 
 ## Key points: why · how · when (revise from this table)
 **Study strategy:** remember *why it exists, how it works, when to use it*, not every line of code. Exception: a few core lines to type from memory for live coding:
@@ -97,17 +97,22 @@ Run: `python main.py` from `own_modules/` → `Hello, Deepak! · 5 · 6 · IMPOR
 - `-e` has no good short video → [setuptools: Development Mode](https://setuptools.pypa.io/en/latest/userguide/development_mode.html), first section only (3 min read)
 
 **OOP (Week 1 carry-over, essentials only)**
-- [ ] Corey: [OOP 1: Classes and Instances](https://www.youtube.com/watch?v=ZDa-Z5JzLYM) (15 min): `__init__`, `self`, attributes, methods
-- [ ] Corey: [OOP 2: Class Variables](https://www.youtube.com/watch?v=BJ-VvGyQxho) (12 min): class vs instance variables
-- [ ] Corey: [OOP 4: Inheritance](https://www.youtube.com/watch?v=RSl87lqOXDE) (20 min): subclasses, `super()`
+- [x] Corey: [OOP 1: Classes and Instances](https://www.youtube.com/watch?v=ZDa-Z5JzLYM) (15 min) → `drill/oop/oop1_classes.py` (runs). **`self` = the instance the method was called on** (`emp_1.who_am_i()` → `self is emp_1` True); `obj.method()` = `Class.method(obj)`. Chose `email()` as a method (stays correct if `first` changes). [10 OOP interview questions](OOP-Interview-Questions.md)
+- [x] Corey: [OOP 2: Class Variables](https://www.youtube.com/watch?v=BJ-VvGyQxho) (12 min) → `drill/oop/oop2_class_variables.py` (runs). Class var lives in the class body, shared; `self.x` looks on instance then class; assigning via an instance shadows it; counters use `Employee.num_of_emps`. Q11–15 added to OOP questions.
+- [x] Corey: [OOP 4: Inheritance](https://www.youtube.com/watch?v=RSl87lqOXDE) (20 min) → `drill/oop/oop4_inheritance.py` (runs). `super()` reuses the parent's setup; lookup instance → child → parent (MRO); `employees=None` avoids the shared-list trap. OOP 5 skipped: only `__repr__` (developer view) vs `__str__` (user view). Next: OOP 6 property + 4 pillars. Fix: indentation mixes 4/5/8/10 spaces → use 4 (Shift+Alt+F).
+
+- [x] Corey: [OOP 6: Property Decorators](https://www.youtube.com/watch?v=jCzT9XFZ5bw) + 4 pillars → `drill/oop/oop6_property_and_pillars.py` (runs). Property = mirror not photo; `ABC` = contract; polymorphism = same `.area()`, different result. Q24–29 in OOP questions. **OOP topic complete.** Practice: [PYnative OOP exercises](https://pynative.com/python-object-oriented-programming-oop-exercise/); later LeetCode design problems (Min Stack, LRU Cache).
 
 **Skipped (one-liners instead):**
-- OOP 3: `@classmethod` gets the class (`cls`), used for alternative constructors; `@staticmethod` gets neither, it's just a function grouped in the class.
+- ✅ OOP 3 done after all (classic interview question) → `drill/oop/oop3_class_static_methods.py` (runs). Normal method = about **me** (`self`), `@classmethod` = about **our school** (`cls`: shared values, alternative constructors like `from_string`), `@staticmethod` = about **neither** (`is_workday`). Bugs fixed: `day.weekday` without `()`, `pay` left as a string, `import datetime` inside the class (belongs at file top). Q16–18 in OOP questions.
 - OOP 5: dunder methods like `__repr__` / `__len__` customise built-in behaviour (`print`, `len`).
 - OOP 6: `@property` lets a method be read like an attribute.
 
 
 ## Still open
-- Modules recall (5-min blurt) → modules cheat sheet.
+- ✅ Modules recall blurt: 2/5 first try → retry Q1 + Q4 ✅. Weak spots fixed:
+  - Q1 how import finds things = **`sys.path` in order** (script folder → stdlib → site-packages), first match wins. *Not* "absolute vs relative" (that's import style).
+  - Q4 `-m` = **run** a module by name from the root (package imports work); `-e` = **editable** install (not "executable"): my project imports from anywhere.
+  - Q5 `uv.lock` is the blueprint; `.venv` is the built result → machine-specific + rebuildable, so never committed.
 - ✅ Logging drill step 5 done: `from mathutils import divide`; log lines now show **`mathutils`** (the module that logged), not `__main__`. Lesson: Python runs what's **saved on disk**, so check with `sed -n 8p file` when an edit "doesn't work".
 - Not videos: dataclasses (docs, 10 min) and pytest (docs, 30 min) before lab 01. NumPy → tomorrow.

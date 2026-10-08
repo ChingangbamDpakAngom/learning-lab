@@ -1,0 +1,120 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>OOP Cheat Sheet</title>
+<link rel="stylesheet" href="../assets/cheatsheet.css">
+<style>
+.r1{grid-template-columns:1.05fr 1fr}
+.r2{grid-template-columns:1fr 1fr}
+.sig td:first-child{font-weight:700;white-space:nowrap}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>OOP <span>in Python</span> Cheat Sheet</h1>
+    <p class="sub">Classes, self, class vs instance data, the three method types, inheritance, @property and the 4 pillars</p>
+  </div>
+  <div class="tag">Python · Week 2<b>self = me · cls = our school · lookup: instance → class → parent</b></div>
+</header>
+
+<div class="row r1">
+  <div class="card">
+    <h2><i>1</i>Class, instance, self, class variables</h2>
+<pre>class Employee:
+    raise_amt = 1.04             # CLASS variable: shared by all
+    num_of_emps = 0
+
+    def __init__(self, first, last, pay):
+        self.first = first       # INSTANCE variable: one per object
+        self.pay = pay
+        Employee.num_of_emps += 1   # shared counter: use the class name
+
+    def apply_raise(self):       # self = the object it was called on
+        self.pay = int(self.pay * self.raise_amt)
+
+emp_1 = Employee('Corey', 'Schafer', 50000)
+emp_1.apply_raise()   # same as Employee.apply_raise(emp_1)</pre>
+    <table class="sig">
+      <tr><td>Lookup</td><td><code>self.x</code>: instance first, then class, then parent (the <b>MRO</b>). First match wins</td></tr>
+      <tr><td>Trap</td><td><code>emp_1.raise_amt = 1.05</code> creates an <b>instance</b> copy on emp_1 only</td></tr>
+      <tr><td>Trap</td><td>a variable inside <code>__init__</code> without <code>self.</code> is <b>local</b>: gone after init</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Three kinds of method</h2>
+<pre>def apply_raise(self): ...          # about ME (one object)
+
+@classmethod
+def set_raise_amt(cls, amount):     # about OUR SCHOOL (the class)
+    cls.raise_amt = amount
+
+@classmethod
+def from_string(cls, s):            # alternative constructor
+    first, last, pay = s.split('-')
+    return cls(first, last, int(pay))   # cls → works for subclasses
+
+@staticmethod
+def is_workday(day):                # about NEITHER: plain helper
+    return day.weekday() &lt; 5</pre>
+    <table class="sig">
+      <tr><td>Rule</td><td>uses <code>self</code> → normal · only <code>cls</code> → classmethod · neither → staticmethod</td></tr>
+      <tr><td>Brackets</td><td>methods need <code>()</code>, values don't: <code>day.weekday()</code> vs <code>emp.raise_amt</code></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row r2">
+  <div class="card">
+    <h2><i>3</i>Inheritance + abstraction</h2>
+<pre>class Developer(Employee):
+    raise_amt = 1.10                 # override the parent
+    def __init__(self, first, last, pay, lang):
+        super().__init__(first, last, pay)   # reuse parent setup
+        self.lang = lang
+
+class Manager(Employee):
+    def __init__(self, first, last, pay, employees=None):
+        super().__init__(first, last, pay)
+        self.employees = [] if employees is None else employees
+
+from abc import ABC, abstractmethod
+class Shape(ABC):
+    @abstractmethod
+    def area(self): ...      # Shape() → TypeError until a child implements it</pre>
+    <p class="note"><b>Never</b> <code>employees=[]</code>: the default list is made once and shared by every object. <code>isinstance(obj, Class)</code> checks an object; <code>issubclass(A, B)</code> checks a class.</p>
+  </div>
+  <div class="card">
+    <h2><i>4</i>@property + __repr__ (encapsulation)</h2>
+<pre>@property
+def email(self):                    # read like an attribute
+    return f"{self.first}.{self.last}@email.com"
+
+@fullname.setter
+def fullname(self, name):           # emp.fullname = 'Corey Schafer'
+    self.first, self.last = name.split()
+
+@fullname.deleter
+def fullname(self):                 # del emp.fullname
+    self.first = self.last = None
+
+def __repr__(self):                 # developer view: lists, REPL, logs
+    return f"Employee({self.first!r}, {self.last!r})"</pre>
+    <table class="sig">
+      <tr><td>Why</td><td>stored in <code>__init__</code> = <b>photo</b> (goes stale) · property = <b>mirror</b> (always current)</td></tr>
+      <tr><td>Private?</td><td>none in Python: <code>_x</code> = convention, <code>__x</code> = name mangling</td></tr>
+      <tr><td>str vs repr</td><td><code>__str__</code> for users · <code>__repr__</code> for developers (fallback for both)</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2><i>5</i>The 4 pillars + interview answers</h2>
+  <table class="sig">
+    <tr><td>Encapsulation</td><td>Bundle data + methods and control access: <code>@property</code>, <code>_name</code></td></tr>
+    <tr><td>Abstraction</td><td>Hide details, force a contract: <code>ABC</code> + <code>@abstractmethod</code></td></tr>
+    <tr><td>Inheritance</td><td>Reuse parent code: <code>class Developer(Employee)</code> + <code>super()</code></td></tr>
+    <tr><td>Polymorphism</td><td>Same method, different behaviour: <code>for s in shapes: s.area()</code> (plus duck typing)</td></tr>
+    <tr><td>What is <code>self</code>?</td><td>The instance the method was called on. Not a keyword, a convention. Forget it → <code>TypeError: takes 0 positional arguments but 1 was given</code></td></tr>
+    <tr><td>Is <code>__init__</code> the constructor?</td><td>Not strictly: <code>__new__</code> creates the object, <code>__init__</code> fills it in</td></tr>
+  </table>
+</div>
+
+</body></html>
