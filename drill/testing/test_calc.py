@@ -24,3 +24,41 @@ Steps:
           file exists and its text contains "2026-09,120".
           Question: why use tmp_path instead of a real folder?
 """
+import pytest
+
+from calc import add, divide, is_prime, save_totals
+
+# Why unit tests?
+# - cover most of the code
+# - prove each small component works on its own
+# - catch it when a later change breaks something
+
+def test_add():
+    assert add(2, 3) == 5, "2 + 3 should equal 5"
+    assert add(-1, 1) == 0, "-1 + 1 should equal 0"
+    assert add(0, 0) == 0, "0 + 0 should equal 0"       
+
+def test_divide():
+    assert divide(10, 2) == 5
+
+
+def test_divide_by_zero():
+    with pytest.raises(ValueError, match="cannot divide by zero"):
+        divide(10, 0)
+
+
+@pytest.mark.parametrize("num, expected", [
+    (1, False),
+    (2, True),
+    (3, True),
+    (4, False),
+])
+def test_is_prime(num, expected):
+    assert is_prime(num) == expected, f"{num} should be {'prime' if expected else 'not prime'}"
+
+def test_save_totals(tmp_path):
+    # tmp_path = a fresh temporary folder per test, deleted by pytest later
+    out = save_totals([("2026-09", 120)], tmp_path / "totals.csv")
+
+    assert out.exists()
+    assert "2026-09,120" in out.read_text(encoding="utf-8")
