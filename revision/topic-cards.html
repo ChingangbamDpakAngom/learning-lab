@@ -1,0 +1,531 @@
+<title>Topic Cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: revision flashcards. Each card: plain-English story first, then four answer panels (What · Why · How · Solves) in a 2×2 grid, then "Where I've used it" + "Common mistake", the likely follow-up, and the interview line. Recall mode hides everything below the title until revealed. */
+:root{
+  --bg:#F2F5F7; --surface:#FFFFFF; --ink:#15202B; --muted:#576476; --line:#DAE1E8; --soft:#EEF2F5;
+  --what:#1E5DAA; --why:#A86F06; --how:#16705B; --solves:#6A4BB5; --warn:#B3263E; --accent:#15202B;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E141B; --surface:#151E28; --ink:#E5EBF1; --muted:#98A5B5; --line:#253140; --soft:#0F1821;
+  --what:#7DB2F2; --why:#E6B444; --how:#4FC4A4; --solves:#B39CF2; --warn:#F07A8E; --accent:#E5EBF1; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E141B; --surface:#151E28; --ink:#E5EBF1; --muted:#98A5B5; --line:#253140; --soft:#0F1821;
+  --what:#7DB2F2; --why:#E6B444; --how:#4FC4A4; --solves:#B39CF2; --warn:#F07A8E; --accent:#E5EBF1; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:32px 64px}
+a{color:inherit}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(34px,6vw,54px)/1.02 var(--display);letter-spacing:-.02em;margin:8px 0 10px;text-wrap:balance}
+.lede{color:var(--muted);max-width:66ch;margin:0 0 14px}
+.method{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.method li{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 6px;font-size:14px}
+.k{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:999px;color:var(--surface)}
+.k-what{background:var(--what)} .k-why{background:var(--why)} .k-how{background:var(--how)} .k-solves{background:var(--solves)}
+
+.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-block:12px;margin-block:18px 8px;border-bottom:1px solid var(--line)}
+.controls input[type=search]{flex:1 1 220px;min-width:0;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 12px/1 var(--mono);padding:8px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.tog{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;cursor:pointer;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
+.stat{font:500 12px var(--mono);color:var(--muted)}
+:focus-visible{outline:2px solid var(--how);outline-offset:2px}
+
+h2.group{font:600 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:30px 0 10px;display:flex;gap:10px;align-items:center}
+h2.group::after{content:"";flex:1;height:1px;background:var(--line)}
+article.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;margin-bottom:14px;scroll-margin-top:90px}
+.chead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px}
+.chead h3{font:600 23px/1.2 var(--display);margin:0;text-wrap:balance}
+.right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.meta{font:500 12px var(--mono);color:var(--muted)}
+.conf{display:flex;gap:4px}
+.conf button{font:500 11px/1 var(--mono);padding:6px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--muted);cursor:pointer}
+.conf button[aria-pressed=true][data-v="shaky"]{border-color:var(--warn);color:var(--warn)}
+.conf button[aria-pressed=true][data-v="ok"]{border-color:var(--why);color:var(--why)}
+.conf button[aria-pressed=true][data-v="solid"]{border-color:var(--how);color:var(--how)}
+.hook{margin:4px 0 10px;color:var(--muted);font-style:italic}
+
+.plain{background:var(--soft);border-radius:10px;padding:12px 14px;margin:0 0 12px;font-size:17px;line-height:1.6}
+.plain b{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{border-top:3px solid var(--c);padding:10px 2px 2px;min-width:0}
+.lab{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);margin-bottom:6px;display:block}
+.panel p,.extra p{margin:0}
+.p-what{--c:var(--what)} .p-why{--c:var(--why)} .p-how{--c:var(--how)} .p-solves{--c:var(--solves)} .p-used{--c:var(--muted)} .p-gotcha{--c:var(--warn)}
+pre{margin:6px 0 0;background:var(--soft);border-radius:8px;padding:10px 12px;overflow-x:auto;font:500 13px/1.5 var(--mono);color:var(--ink)}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+@media (max-width:640px){.extras{grid-template-columns:minmax(0,1fr)}}
+.extra{border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
+.follow{margin-top:10px;border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+.follow .q{font-weight:600}
+.follow .a{color:var(--muted);margin:4px 0 0}
+.say{margin:10px 0 0;padding:10px 12px;border-radius:8px;background:var(--soft);font-size:15px}
+.say b{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.foot{margin-top:10px;font-size:14px}
+.foot a{color:var(--muted)}
+.reveal{display:none;font:600 14px var(--body);padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;margin-top:4px}
+.prompt{display:none;color:var(--muted);font-size:15px;margin:2px 0 6px}
+body.recall-on .card:not(.shown) .answer{display:none}
+body.recall-on .card:not(.shown) .reveal,body.recall-on .card:not(.shown) .prompt{display:block}
+body.recall-on .card:not(.shown) .reveal{display:inline-block}
+.empty{color:var(--muted);font-style:italic}
+footer{margin-top:36px;color:var(--muted);font-size:14px}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Interview revision · learning-lab</div>
+  <h1>Topic Cards</h1>
+  <p class="lede">Understand it, don't memorise it. Each card starts with a plain-English story, then the four parts. Turn on <b>Recall mode</b>, explain the topic out loud as if to a friend, then reveal and compare. Rate yourself, and revise the shaky ones first.</p>
+  <ul class="method" aria-label="The four parts">
+    <li><span class="k k-what">What</span>what it is</li>
+    <li><span class="k k-why">Why</span>why we need it</li>
+    <li><span class="k k-how">How</span>the few lines to know</li>
+    <li><span class="k k-solves">Solves</span>the problem it fixes</li>
+  </ul>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search: self, retries, uv, pytest…" aria-label="Search topics">
+    <div class="chips" id="chips" aria-label="Filter by area"></div>
+    <label class="tog"><input id="recall" type="checkbox"> Recall mode</label>
+    <label class="tog"><input id="shaky" type="checkbox"> Shaky only</label>
+    <span class="stat" id="stat"></span>
+  </div>
+
+  <main id="cards"></main>
+  <footer>A new card is added after every topic. "Where I've used it" lists only real work (drills, labs, Aegis, NHS); planned work says so. Links open the cheat sheet or notes on GitHub. Ratings stay in this browser.</footer>
+</div>
+
+<script>
+const GH="https://github.com/ChingangbamDpakAngom/learning-lab/blob/main/";
+const T=[
+ {g:"Foundations",n:"Big-O notation",wk:"W0",hook:"How much slower does it get when the input doubles?",
+  plain:"Imagine finding a name in a phone book. Checking every page gets twice as slow when the book doubles. Opening it in the middle and halving each time barely slows down at all. Big-O is just a way of saying how the work grows as the data grows.",
+  what:"A shorthand for how the time (or memory) of your code grows as the input gets bigger.",
+  why:"Code that's fine on 100 rows can freeze on 1 million. Big-O warns you before that happens.",
+  how:"for x in a:            # O(n): one pass\n  for y in a: ...      # nested → O(n²)\nx in my_set            # O(1) on average\nbinary search          # O(log n): halves each step",
+  solves:"Picking an approach that still works when the data gets big.",
+  used:"NeetCode Contains Duplicate: a set turned the obvious O(n²) pair check into O(n).",
+  gotcha:"Big-O ignores constants and small inputs: for 10 items an O(n²) loop can beat O(n). And set/dict lookups are O(1) on average, not guaranteed.",
+  fq:"What's the cost of checking if an item is in a list vs a set?",
+  fa:"List: O(n), it checks one by one. Set: O(1) on average, because it jumps straight to the item using its hash.",
+  say:"Big-O describes how cost grows with input size, usually the worst case. I use it to choose, for example, a set lookup over a nested loop.",
+  link:"log/2026-09-25_w0-d1/Big-O-Cheat-Sheet.jpg"},
+ {g:"Foundations",n:"Two pointers",wk:"W0",hook:"Two people walking towards each other along a sorted line.",
+  plain:"Two people stand at opposite ends of a sorted row of numbers. If their two numbers add up to too little, the left person steps right; too much, the right person steps left. They meet in the middle having checked everything once, instead of trying every possible pair.",
+  what:"Two positions in a list that move towards each other (or the same way) instead of checking every pair.",
+  why:"Checking every pair takes n × n steps. On sorted data, two pointers needs only about n.",
+  how:"l, r = 0, len(a) - 1\nwhile l < r:\n    s = a[l] + a[r]\n    if s == target: return l, r\n    if s < target: l += 1\n    else: r -= 1",
+  solves:"Pair sums, palindromes and merging sorted lists in O(n) instead of O(n²).",
+  used:"NeetCode Valid Palindrome: compare the first and last letters, then move both inward.",
+  gotcha:"Most two-pointer tricks need sorted input; sorting first costs O(n log n) and loses the original positions.",
+  fq:"When would you not use two pointers?",
+  fa:"When the data isn't sorted and you need the original positions, like Two Sum. A dict (hash map) solves it in one pass instead.",
+  say:"On sorted input I move two pointers based on a comparison, so each element is visited once: O(n) time, O(1) extra space.",
+  link:"log/2026-09-25_w0-d1/Two-Pointers-Cheat-Sheet.jpg"},
+ {g:"Foundations",n:"Descriptive statistics",wk:"W0",hook:"Check what's in the fridge before you cook.",
+  plain:"Before cooking, you check what's in the fridge. Descriptive statistics are that check for data: what a typical value looks like, how spread out the values are, and whether anything looks strange.",
+  what:"A few numbers that summarise a dataset: the average (mean), the middle value (median), the spread (standard deviation) and percentiles.",
+  why:"Charts and models mislead you if you don't know the shape of the data first.",
+  how:"df.describe()\nnp.median(x); np.percentile(x, 95)\nnp.std(x)",
+  solves:"Being fooled by outliers. One billionaire makes the average salary useless; the median stays honest.",
+  used:"W0 drill: 1,000 random numbers → mean, median, SD and a histogram in NumPy.",
+  gotcha:"Using the mean on skewed data (salaries, prices). Look at a histogram first.",
+  fq:"Mean or median for house prices?",
+  fa:"Median. A few very expensive houses pull the mean up; the median shows a typical house.",
+  say:"I start with the median and percentiles for skewed data, the mean when it's roughly symmetric, and the standard deviation or IQR for spread.",
+  link:"log/2026-09-25_w0-d1/Descriptive-Statistics-Cheat-Sheet.jpg"},
+ {g:"Python core",n:"List, dict, set, tuple",wk:"W1",hook:"Pick the right box for the job.",
+  plain:"Four kinds of box. A list is a queue: order matters. A dict is a set of labelled drawers: you find things by name instantly. A set is a guest list: no duplicates, and 'are you on it?' is instant. A tuple is a sealed envelope: once made, it can't change.",
+  what:"Python's four core containers: list (ordered, changeable), dict (key → value), set (unique items), tuple (fixed).",
+  why:"The right container makes code faster and easier to read.",
+  how:"seen = set()\nif x in seen: ...          # O(1)\ncounts = {}\ncounts[w] = counts.get(w, 0) + 1",
+  solves:"Slow lookups. Searching a list checks every item; a set or dict goes straight there.",
+  used:"NeetCode Contains Duplicate (set) and Valid Anagram (dict of letter counts).",
+  gotcha:"Lists and dicts are mutable: a function you pass them to can change your original. Only unchangeable things (tuples, strings) can be dict keys.",
+  fq:"Why can a tuple be a dict key but a list can't?",
+  fa:"Dict keys must be hashable, which means they can't change. A tuple is fixed; a list can change, so its hash wouldn't stay valid.",
+  say:"Lists for order, dicts for lookup by key, sets for uniqueness and fast membership, tuples for fixed records and dict keys.",
+  link:"log/2026-09-28_w1-d1/Python-Core-Cheat-Sheet.jpg"},
+ {g:"Python core",n:"Comprehensions",wk:"W1",hook:"A loop that builds a list, written as one sentence.",
+  plain:"Instead of 'make an empty list, loop, check, append', you write the recipe as one sentence: 'double every number that's positive'. Python builds the list for you.",
+  what:"A one-line way to build a list, dict or set from a loop, with an optional filter.",
+  why:"For simple cases it's shorter and reads almost like English.",
+  how:"[x * 2 for x in nums if x > 0]\n{w: len(w) for w in words}",
+  solves:"Repetitive append loops.",
+  used:"W1 Python core drill.",
+  gotcha:"Nested comprehensions get hard to read fast. If you have to think to read it, use a normal loop.",
+  fq:"List comprehension vs generator expression?",
+  fa:"[...] builds the whole list in memory at once. (...) makes items one at a time, so it's better for huge data you loop over once.",
+  say:"I use a comprehension for one simple transform or filter; anything more complex goes in a normal loop for readability.",
+  link:"log/2026-09-28_w1-d1/Python-Core-Cheat-Sheet.jpg"},
+ {g:"Errors + files",n:"try / except",wk:"W1",hook:"Always have a plan B.",
+  plain:"It's a plan B. You try the normal path, and if one specific thing goes wrong (the file is missing), you handle it calmly instead of the whole program crashing halfway through.",
+  what:"Catching a specific error so your code decides what happens next.",
+  why:"Real data and networks fail. You want a clear message or a fallback, not a crash in the middle of a job.",
+  how:"try:\n    data = load(path)\nexcept FileNotFoundError as e:\n    raise DataError(f\"missing {path}\") from e\nfinally:\n    cleanup()",
+  solves:"Crashes, and errors that disappear silently.",
+  used:"Aegis: if one local LLM fails, the gateway falls back to the second model instead of returning an error.",
+  gotcha:"A bare except: catches everything, even typos and Ctrl+C, and hides real bugs. Catch the narrowest error you can handle.",
+  fq:"Bare except vs except Exception?",
+  fa:"A bare except also catches KeyboardInterrupt and SystemExit, so you can't even stop the program. except Exception leaves those alone, but a specific error is still better.",
+  say:"I catch only errors I can handle, re-raise with context using raise ... from e, and never use a bare except.",
+  link:"log/2026-10-02_w1-d5/Error-Handling-File-IO-Cheat-Sheet.jpg"},
+ {g:"Errors + files",n:"Files: pathlib, with, CSV, JSON",wk:"W1",hook:"Borrow the book, always give it back.",
+  plain:"Opening a file is like borrowing a library book: you have to give it back. A with block returns it for you automatically, even if something goes wrong while you're reading.",
+  what:"Reading and writing files using pathlib for paths and with for safe opening and closing.",
+  why:"Pipelines read and write files all the time, on both Windows and Linux, which write paths differently.",
+  how:"from pathlib import Path\nwith Path(\"data.csv\").open(newline=\"\", encoding=\"utf-8\") as f:\n    rows = list(csv.reader(f))\nobj = json.loads(Path(\"a.json\").read_text(encoding=\"utf-8\"))",
+  solves:"Files left open, Windows path bugs, and garbled characters.",
+  used:"Error handling + file I/O drill (W1); lab 01 will save downloaded data the same way.",
+  gotcha:"Forgetting encoding=\"utf-8\" (breaks on Windows with £ or accents) and newline=\"\" for CSV (blank lines between rows on Windows).",
+  fq:"Why use a with block?",
+  fa:"It closes the file even if an error happens inside, so you never leave a file open or half-written and locked.",
+  say:"pathlib for paths, with for files so they always close, and explicit encoding and newline.",
+  link:"log/2026-10-02_w1-d5/Error-Handling-File-IO-Cheat-Sheet.jpg"},
+ {g:"Errors + files",n:"Retries with backoff",wk:"W1",hook:"Knock again, a bit later each time; don't knock on a locked door.",
+  plain:"If a shop door is stuck, you try again in a second, then wait a little longer, then longer still. But if the sign says 'closed', knocking again is pointless. Retries work the same way.",
+  what:"Repeating a failed call after waiting a growing amount of time (1 s, 2 s, 4 s).",
+  why:"Networks have temporary hiccups: timeouts, busy servers (5xx), and 'slow down' replies (429).",
+  how:"for attempt in range(3):\n    try:\n        return get(url, timeout=10)\n    except (Timeout, ServerError):\n        time.sleep(2 ** attempt)",
+  solves:"One temporary glitch killing a long download job.",
+  used:"Lab 01 (NHSBSA downloader, this week): retries on timeouts and 5xx while downloading a month of data.",
+  gotcha:"Retrying 4xx errors like 404 (it won't fix itself) and retrying actions that aren't safe to repeat, like 'charge the card'.",
+  fq:"What is idempotency, and why does it matter for retries?",
+  fa:"An action is idempotent if doing it twice has the same effect as once. A retry may repeat a request, so it must be safe to repeat (like a GET), or use an idempotency key.",
+  say:"I retry only temporary failures (timeouts, 5xx, 429) with exponential backoff and a limit, and make sure the action is safe to repeat.",
+  link:"log/2026-10-02_w1-d5/Error-Handling-File-IO-Cheat-Sheet.jpg"},
+ {g:"Errors + files",n:"Logging",wk:"W1",hook:"A flight recorder for your code.",
+  plain:"Logging is a flight recorder for your code. When something breaks at 3 am and nobody was watching, the log tells you what happened, when, and which part of the code it came from.",
+  what:"Writing timestamped messages with a level (DEBUG, INFO, WARNING, ERROR) instead of print.",
+  why:"print can't be switched off, filtered, or traced back to a module. Logs can.",
+  how:"log = logging.getLogger(__name__)       # in every module\nlogging.basicConfig(level=logging.INFO)  # once, in main\nlog.info(\"loaded %s rows\", n)\nlog.exception(\"download failed\")         # inside except",
+  solves:"Debugging code that runs unattended, without drowning in print output.",
+  used:"Aegis: logs with request IDs, so one request can be traced through the gateway. Logging drill: the mathutils logger.",
+  gotcha:"Calling basicConfig in several modules (only the first call counts), and f-strings in log calls (use %s so formatting is skipped when the level is off).",
+  fq:"Which log level for a retry?",
+  fa:"WARNING: something went wrong but we recovered. ERROR when it finally fails. INFO for normal milestones like 'downloaded 50,000 rows'.",
+  say:"Each module uses getLogger(__name__); only the entry point configures logging, once; log.exception inside except keeps the traceback.",
+  link:"log/2026-10-03_w1-d6/Logging-Cheat-Sheet.jpg"},
+ {g:"Modules + environments",n:"How import finds modules (sys.path)",wk:"W2",hook:"Pockets, then bag, then car: first match wins.",
+  plain:"When you import something, Python checks a list of folders in order, like checking your pockets, then your bag, then the car. It takes the first match. The first place it looks is the folder of the script you ran.",
+  what:"sys.path: the ordered list of folders Python searches when you import.",
+  why:"Most ModuleNotFoundError bugs come from running code from a different folder than you think.",
+  how:"import sys\nfrom pprint import pprint\npprint(sys.path)   # [0] = folder of the script you ran",
+  solves:"\"It works from one folder but not another\" import errors.",
+  used:"Logging drill: from mathutils import divide worked because main.py and mathutils.py sit in the same folder (sys.path[0]).",
+  gotcha:"Naming your own file random.py or json.py: it hides the real library. Fixing imports with sys.path.append breaks on other machines.",
+  fq:"How do you fix ModuleNotFoundError for your own package?",
+  fa:"Run from the project root with python -m, or install the project with pip install -e . (uv sync does this). Not sys.path.append.",
+  say:"Imports search sys.path in order and the first match wins, so the first thing I check is which folder I ran from.",
+  link:"log/2026-10-06_w2-d2/Modules-Imports-Cheat-Sheet.jpg"},
+ {g:"Modules + environments",n:"if __name__ == \"__main__\"",wk:"W2",hook:"Lead actor or supporting actor?",
+  plain:"A file can be the lead actor (run directly) or a supporting actor (imported by another file). __name__ tells the file which role it's playing, so it only does its 'lead actor' work when it's the star.",
+  what:"A check that is true only when the file is run directly, not when it's imported.",
+  why:"The same file is often both a script you run and a module others import.",
+  how:"def main(): ...\n\nif __name__ == \"__main__\":\n    main()",
+  solves:"Start-up code (prints, downloads) running by accident when another file imports it.",
+  used:"Every drill file: main() runs only when I start that file.",
+  gotcha:"Leaving it out, so simply importing your module starts a download or prints test output.",
+  fq:"What is __name__ when the file is imported?",
+  fa:"The module's own name, e.g. \"mathutils\". That's also why getLogger(__name__) shows which module wrote each log line.",
+  say:"__name__ is \"__main__\" when the file is run and the module name when it's imported, so start-up code runs only for the script.",
+  link:"log/2026-10-06_w2-d2/Modules-Imports-Cheat-Sheet.jpg"},
+ {g:"Modules + environments",n:"Absolute vs relative imports",wk:"W2",hook:"Full postal address vs \"the house next door\".",
+  plain:"An absolute import is a full postal address: it works from anywhere. A relative import is 'the house next door': shorter, but it only makes sense if Python knows where you're standing, which is inside a package.",
+  what:"Absolute: the full path from the project root. Relative: a dot meaning \"this package\".",
+  why:"Files inside a package need to import each other.",
+  how:"from mypackage.module1 import add   # absolute (default)\nfrom .module1 import add             # relative, inside a package only",
+  solves:"Messy, brittle imports between files of the same project.",
+  used:"own_modules drill: mypackage/__init__.py uses from .module1 import add.",
+  gotcha:"Running a file with relative imports directly fails: \"attempted relative import with no known parent package\". Run it with python -m instead.",
+  fq:"When are relative imports useful?",
+  fa:"Inside a package that might be renamed: imports between its own files keep working. Absolute imports are still the default (PEP 8).",
+  say:"Absolute by default, as PEP 8 recommends; relative only for imports within one package.",
+  link:"log/2026-10-06_w2-d2/Modules-Imports-Cheat-Sheet.jpg"},
+ {g:"Modules + environments",n:"python -m and pip install -e .",wk:"W2",hook:"-m = run it properly · -e = install it properly.",
+  plain:"-m means 'run this file as part of its project', so it can see the files around it. -e means 'install my project as a shortcut to my own code', so every change shows up everywhere straight away, with no reinstalling.",
+  what:"-m runs a module by name from the current folder; -e installs your own project in editable mode.",
+  why:"A file inside a package can't see its own package when you run it by its path.",
+  how:"python -m pkg.module\npython -m pytest\npip install -e .     # with uv: uv sync",
+  solves:"ModuleNotFoundError for your own package, and tests that can't import your code.",
+  used:"python -m venv and python -m pytest; uv sync installs a packaged project in editable mode.",
+  gotcha:"pip install . without -e: you'd have to reinstall after every code change.",
+  fq:"Why python -m pip instead of just pip?",
+  fa:"It makes sure pip installs into the same Python you're running, avoiding the 'installed it but can't import it' bug.",
+  say:"-m runs a module from the project root so package imports work; -e installs my project editable so it imports anywhere and changes apply instantly.",
+  link:"log/2026-10-06_w2-d2/Modules-Imports-Cheat-Sheet.jpg"},
+ {g:"Modules + environments",n:"Virtual environments + uv",wk:"W2",hook:"Shopping list → exact receipt → the toolbox built from it.",
+  plain:"Each project gets its own toolbox, so upgrading a tool for one project can't break another. pyproject.toml is the shopping list, uv.lock is the exact receipt, and .venv is the toolbox built from that receipt. Anyone can rebuild the same toolbox from the receipt.",
+  what:"A private set of packages per project, managed by uv.",
+  why:"Projects need different package versions, and every machine should install exactly the same ones.",
+  how:"uv init --bare          # existing repo: only pyproject.toml\nuv add requests         # what my code imports\nuv sync                 # build .venv from uv.lock\nuv run python main.py   # no need to activate",
+  solves:"\"It works on my machine\" problems.",
+  used:"learning-lab: uv init --bare, then uv add --dev pytest pytest-mock.",
+  gotcha:"Committing .venv (huge, machine-specific) or not committing uv.lock (others get different versions).",
+  fq:"pyproject.toml vs uv.lock?",
+  fa:"pyproject.toml is what I asked for, usually ranges like requests>=2.31. uv.lock pins the exact version of everything, including dependencies of dependencies, so every machine is identical.",
+  say:"pyproject.toml declares what I need, uv.lock pins exact versions, and uv sync rebuilds an identical environment anywhere. I commit both, never .venv.",
+  link:"log/2026-10-06_w2-d2/Modules-Imports-Cheat-Sheet.jpg"},
+ {g:"Modules + environments",n:"Dev dependencies (--dev)",wk:"W2",hook:"Flour for the cake vs the baker's tasting spoon.",
+  plain:"A cake needs flour; the baker also uses a tasting spoon. The flour goes to the customer, the spoon stays in the kitchen. Runtime dependencies are the flour; dev dependencies are the spoon.",
+  what:"Packages only needed to build or check the code (pytest, ruff), kept in a separate group.",
+  why:"The running app never needs test tools.",
+  how:"uv add requests          # my code imports it\nuv add --dev pytest ruff  # only tests/checks use it",
+  solves:"Bloated production installs and Docker images.",
+  used:"learning-lab: pytest and pytest-mock are dev dependencies.",
+  gotcha:"Putting a library your code imports in the dev group: tests pass locally, but production crashes with an ImportError.",
+  fq:"Name typical dev dependencies.",
+  fa:"pytest, pytest-cov, pytest-mock, ruff (linter and formatter), mypy (type checker).",
+  say:"If my code imports it, it's a runtime dependency; if only tests or linters use it, it goes in the dev group.",
+  link:"log/2026-10-08_w2-d4/notes.md"},
+ {g:"OOP",n:"Classes, instances and self",wk:"W2",hook:"A cookie cutter and its cookies; self = this cookie.",
+  plain:"A class is a cookie cutter; each object is one cookie made with it. When you ask a cookie for its flavour, self makes sure you get that cookie's flavour, not another one's.",
+  what:"A class is a blueprint; an instance is one object built from it; self is the object a method was called on.",
+  why:"To keep data and the code that works on it together.",
+  how:"class Employee:\n    def __init__(self, first, pay):\n        self.first = first\n        self.pay = pay\nemp_1 = Employee(\"Corey\", 50000)   # emp_1.m() == Employee.m(emp_1)",
+  solves:"Loose dicts and functions that drift apart as code grows.",
+  used:"OOP drills: Employee objects, each with its own name and pay.",
+  gotcha:"Forgetting self in a method: \"takes 0 positional arguments but 1 was given\". Writing first instead of self.first inside a method.",
+  fq:"Is self a keyword?",
+  fa:"No, it's a strong convention. Python passes the object as the first argument whatever you call it.",
+  say:"self is the instance the method was called on; obj.method() is shorthand for Class.method(obj).",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"Class vs instance variables",wk:"W2",hook:"The office notice board vs your own notebook.",
+  plain:"A class variable is the office notice board: everyone reads the same one. An instance variable is your own notebook. If you put a sticky note on your own desk, you now see your note instead of the board, but the board hasn't changed for anyone else.",
+  what:"Instance variables belong to one object; class variables are shared by all objects of the class.",
+  why:"Some data differs per object (pay); some is the same for everyone (the raise percentage).",
+  how:"class Employee:\n    raise_amt = 1.04          # class: shared\n    def __init__(self, pay):\n        self.pay = pay        # instance: one each",
+  solves:"Changing a shared setting in one place instead of on every object.",
+  used:"OOP 2 drill: raise_amt shared by every Employee; Developer overrides it with 1.10.",
+  gotcha:"emp_1.raise_amt = 1.05 doesn't change the class; it creates a private copy on emp_1. Change shared values through the class.",
+  fq:"Where are instance variables stored?",
+  fa:"In each object's own dictionary, obj.__dict__. Class variables live in Class.__dict__.",
+  say:"Lookup checks the instance first, then the class. Assigning through an instance creates an instance variable that hides the class one.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"classmethod and staticmethod",wk:"W2",hook:"About me · about our school · about neither.",
+  plain:"Think of a school. A normal method is about one student ('my homework is done'). A classmethod is about the whole school ('the bell now rings at 9', or 'enrol a new student'). A staticmethod is a rule kept in the office that needs neither ('is Saturday a school day?').",
+  what:"Normal methods get self (one object), classmethods get cls (the class), staticmethods get neither.",
+  why:"Some actions belong to the class as a whole, and some are just helpers that sit with it.",
+  how:"@classmethod\ndef from_string(cls, s):\n    first, last, pay = s.split(\"-\")\n    return cls(first, last, int(pay))\n\n@staticmethod\ndef is_workday(day): return day.weekday() < 5",
+  solves:"Building objects from other formats (alternative constructors), and keeping helpers with their class.",
+  used:"OOP 3 drill: Employee.from_string(\"John-Doe-70000\") and Employee.is_workday(day).",
+  gotcha:"Hard-coding Employee(...) inside from_string. Using cls(...) means Developer.from_string returns a Developer.",
+  fq:"Give a real example of an alternative constructor.",
+  fa:"datetime.fromtimestamp() or dict.fromkeys(): classmethods that build an object from a different kind of input.",
+  say:"Uses self → normal method; only needs the class → classmethod, often an alternative constructor; needs neither → staticmethod.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"Inheritance + super()",wk:"W2",hook:"A child inherits the family traits and adds their own.",
+  plain:"A child inherits the family's traits but can have their own favourite food. A Developer is an Employee with a few extras. super() means: 'do the usual parent setup first, then I'll add my bit'.",
+  what:"A subclass reuses everything from its parent class, and can override or add to it.",
+  why:"Similar classes (Developer, Manager) share most of their code.",
+  how:"class Developer(Employee):\n    raise_amt = 1.10                  # override\n    def __init__(self, first, pay, lang):\n        super().__init__(first, pay)  # reuse parent setup\n        self.lang = lang",
+  solves:"Copy-pasting the same code across similar classes.",
+  used:"OOP 4 drill: Developer and Manager inherit from Employee.",
+  gotcha:"employees=[] as a default argument: that one list is shared by every manager. Use None and create the list inside.",
+  fq:"Inheritance or composition?",
+  fa:"Inheritance means 'is a' (a Developer is an Employee). Composition means 'has a' (a Manager has employees). Prefer composition unless it's truly 'is a'; deep inheritance gets fragile.",
+  say:"super() reuses the parent's setup; lookup goes instance → child → parent (the MRO), so the child's version wins.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"@property (encapsulation)",wk:"W2",hook:"A photo goes stale; a mirror is always current.",
+  plain:"Saving an email in __init__ is like taking a photo: if you change your name later, the photo is out of date. A property is a mirror: every time you look, it shows you as you are now.",
+  what:"A method you read like an attribute (no brackets), with an optional setter and deleter.",
+  why:"Values worked out from other data should never go out of date, and some changes need checking.",
+  how:"@property\ndef email(self):\n    return f\"{self.first}.{self.last}@email.com\"\n\n@fullname.setter\ndef fullname(self, name):\n    self.first, self.last = name.split()",
+  solves:"Stale values, and uncontrolled changes to an object's data.",
+  used:"OOP 6 drill: email and fullname as properties, with a setter and a deleter.",
+  gotcha:"Doing slow work inside a property: people expect reading an attribute to be instant.",
+  fq:"How do you make something private in Python?",
+  fa:"You can't, fully. _x means 'internal, please don't touch' by convention; __x gets renamed to _Class__x. Properties are how you control access.",
+  say:"A value computed in __init__ is a snapshot; a property recomputes it on every read and keeps the simple attribute syntax.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"Abstraction (ABC)",wk:"W2",hook:"A job advert: \"must be able to drive\".",
+  plain:"A job advert says 'must be able to drive'. Shape(ABC) is that advert: every real shape must be able to work out its area(). If a subclass skips it, Python refuses to create it.",
+  what:"An abstract class lists methods that every subclass must implement.",
+  why:"To enforce a contract, so every Shape is guaranteed to have area().",
+  how:"from abc import ABC, abstractmethod\nclass Shape(ABC):\n    @abstractmethod\n    def area(self): ...\n# Shape() → TypeError until a subclass implements area",
+  solves:"Forgetting a required method and only finding out later, when it crashes.",
+  used:"OOP 6 drill: Shape with Circle and Square.",
+  gotcha:"Forgetting @abstractmethod: then nothing is enforced and Shape() works.",
+  fq:"Why an abstract class instead of just documenting the method?",
+  fa:"It fails early: you get a TypeError when creating the object, not a surprise crash later when area() turns out to be missing.",
+  say:"An ABC can't be created until every abstract method is implemented, so missing behaviour fails early.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"Polymorphism",wk:"W2",hook:"\"Speak!\": the dog barks, the cat meows.",
+  plain:"You say 'speak!' to every pet. The dog barks, the cat meows. You didn't have to check which animal it was first; each one knows how to answer in its own way.",
+  what:"The same method call doing different things depending on the object.",
+  why:"Code can treat different types the same way, without checking each type.",
+  how:"for shape in [Circle(1), Square(2)]:\n    print(shape.area())   # each knows its own area",
+  solves:"Long if/elif chains that check what type something is.",
+  used:"OOP 6 drill: one loop calling area() on every shape.",
+  gotcha:"Writing if isinstance(x, Circle) ... elif isinstance(x, Square) ...: that's exactly the code polymorphism removes.",
+  fq:"What is duck typing?",
+  fa:"If it walks and quacks like a duck, treat it as a duck. Python only cares that the object has the method, not what class it is: len() works on anything with __len__.",
+  say:"Inheritance reuses parent code; polymorphism is the same call with different behaviour. Python adds duck typing on top.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"OOP",n:"__repr__ vs __str__",wk:"W2",hook:"Passport name vs nickname.",
+  plain:"__repr__ is your full name on a passport: exact, for officials (developers). __str__ is your nickname: friendly, for people (users). If you only have a passport name, everyone uses that.",
+  what:"Two methods that control how an object looks as text: __repr__ for developers, __str__ for users.",
+  why:"Without them, printing an object shows something like <Employee object at 0x...>.",
+  how:"def __repr__(self):\n    return f\"Employee({self.first!r}, {self.last!r})\"",
+  solves:"Unreadable objects in lists, logs and the debugger.",
+  used:"OOP 6 drill: printing a list of employees.",
+  gotcha:"Writing only __str__: lists, logs and the debugger still show <object at 0x...>.",
+  fq:"Why use !r inside __repr__?",
+  fa:"It uses repr() for each value, so strings get quotes and None stays None, which keeps the output unambiguous.",
+  say:"If I write only one, it's __repr__: str() falls back to it, and lists and logs use it.",
+  link:"log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg"},
+ {g:"Data classes + validation",n:"Dataclasses",wk:"W2",hook:"A flat-pack kit instead of planks and nails.",
+  plain:"Writing a data class by hand is like building a box from planks and nails. @dataclass is a flat-pack kit: you list what goes inside, and it builds the constructor, a readable print and value comparison for you.",
+  what:"A decorator that writes __init__, __repr__ and __eq__ for you from type-hinted fields.",
+  why:"Classes that mainly hold data need a lot of repetitive code.",
+  how:"@dataclass\nclass Point:\n    x: int\n    y: int = 0\n    tags: list[str] = field(default_factory=list)",
+  solves:"Repetitive code, and == comparing identity instead of values.",
+  used:"Dataclasses drill: Person with default_factory, __post_init__ and frozen=True.",
+  gotcha:"Type hints aren't checked at runtime. And frozen=True plus a __post_init__ that sets a field raises FrozenInstanceError.",
+  fq:"Dataclass or dict?",
+  fa:"A dataclass when the data has a fixed shape: named fields, typo-safe access, defaults and a readable repr. A dict for truly dynamic keys.",
+  say:"A dataclass generates __init__, __repr__ and __eq__; default_factory avoids the shared-list trap; frozen=True makes it read-only.",
+  link:"log/2026-10-08_w2-d4/notes.md"},
+ {g:"Data classes + validation",n:"Pydantic",wk:"W2 → W3",hook:"A box with a guard at the door.",
+  plain:"A dataclass is a labelled box: the label says 'apples', but you can drop a rock in. Pydantic is a box with a guard who checks everything coming in, and even turns '2.5' written on paper into the real number 2.5.",
+  what:"A library whose models check and convert data when it arrives.",
+  why:"Data from outside (API requests, LLM output, config files) can't be trusted.",
+  how:"class Item(BaseModel):\n    name: str\n    price: float\nItem(name=\"pen\", price=\"2.5\")   # → price 2.5\nItem(name=\"pen\", price=\"abc\")   # → ValidationError",
+  solves:"Bad input crashing deep inside your code. In FastAPI, bad requests get a 422 error automatically.",
+  used:"Aegis: FastAPI request and response models. Coming in W3 lab 06: validating LLM output into a Pydantic object.",
+  gotcha:"Validating everything everywhere: it adds overhead. Validate at the edges, then trust the data inside.",
+  fq:"How do you get reliable structured output from an LLM?",
+  fa:"Ask for JSON that matches a Pydantic schema, validate it, and if it fails, send the error back and retry a limited number of times.",
+  say:"Pydantic at the boundaries for untrusted data; dataclasses inside for data I already trust.",
+  link:"log/2026-10-08_w2-d4/notes.md"},
+ {g:"Testing",n:"pytest",wk:"W2",hook:"A quiz for your code, marked every time you change it.",
+  plain:"A test is a quiz for your code: you write the question (call the function) and the correct answer (assert). pytest marks every quiz right or wrong in seconds, every time you change something.",
+  what:"A test runner that finds test_*.py files and runs test_* functions that use plain assert.",
+  why:"To prove the code works, and to catch the moment a later change breaks it.",
+  how:"def test_add():\n    assert add(2, 3) == 5\n\ndef test_divide_by_zero():\n    with pytest.raises(ValueError):\n        divide(1, 0)\n# uv run pytest -v",
+  solves:"Breaking something without noticing when you change code.",
+  used:"Aegis: 54 tests run in CI on every change. pytest drill: calc.py.",
+  gotcha:"Testing many things in one test, so a failure doesn't tell you what broke. One behaviour per test: Arrange → Act → Assert.",
+  fq:"Unit test vs integration test?",
+  fa:"A unit test checks one function on its own, with outside things faked; it's fast. An integration test runs real pieces together (API + database) to check they fit.",
+  say:"I write unit tests with pytest: plain asserts, pytest.raises for errors, parametrize for many cases, and they run in CI.",
+  link:"drill/testing/test_calc.py"},
+ {g:"Testing",n:"Fixtures, tmp_path, parametrize",wk:"W2",hook:"Set the table before every meal.",
+  plain:"A fixture sets the table before each test, so every test starts with the same clean plates. tmp_path is a throwaway desk you can make a mess on. parametrize asks the same quiz question with different numbers.",
+  what:"Fixtures give tests ready-made setup; tmp_path is a fresh temporary folder; parametrize runs one test with many inputs.",
+  why:"Tests repeat setup, and must never touch your real files.",
+  how:"@pytest.mark.parametrize(\"n, want\", [(2, True), (3, False)])\ndef test_even(n, want):\n    assert is_even(n) == want\n\ndef test_save(tmp_path):\n    save(rows, tmp_path / \"out.csv\")",
+  solves:"Copy-pasted tests, and tests that leave files behind or overwrite real data.",
+  used:"pytest drill: parametrize for is_even, tmp_path for save_totals.",
+  gotcha:"Tests that share state: one test changes something global, and another fails only when run after it.",
+  fq:"Where do you put fixtures used by many test files?",
+  fa:"In conftest.py. pytest loads it automatically for every test in that folder.",
+  say:"Fixtures share setup, tmp_path isolates file tests, and parametrize covers many cases in one test.",
+  link:"drill/testing/test_calc.py"},
+ {g:"Testing",n:"Mocking",wk:"W2",hook:"A stunt double for the expensive actor.",
+  plain:"Filming a car crash with the real actor is risky and expensive, so you use a stunt double. In tests, the real NHS API is the actor; a mock is the stunt double that gives the same kind of answer instantly, with no internet needed.",
+  what:"Replacing a real dependency (an API call, a database) with a fake one during a test.",
+  why:"Real APIs are slow, cost money, change, and are sometimes down.",
+  how:"def test_download(mocker):\n    fake = mocker.patch(\"downloader.requests.get\")\n    fake.return_value.json.return_value = {\"records\": []}\n    download_month(\"202409\")",
+  solves:"Tests that need the internet, or that fail because someone else's service is down.",
+  used:"Coming in lab 01 (this week): the downloader's tests mock requests.get.",
+  gotcha:"Patching the wrong place: patch where it's used (downloader.requests.get), not where it's defined (requests.get).",
+  fq:"What's the risk of mocking too much?",
+  fa:"Your tests pass while the real thing is broken. Keep a few integration tests that use the real service.",
+  say:"Unit tests mock external services so they're fast and repeatable; a few integration tests check the real thing.",
+  link:"drill/testing/test_calc.py"},
+ {g:"Infrastructure",n:"Docker",wk:"W0",hook:"Ship the whole kitchen, not just the recipe.",
+  plain:"Instead of sending someone a recipe and hoping their kitchen has the same oven, you ship the whole kitchen in a box. A Docker image runs the same on your laptop, a server or the cloud.",
+  what:"A tool that packages an app with everything it needs into an image that runs the same anywhere.",
+  why:"Different machines have different Python versions and libraries installed.",
+  how:"docker build -t app .\ndocker run -p 8000:8000 app\ndocker compose up      # app + Redis together",
+  solves:"\"It works on my machine\" at deploy time.",
+  used:"Aegis: the gateway runs in Docker alongside Redis.",
+  gotcha:"Putting secrets inside the image, or building huge images by copying everything (use .dockerignore and a slim base image).",
+  fq:"Image vs container?",
+  fa:"An image is the packaged blueprint and doesn't change. A container is a running copy of it; you can run many containers from one image.",
+  say:"An image is the packaged app, a container is a running instance, and compose runs several services together.",
+  link:"log/2026-09-25_w0-d1/docker-questions.md"},
+ {g:"Infrastructure",n:"Redis",wk:"W0",hook:"A sticky note on your desk instead of a trip to the archive.",
+  plain:"Asking an LLM the same question twice is like walking to the archive twice. Redis is a sticky note on your desk: you write down the first answer, and next time you just read the note.",
+  what:"A very fast in-memory key-value store.",
+  why:"Some work (an LLM call, a slow query) gets repeated with exactly the same input.",
+  how:"r.set(\"answer:\" + key, text, ex=3600)   # keep for 1 hour\nr.get(\"answer:\" + key)\nr.incr(\"rate:\" + api_key)                # rate limiting",
+  solves:"Slow, costly repeated work.",
+  used:"Aegis: a Redis answer cache cut repeat questions from 2–11 s to 11 ms, and Redis counters handle rate limiting.",
+  gotcha:"Caching forever: always set an expiry (TTL), or users get out-of-date answers. Redis lives in memory, so it isn't your main database.",
+  fq:"What is a cache hit rate, and why does it matter?",
+  fa:"The share of requests answered from the cache. Higher means fewer slow, paid LLM calls.",
+  say:"I used Redis for caching and rate limiting: it's in memory, so it's fast, and a TTL makes stale answers expire.",
+  link:"revision/INTERVIEW-QA.md"}
+];
+
+const GROUPS=["All",...new Set(T.map(t=>t.g))];
+const RK="topic-cards-rating-v1";
+let state={g:"All",q:"",recall:false,shaky:false,shown:new Set(),rate:{}};
+try{state.recall=localStorage.getItem("topic-cards-recall")==="1"}catch(e){}
+try{state.rate=JSON.parse(localStorage.getItem(RK))||{}}catch(e){}
+const save=()=>{try{localStorage.setItem(RK,JSON.stringify(state.rate));localStorage.setItem("topic-cards-recall",state.recall?"1":"0")}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const RATES=[["shaky","Shaky"],["ok","OK"],["solid","Solid"]];
+
+function render(){
+  const q=state.q.trim().toLowerCase(); let html="",last="",count=0;
+  T.forEach((t,i)=>{
+    const id=slug(t.n), r=state.rate[id];
+    if(state.g!=="All"&&t.g!==state.g)return;
+    if(state.shaky&&r!=="shaky")return;
+    if(q&&!(t.n+" "+t.plain+" "+t.what+" "+t.why+" "+t.solves+" "+t.how+" "+t.g).toLowerCase().includes(q))return;
+    count++;
+    if(t.g!==last){html+=`<h2 class="group">${esc(t.g)}</h2>`;last=t.g}
+    html+=`<article class="card${state.shown.has(i)?" shown":""}" id="${id}">
+      <div class="chead"><h3>${esc(t.n)}</h3>
+        <div class="right"><span class="meta">${esc(t.wk)}</span>
+          <div class="conf" role="group" aria-label="How well do I know it?">${RATES.map(([v,l])=>`<button type="button" data-id="${id}" data-v="${v}" aria-pressed="${r===v}">${l}</button>`).join("")}</div></div></div>
+      <p class="hook">${esc(t.hook)}</p>
+      <p class="prompt">Explain it out loud: what it is, why we need it, how to use it, what it solves. Then reveal.</p>
+      <button type="button" class="reveal" data-i="${i}">Reveal answer</button>
+      <div class="answer">
+        <p class="plain"><b>In plain English</b>${esc(t.plain)}</p>
+        <div class="grid">
+          <div class="panel p-what"><span class="lab">What</span><p>${esc(t.what)}</p></div>
+          <div class="panel p-why"><span class="lab">Why</span><p>${esc(t.why)}</p></div>
+          <div class="panel p-how"><span class="lab">How</span><pre><code>${esc(t.how)}</code></pre></div>
+          <div class="panel p-solves"><span class="lab">Solves</span><p>${esc(t.solves)}</p></div>
+        </div>
+        <div class="extras">
+          <div class="extra p-used"><span class="lab">Where I've used it</span><p>${esc(t.used)}</p></div>
+          <div class="extra p-gotcha"><span class="lab">Common mistake</span><p>${esc(t.gotcha)}</p></div>
+        </div>
+        <div class="follow"><span class="lab" style="--c:var(--muted)">They might ask next</span><p class="q">${esc(t.fq)}</p><p class="a">${esc(t.fa)}</p></div>
+        <p class="say"><b>Say it in the interview</b>${esc(t.say)}</p>
+        <div class="foot"><a href="${GH+t.link}" target="_blank" rel="noopener">Open cheat sheet / notes ↗</a></div>
+      </div></article>`;
+  });
+  document.getElementById("cards").innerHTML=html||'<p class="empty">No topic matches. Change the search, the area, or turn off "Shaky only".</p>';
+  document.getElementById("chips").innerHTML=GROUPS.map(g=>`<button type="button" class="chip" data-g="${esc(g)}" aria-pressed="${state.g===g}">${esc(g)}</button>`).join("");
+  const sh=Object.values(state.rate).filter(v=>v==="shaky").length, so=Object.values(state.rate).filter(v=>v==="solid").length;
+  document.getElementById("stat").textContent=`${count} shown · ${T.length} topics · ${so} solid · ${sh} shaky`;
+  document.body.classList.toggle("recall-on",state.recall);
+  document.getElementById("recall").checked=state.recall;
+  document.getElementById("shaky").checked=state.shaky;
+}
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".chip"); if(c){state.g=c.dataset.g;render();return}
+  const r=e.target.closest(".reveal"); if(r){state.shown.add(+r.dataset.i);render();return}
+  const b=e.target.closest(".conf button"); if(b){const id=b.dataset.id;state.rate[id]=state.rate[id]===b.dataset.v?undefined:b.dataset.v;if(!state.rate[id])delete state.rate[id];save();render()}
+});
+document.getElementById("recall").addEventListener("change",e=>{state.recall=e.target.checked;state.shown.clear();save();render()});
+document.getElementById("shaky").addEventListener("change",e=>{state.shaky=e.target.checked;render()});
+document.getElementById("q").addEventListener("input",e=>{state.q=e.target.value;render()});
+render();
+</script>
