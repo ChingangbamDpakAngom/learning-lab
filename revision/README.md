@@ -6,6 +6,8 @@ Everything for revising before an interview, in one place. Start with the topic 
 |---|---|---|
 | **Revise a topic**: What · Why · How · Solves, with recall mode | [topic-cards.html](topic-cards.html) | [Topic Cards](https://claude.ai/artifact/FQhbAeERhqnSYSBS7UgVpK) |
 | **Find a resource**: every video, doc and practice site, week by week, with the parts to watch | [roadmap-resources.html](roadmap-resources.html) | [Roadmap Library](https://claude.ai/artifact/DpMiXAhi6wVtuU1A6qJ8Nt) |
+| **What I've learned, in order**: every topic with the resources I used, my code and notes | [LEARNED.md](LEARNED.md) | — |
+| **Deep explainers**: plain-English walkthroughs of tricky topics | [explainers/](explainers/) (pytest raises · parametrize · mocker) | — |
 | **Short interview answers**: one or two lines per question | [INTERVIEW-QA.md](INTERVIEW-QA.md) | — |
 | **Quiz me with Claude**: context pack for a revision chat | [CONTEXT.md](CONTEXT.md) | — |
 

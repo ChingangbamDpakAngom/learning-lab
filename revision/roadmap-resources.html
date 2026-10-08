@@ -109,17 +109,17 @@ const WEEKS = [
  {id:"w0", wk:"W0", title:"Setup", start:"2026-09-25", end:"2026-09-27",
   focus:"Big-O, descriptive statistics, repo setup.",
   groups:[{name:"Stats + data", items:[
-   {t:"StatQuest",src:"YouTube",url:"https://www.youtube.com/@statquest",type:"video",use:"Mean, median, variance, SD, histograms",done:true},
+   {t:"StatQuest",src:"YouTube",url:"https://www.youtube.com/@statquest",type:"video",use:"Mean, median, variance, SD, histograms"},
    {t:"NHSBSA open data portal",src:"NHSBSA",url:"https://opendata.nhsbsa.net/",type:"docs",use:"The data source for lab 01 and the NHS project",done:true}]}]},
 
  {id:"w1", wk:"W1", title:"Python core, errors + files, logging", start:"2026-09-28", end:"2026-10-04",
   focus:"Functions and data structures, error handling, file I/O, logging; SQL basics in the drill.",
   groups:[
   {name:"Python core", items:[
-   {t:"The Python Tutorial",src:"python.org",url:"https://docs.python.org/3/tutorial/",type:"docs",use:"Ch. 4–5: control flow, functions, data structures",done:true}]},
+   {t:"The Python Tutorial",src:"python.org",url:"https://docs.python.org/3/tutorial/",type:"docs",use:"Reference for ch. 4–5: control flow, functions, data structures (learned in chat)"}]},
   {name:"Errors + files", items:[
-   {t:"Using Try/Except Blocks for Error Handling",src:"Corey Schafer",url:"https://www.youtube.com/watch?v=NIWwJbo-9_8",type:"video",use:"Whole video",done:true},
-   {t:"File Objects: Reading and Writing to Files",src:"Corey Schafer",url:"https://www.youtube.com/watch?v=Uh2ebFW8OYM",type:"video",use:"Whole video; then pathlib, CSV and JSON in the notes",done:true}]},
+   {t:"Using Try/Except Blocks for Error Handling",src:"Corey Schafer",url:"https://www.youtube.com/watch?v=NIWwJbo-9_8",type:"video",use:"Optional: topic learned in chat"},
+   {t:"File Objects: Reading and Writing to Files",src:"Corey Schafer",url:"https://www.youtube.com/watch?v=Uh2ebFW8OYM",type:"video",use:"Optional: topic learned in chat"}]},
   {name:"Logging", items:[
    {t:"Logging Basics: Files, Levels, Formatting",src:"Corey Schafer",url:"https://www.youtube.com/watch?v=-ARI4Cz-awo",type:"video",use:"Whole video",done:true},
    {t:"Logging Advanced: Loggers, Handlers, Formatters",src:"Corey Schafer",url:"https://www.youtube.com/watch?v=jxmzY9soFXg",type:"video",use:"First ~10 min: getLogger(__name__), handlers",done:true}]}]},
@@ -148,8 +148,8 @@ const WEEKS = [
    {t:"This Is Why Python Data Classes Are Awesome",src:"ArjanCodes",url:"https://www.youtube.com/watch?v=CvQ7e6yUtnw",type:"video",use:"0:00–15:00 (skip kw_only, match_args, slots)",done:true},
    {t:"Python OOP Exercises",src:"PYnative",url:"https://pynative.com/python-object-oriented-programming-oop-exercise/",type:"practice",use:"All 10 exercises, ~1 h"}]},
   {name:"pytest", items:[
-   {t:"Pytest Tutorial: How To Write Tests in Python",src:"Tech With Tim",url:"https://www.youtube.com/watch?v=EgpLj86ZHFQ",type:"video",use:"0:00–30:24, skip 5:50–7:13 (sponsor). Mocks at 21:02 matter for lab 01"},
-   {t:"How to use temporary directories (tmp_path)",src:"pytest docs",url:"https://docs.pytest.org/en/stable/how-to/tmp_path.html",type:"docs",use:"3 min: testing file writes"},
+   {t:"Pytest Tutorial: How To Write Tests in Python",src:"Tech With Tim",url:"https://www.youtube.com/watch?v=EgpLj86ZHFQ",type:"video",use:"0:00–30:24, skip 5:50–7:13 (sponsor). Mocks at 21:02 matter for lab 01",done:true},
+   {t:"How to use temporary directories (tmp_path)",src:"pytest docs",url:"https://docs.pytest.org/en/stable/how-to/tmp_path.html",type:"docs",use:"3 min: testing file writes",done:true},
    {t:"Getting started with pytest",src:"anthonywritescode",url:"https://www.youtube.com/watch?v=mzlH8lp4ISA",type:"video",use:"Optional deeper dive"}]},
   {name:"NumPy + pandas", items:[
    {t:"Python Data Science Handbook",src:"Jake VanderPlas",url:"https://jakevdp.github.io/PythonDataScienceHandbook/",type:"course",use:"Ch. 2 (NumPy: arrays, vectorisation, broadcasting, aggregations) + Ch. 3 basics"},
