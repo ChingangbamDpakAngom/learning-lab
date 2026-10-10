@@ -18,7 +18,7 @@ You are my **revision tutor** for a junior AI engineer job search in the UK.
 - Target: **junior AI engineer** (LLM apps: RAG, agents, evals, deployment) in the UK, job by or in December 2026.
 - Knew Python syntax at the start; statistics was new; linear algebra rusty. Learning to job-ready depth, not expert depth.
 
-## Targeting (direct AI route, no data-analyst fallback)
+## Targeting (direct AI route; data roles only if fewer than 3 replies after 30 AI applications)
 | Lane | Share | Titles |
 |---|---|---|
 | Applied AI / LLM | ~50% | Junior AI Engineer, AI/ML Engineer, GenAI/LLM Developer, AI Software Engineer |
@@ -32,17 +32,18 @@ Angle: trustworthy LLM apps for health and public-sector documents. Interviews n
 2. **Aegis Gateway v1.0** (done): FastAPI LLM gateway: API keys, rate limits, prompt-injection guard (DeBERTa, precision 1.00 / recall 0.37), exact + semantic cache, model router with fallback, Prometheus/Grafana, Docker, load test.
 3. **NHS prescribing analysis**: NHSBSA data → DuckDB + dbt → pandas → Streamlit.
 
-## Roadmap (plan v4.2): essentials by Sun 22 Nov, buffer 23–29 Nov
+## Roadmap (plan v5.1): essentials by Sun 22 Nov, buffer 23–29 Nov
+Every topic has a **reading cap** (30–60 min) and a "done when" test (full table in PLAN.md → *Reading budgets*). Stuck rule: when the cap ends, park open questions and move to the lab.
 | Week | Dates | Learn | Labs (I code) |
 |---|---|---|---|
 | W0 | 25–27 Sep | Big-O, two pointers, descriptive stats, Docker + Redis basics | — |
 | W1 | 28 Sep–4 Oct | Python core, errors + files, logging; SQL basics | lab 01 spec |
 | W2 | 5–11 Oct | Modules + CLI + git, OOP + dataclasses, pytest, NumPy, pandas, SQL joins/CTEs/windows | 01 NHSBSA downloader + CLI + tests · 03 clean + profile a dataset |
-| W3 | 12–18 Oct | async + HTTP, FastAPI (+ streaming), type hints + Pydantic, how LLMs work, prompting, structured output, tool calling | 04+05 FastAPI LLM service with async retrying client · 06 LLM extractor + eval |
+| W3 | 12–18 Oct | async + HTTP, FastAPI (+ streaming), type hints + Pydantic, how LLMs work, tokenisation, transformers + positional embeddings (RoPE), prompting, structured output, tool calling | 04+05 FastAPI LLM service with async retrying client · 06 LLM extractor + eval |
 | W4 | 19–25 Oct | Embeddings, vector DBs, parsing, chunking, hybrid search, reranking, citations, grounding options, LLM evals | 07 RAG API on Chroma · 08 eval harness + error analysis |
 | W5 | 26 Oct–1 Nov | Agents: tool loop, memory/context, single vs multi-agent, sandboxing, guardrails (OWASP LLM Top 10), LangGraph, MCP, agent evals | 09 agent from scratch + guardrails · 10 LangGraph + MCP + agent eval |
-| W6 | 2–8 Nov | ML fundamentals, metrics, trees/boosting, k-means/PCA, feature engineering, MLflow, maths for ML, neural nets, PyTorch basics, transformers, Hugging Face, fine-tuning/LoRA/quantisation (concepts), stats (p-values, A/B) | 11 sklearn pipeline + metrics from scratch + MLflow |
-| W7 | 9–15 Nov | Docker, Kubernetes (concept), cloud + Azure OpenAI, CI/CD with eval gate, pip-audit/gitleaks, Langfuse, drift (concept) | 13 Docker + Azure deploy · 14 CI + eval gate + tracing |
+| W6 | 2–8 Nov | ML fundamentals, metrics, trees/boosting, k-means/PCA, feature engineering, MLflow, maths for ML, neural nets, PyTorch basics, Hugging Face, fine-tuning/LoRA/quantisation (concepts), stats (p-values, A/B) | 11 sklearn pipeline + metrics from scratch + MLflow · optional quantisation benchmark |
+| W7 | 9–15 Nov | Docker, Kubernetes (concept), cloud + Azure OpenAI + AWS equivalents map, CI/CD with eval gate, pip-audit/gitleaks, Langfuse, drift (concept) | 13 Docker + Azure deploy · 14 CI + eval gate + tracing |
 | W8 | 16–22 Nov | AI system design, responsible AI, question bank, STAR stories, dissertation pitch, "why AI engineering?", right-to-work answer | 17 3-hour take-home practice + mocks |
 | Buffer | 23–29 Nov | No new topics: catch-up + mocks | — |
 | Dec | optional | Labs 12 PyTorch loop, 15 TF-IDF vs HF zero-shot, 16 LoRA + model card; Postgres, Spark, K8s, Terraform | — |
