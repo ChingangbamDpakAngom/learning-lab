@@ -1,7 +1,7 @@
 # NumPy
 
 **Status:** ⏳ brush-up in progress (learned before, functions forgotten) · **Sessions:** 15 Oct (W2 brush-up) · **Code:** [`drill/numpy/numpy_brushup.py`](../../../drill/numpy/numpy_brushup.py)
-**Cheat sheet:** to make from whatever I had to look up · **Interview Qs:** none yet
+**Cheat sheet:** [NumPy for AI Engineers](NumPy-Cheat-Sheet.jpg) (the ~60 names used day to day, AI recipes, gotchas) · **Interview Qs:** none yet
 **Resources:** [100 NumPy exercises](https://github.com/rougier/numpy-100) #1–30 · [PDSH ch. 2](https://jakevdp.github.io/PythonDataScienceHandbook/) for lookups only
 
 ## Must know (fill in as the drill goes)
@@ -16,12 +16,18 @@
 - Cosine similarity: `a @ b / (norm(a) * norm(b))` (embeddings, W4).
 
 ## Mistakes I made
-- (add as the drill goes)
+- Inspected the wrong array (`a`, shape `(3,)`) instead of `items` `(4, 3)`: always check `.shape` first.
+- `{:,1}` in an f-string: the array name is required, `{items[:, 1]}`. Keep maths out of f-strings; use variables.
+- `items.diff(...)`: `diff` is a function, `np.diff(items, axis=0)`.
+- Average per month: used `axis=0` (that is per region), then divided by `len(items)` (rows = 4, not 3). Use `items.mean(axis=1)`.
+- `np.where(max(x))` for the biggest position: `max` gives the value, `argmax` gives the position.
+- `np.where(cond)` alone returns positions; the values are `items[items > 100]`, the count is `(items > 100).sum()`.
+- Z-score without `axis=0` used one global mean, so whole columns were all positive or all negative.
 
 ## Gaps
-- [ ] Drill steps 1–10.
+- [x] Drill steps 1–8. [ ] Steps 9 (cosine) and 10 (speed test).
 - [ ] Views vs copies: slicing returns a **view**, so editing it changes the original; use `.copy()`. Classic gotcha.
 - [ ] `np.random.default_rng(seed)` for reproducible data.
 - [ ] dtype gotcha: assigning 2.7 into an int array silently stores 2.
-- [ ] Cheat sheet + topic card + interview Qs when done.
+- [x] Cheat sheet. [ ] Topic card + interview Qs when done.
 - [ ] Revisit in W6 (ML fundamentals) → update this file, not a new one.

@@ -1,0 +1,150 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>NumPy Cheat Sheet</title>
+<link rel="stylesheet" href="../../../log/assets/cheatsheet.css">
+<style>
+.sig td:first-child{font-family:"Cascadia Code",Consolas,monospace;font-size:15px;white-space:nowrap;font-weight:600}
+.sig td{font-size:15.5px}
+pre{font-size:14px}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>NumPy <span>for AI Engineers</span></h1>
+    <p class="sub">The ~60 names that cover almost all day-to-day work: data prep, embeddings, metrics, ML inputs. Look up the rest when you need it.</p>
+  </div>
+  <div class="tag">Python · Week 2<b>Shape first. Pick the axis. No loops.</b></div>
+</header>
+
+<div class="row c3">
+  <div class="card">
+    <h2><i>1</i>Create</h2>
+    <table class="sig">
+      <tr><td>np.array([1, 2, 3])</td><td>from a list (most used function)</td></tr>
+      <tr><td>np.asarray(x)</td><td>convert, no copy if already an array</td></tr>
+      <tr><td>np.zeros((3, 4)) · np.ones(…)</td><td>filled; also <code>np.full(shape, 7)</code></td></tr>
+      <tr><td>np.arange(0, 10, 2)</td><td>0 2 4 6 8 (stop excluded)</td></tr>
+      <tr><td>np.linspace(0, 1, 5)</td><td>5 evenly spaced, end included</td></tr>
+      <tr><td>np.eye(3)</td><td>identity; <code>np.eye(n)[y]</code> = one-hot</td></tr>
+      <tr><td>rng = np.random.default_rng(42)</td><td>seeded = reproducible</td></tr>
+      <tr><td>rng.normal · integers · choice</td><td>random data, sampling</td></tr>
+      <tr><td>rng.permutation(n)</td><td>shuffled indexes (train/test split)</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>2</i>Inspect + convert</h2>
+    <table class="sig">
+      <tr><td>a.shape</td><td><b>check this first, always</b>: (rows, cols)</td></tr>
+      <tr><td>a.ndim · a.size</td><td>number of dims · number of values</td></tr>
+      <tr><td>a.dtype</td><td>int64, float64, float32 (models), &lt;U6 (text)</td></tr>
+      <tr><td>a.astype(np.float32)</td><td>change type (returns a new array)</td></tr>
+      <tr><td>a.tolist()</td><td>back to Python (e.g. for JSON)</td></tr>
+      <tr><td>len(a)</td><td>size of the <b>first</b> axis only (rows)</td></tr>
+    </table>
+    <h2 style="margin-top:16px"><i>3</i>Select</h2>
+    <table class="sig">
+      <tr><td>a[0] · a[-1] · a[1:3]</td><td>row 0 · last row · rows 1–2</td></tr>
+      <tr><td>a[r, c] · a[:, 1]</td><td>one cell · whole column 1</td></tr>
+      <tr><td>a[a &gt; 100]</td><td><b>boolean mask</b>: values that match</td></tr>
+      <tr><td>a[[0, 2]]</td><td>fancy index: rows 0 and 2 (a copy)</td></tr>
+      <tr><td>np.where(a &gt; 0, a, 0)</td><td>if/else per cell, same shape</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Reshape + combine</h2>
+    <table class="sig">
+      <tr><td>a.reshape(3, 4)</td><td>same values, new shape (sizes must match)</td></tr>
+      <tr><td>a.reshape(-1, 1)</td><td>column vector: <b>sklearn wants 2-D X</b></td></tr>
+      <tr><td>a.T</td><td>transpose: rows ↔ columns</td></tr>
+      <tr><td>a.ravel() · a.flatten()</td><td>to 1-D (flatten always copies)</td></tr>
+      <tr><td>a[:, None] · np.expand_dims</td><td>add an axis: (3,) → (3, 1)</td></tr>
+      <tr><td>a.squeeze()</td><td>drop size-1 axes: (1, 3) → (3,)</td></tr>
+      <tr><td>np.concatenate([a, b], axis=0)</td><td>join along an existing axis</td></tr>
+      <tr><td>np.vstack · np.hstack</td><td>add rows · add columns</td></tr>
+      <tr><td>np.stack([a, b])</td><td>join along a <b>new</b> axis: (3,) ×2 → (2, 3)</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row c3">
+  <div class="card">
+    <h2><i>5</i>Maths (element-wise, no loops)</h2>
+    <table class="sig">
+      <tr><td>a + b · a * 2 · a ** 2</td><td>every value at once (vectorised, C speed)</td></tr>
+      <tr><td>np.sqrt · np.exp · np.log</td><td>softmax, log-loss, scaling</td></tr>
+      <tr><td>np.abs · np.round(a, 2)</td><td>errors (MAE) · tidy output</td></tr>
+      <tr><td>np.clip(a, 0, 1)</td><td>limit to a range (probabilities)</td></tr>
+      <tr><td>np.diff(a, axis=0)</td><td>change between neighbours (function, not method)</td></tr>
+      <tr><td>a @ b · np.dot(a, b)</td><td>dot product / matrix multiply</td></tr>
+      <tr><td>np.linalg.norm(a, axis=1)</td><td>vector length (cosine, normalising)</td></tr>
+      <tr><td>np.allclose(a, b)</td><td>float "equal" for tests; never <code>==</code> on floats</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>6</i>Reduce with axis</h2>
+    <table class="sig">
+      <tr><td>a.sum() · mean · std · min · max</td><td>no axis = whole array → one number</td></tr>
+      <tr><td>axis=0</td><td>collapse rows → one result <b>per column</b></td></tr>
+      <tr><td>axis=1</td><td>collapse columns → one result <b>per row</b></td></tr>
+      <tr><td>a.argmax(axis=1)</td><td><b>position</b> of the max: class predictions</td></tr>
+      <tr><td>keepdims=True</td><td>keeps (4, 1) so it broadcasts back over (4, 3)</td></tr>
+      <tr><td>np.median · np.percentile(a, 95)</td><td>skew-proof centre · p95 latency</td></tr>
+      <tr><td>a.cumsum()</td><td>running total</td></tr>
+      <tr><td>np.nanmean · np.nansum</td><td>ignore NaN (plain mean returns nan)</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>7</i>Sort · search · check · save</h2>
+    <table class="sig">
+      <tr><td>np.sort(a) · np.argsort(a)</td><td>values · <b>positions</b> in sorted order</td></tr>
+      <tr><td>np.argsort(s)[::-1][:k]</td><td><b>top-k</b> indexes (retrieval)</td></tr>
+      <tr><td>np.unique(a, return_counts=True)</td><td>categories + how many of each</td></tr>
+      <tr><td>np.isnan(a).sum()</td><td>count missing values</td></tr>
+      <tr><td>np.any(m) · np.all(m)</td><td>is any / every value True?</td></tr>
+      <tr><td>(m).sum() · (m).mean()</td><td>count · <b>share</b> of True (accuracy!)</td></tr>
+      <tr><td>np.save("x.npy", a) · np.load</td><td>cache embeddings fast (CSV → pandas)</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row c2">
+  <div class="card">
+    <h2><i>8</i>AI recipes you'll actually write</h2>
+<pre># cosine similarity top-k (RAG retrieval, W4)
+docs_n = docs / np.linalg.norm(docs, axis=1, keepdims=True)   # (n, d) rows → length 1
+q_n    = query / np.linalg.norm(query)                        # (d,)
+scores = docs_n @ q_n                                         # (n,) one score per doc
+top_k  = np.argsort(scores)[::-1][:3]                         # best 3 indexes
+
+# softmax, numerically stable (logits → probabilities)
+e = np.exp(z - z.max(axis=-1, keepdims=True));  p = e / e.sum(axis=-1, keepdims=True)
+
+preds    = probs.argmax(axis=1)              # class with highest probability
+accuracy = (y_true == y_pred).mean()         # True = 1, False = 0
+one_hot  = np.eye(n_classes)[y]              # labels → one-hot rows
+z_scored = (X - X.mean(axis=0)) / X.std(axis=0)   # scale each feature (column)
+idx = rng.permutation(len(X)); train, test = X[idx[:80]], X[idx[80:]]</pre>
+  </div>
+  <div class="card">
+    <h2><i>9</i>Gotchas interviewers love</h2>
+    <table class="sig">
+      <tr><td>View vs copy</td><td>a slice is a <b>view</b>: editing it changes the original. Use <code>.copy()</code>.</td></tr>
+      <tr><td>(n,) vs (n, 1)</td><td>1-D vector vs column: broadcasting differs. Print <code>.shape</code>.</td></tr>
+      <tr><td>Shape error</td><td>"operands could not be broadcast": trailing dims must match or be 1.</td></tr>
+      <tr><td>dtype truncation</td><td>putting 2.7 in an int array silently stores 2.</td></tr>
+      <tr><td>NaN spreads</td><td>one NaN makes <code>mean</code> NaN; use <code>nanmean</code> or clean first.</td></tr>
+      <tr><td>max vs argmax</td><td>value vs <b>position</b>; <code>np.where(cond)</code> alone gives positions too.</td></tr>
+      <tr><td>len(2-D)</td><td>= rows only. Columns = <code>a.shape[1]</code>.</td></tr>
+    </table>
+    <p class="note"><b>Skip until a job needs it:</b> FFT, masked/structured arrays, stride tricks, <code>np.matrix</code> (deprecated), eigen/SVD beyond the concept, polynomial fitting. PyTorch tensors reuse almost all of the above.</p>
+  </div>
+</div>
+
+<div class="quote">
+  <h2><i>✓</i>Interview lines</h2>
+  <p><em>Why NumPy?</em> Arrays of one type in contiguous memory, with loops running in C: vectorised code is 10–100× faster than Python loops.
+  <em>axis?</em> The axis you name is the one that disappears: axis=0 gives one result per column.
+  <em>Broadcasting?</em> NumPy stretches size-1 or missing dimensions so (4, 3) − (3,) works without copying.
+  <em>Cosine similarity?</em> Dot product of length-normalised vectors: it ranks embeddings by direction, not size.</p>
+</div>
+
+</body></html>
