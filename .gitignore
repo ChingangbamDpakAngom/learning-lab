@@ -11,6 +11,8 @@ venv/
 # Data and secrets: download it, don't commit it
 data/
 *.csv
+!drill/pandas/prescriptions.csv
+!drill/pandas/regions.csv
 *.parquet
 *.duckdb
 .env
