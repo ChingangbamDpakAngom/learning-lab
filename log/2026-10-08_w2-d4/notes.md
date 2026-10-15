@@ -1,6 +1,6 @@
 # Thu 8 Oct 2026 · Week 2, Day 4 (dataclasses)
 
-OOP (Corey 1–4, 6 + 4 pillars) was finished on 7 Oct: see [OOP cheat sheet](../2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg) · [29 OOP questions](../2026-10-06_w2-d2/OOP-Interview-Questions.md).
+OOP (Corey 1–4, 6 + 4 pillars) was finished on 7 Oct: see [OOP cheat sheet](../../revision/topics/oop/OOP-Cheat-Sheet.jpg) · [29 OOP questions](../../revision/topics/oop/Interview-Questions.md).
 
 ## Learn · dataclasses ✅
 **How to study this:** Concept (no maths). Remember why + when; the syntax is short.

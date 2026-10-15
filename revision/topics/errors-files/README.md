@@ -1,7 +1,7 @@
 # Errors, file I/O, retries
 
-**Status:** ✅ done (quick check 3/3) · **Sessions:** [2 Oct](../../log/2026-10-02_w1-d5/notes.md)
-**Cheat sheet:** [Error handling + file I/O](../../log/2026-10-02_w1-d5/Error-Handling-File-IO-Cheat-Sheet.jpg) · **Interview Qs:** [2 Oct set](../../log/2026-10-02_w1-d5/Interview-Questions.md) · [short answers](../INTERVIEW-QA.md#errors--file-io)
+**Status:** ✅ done (quick check 3/3) · **Sessions:** [2 Oct](../../../log/2026-10-02_w1-d5/notes.md)
+**Cheat sheet:** [Error handling + file I/O](Error-Handling-File-IO-Cheat-Sheet.jpg) · **Interview Qs:** [2 Oct set](Interview-Questions.md) · [short answers](../../INTERVIEW-QA.md#errors--file-io)
 
 ## Must know
 - Catch the **narrowest** exception you can handle; let the rest propagate. Never bare `except:` or `except Exception: pass`.
@@ -19,3 +19,5 @@
 
 ## Gaps
 - [ ] Use it for real in lab 01 (`download_month` with retries + `DownloadError`).
+- [ ] HTTP side of retries, needed in lab 01: `requests.get(..., timeout=10)` (no timeout = can hang forever) and `response.raise_for_status()`.
+- [ ] Custom context managers (tracked in [python-core](../python-core/README.md)).

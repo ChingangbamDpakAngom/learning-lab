@@ -1,7 +1,7 @@
 # pytest: `raises`, `parametrize` and `mocker`, explained simply
 
 Each tool solves **one problem**. Learn the problem first; the syntax then makes sense.
-Code: [`drill/testing/`](../../drill/testing/) · Video: [Tech With Tim: Pytest Tutorial](https://www.youtube.com/watch?v=EgpLj86ZHFQ) (0:00–30:24)
+Code: [`drill/testing/`](../../drill/testing) · Video: [Tech With Tim: Pytest Tutorial](https://www.youtube.com/watch?v=EgpLj86ZHFQ) (0:00–30:24)
 
 ---
 

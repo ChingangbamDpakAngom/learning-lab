@@ -1,7 +1,7 @@
 # pytest
 
-**Status:** ✅ done (16 tests passing) · **Sessions:** [8 Oct](../../log/2026-10-08_w2-d4/notes.md) · **Code:** [`drill/testing/`](../../drill/testing/)
-**Explainer:** [raises, parametrize, mocker](../explainers/pytest-raises-parametrize-mocker.md) · **Interview Qs:** [short answers](../INTERVIEW-QA.md#pytest)
+**Status:** ✅ done (16 tests passing) · **Sessions:** [8 Oct](../../../log/2026-10-08_w2-d4/notes.md) · **Code:** [`drill/testing/`](../../../drill/testing)
+**Explainer:** [raises, parametrize, mocker](../../explainers/pytest-raises-parametrize-mocker.md) · **Interview Qs:** [short answers](../../INTERVIEW-QA.md#pytest)
 **Resources:** Tech With Tim *Pytest Tutorial* (0:00–30:24) · pytest `tmp_path` docs
 
 ## Must know
@@ -24,5 +24,8 @@
 - Mock checks are exact: `"Users.db"` vs `"User.db"` failed.
 
 ## Gaps
-- [ ] Skipped for now: `conftest.py`, fixture scopes, skip/xfail, coverage, async tests (W3).
+- [ ] Test discovery + running: `test_*.py` files, `test_` functions, `pytest -k name`, `-x`, `-v` (SKILLS-CHECKLIST item, not in notes).
+- [ ] `monkeypatch` (env vars, attributes) vs `mocker`: checklist asks for "mocking HTTP (monkeypatch / respx)".
+- [ ] No cheat sheet, no interview-question file (only the [short answers](../../INTERVIEW-QA.md#pytest)).
+- [ ] Skipped until W3: `conftest.py`, fixture scopes, skip/xfail, coverage, async tests.
 - [ ] Use it for real in lab 01 tests.

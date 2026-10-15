@@ -1,7 +1,7 @@
 # Logging
 
-**Status:** ✅ done (recall 1.5/2) · **Sessions:** [3 Oct](../../log/2026-10-03_w1-d6/notes.md) · [6 Oct, drill step 5](../../log/2026-10-06_w2-d2/notes.md) · **Code:** [`drill/logging/`](../../drill/logging/)
-**Cheat sheet:** [Logging](../../log/2026-10-03_w1-d6/Logging-Cheat-Sheet.jpg) · **Interview Qs:** [3 Oct set](../../log/2026-10-03_w1-d6/Interview-Questions.md) · [short answers](../INTERVIEW-QA.md#logging)
+**Status:** ✅ done (recall 1.5/2) · **Sessions:** [3 Oct](../../../log/2026-10-03_w1-d6/notes.md) · [6 Oct, drill step 5](../../../log/2026-10-06_w2-d2/notes.md) · **Code:** [`drill/logging/`](../../../drill/logging)
+**Cheat sheet:** [Logging](Logging-Cheat-Sheet.jpg) · **Interview Qs:** [3 Oct set](Interview-Questions.md) · [short answers](../../INTERVIEW-QA.md#logging)
 **Resources:** Corey Schafer *Logging Basics* (whole) · *Logging Advanced* (first ~10 min)
 
 ## Must know
@@ -21,3 +21,4 @@
 
 ## Gaps
 - [ ] Handlers/formatters in code (concept only so far; `basicConfig` is enough for labs).
+- [ ] Structured (JSON) logs + request IDs: concept, comes back in W7 observability.

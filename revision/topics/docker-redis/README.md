@@ -1,6 +1,6 @@
 # Docker + Redis
 
-**Status:** 🟡 theory only · **Sessions:** [25 Sep](../../log/2026-09-25_w0-d1/notes.md) · **Interview Qs:** [Docker Qs](../../log/2026-09-27_w0-d3/docker-questions.md) · [day 1 set §4–5](../../log/2026-09-25_w0-d1/Interview-Questions.md) · short answers: [Docker](../INTERVIEW-QA.md#docker), [Redis](../INTERVIEW-QA.md#redis)
+**Status:** 🟡 theory only · **Sessions:** [25 Sep](../../../log/2026-09-25_w0-d1/notes.md) · **Interview Qs:** [Docker Qs](Interview-Questions.md) · [day 1 set §4–5](../../../log/2026-09-25_w0-d1/Interview-Questions.md) · short answers: [Docker](../../INTERVIEW-QA.md#docker), [Redis](../../INTERVIEW-QA.md#redis)
 
 ## Must know
 **Docker**
@@ -22,5 +22,7 @@
 - None recorded yet.
 
 ## Gaps
-- [ ] Hands-on: `docker run -d --name r -p 6379:6379 redis:7` → `redis-cli`: SET/GET/INCR, HSET, `SET k v EX 10` + `TTL k`.
-- [ ] Docker deploy for real in W7 (lab 13).
+- [ ] Hands-on never done: `docker run -d --name r -p 6379:6379 redis:7` → `redis-cli`: SET/GET/INCR, HSET, `SET k v EX 10` + `TTL k`.
+- [ ] No cheat sheet yet.
+- [ ] Production Dockerfile: slim base image, non-root user, `.dockerignore`, multi-stage builds (W7 checklist).
+- [ ] Kubernetes pods + deployments, concept only (W7). Real deploy in lab 13.

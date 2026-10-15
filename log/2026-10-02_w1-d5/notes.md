@@ -9,7 +9,7 @@
 - `pathlib`: `Path("data") / "raw"`, `.mkdir(parents=True, exist_ok=True)`, `.exists()`, `.suffix`, `.stem`, `.glob("*.csv")`, `.read_text()` / `.write_text()`.
 - CSV: `csv.DictReader` / `DictWriter`, always `newline=""` + `encoding="utf-8"` (Windows default encoding differs → classic bug). JSON: `json.loads` / `json.dumps(indent=2)`.
 - Retries: retry only **transient** errors (timeouts, 5xx, 429) with exponential backoff (1s, 2s, 4s) and a cap on attempts. Never retry 404 / bad input: it fails the same way every time.
-- Generated: [Error-Handling-File-IO-Cheat-Sheet.jpg](Error-Handling-File-IO-Cheat-Sheet.jpg) · [Interview questions](Interview-Questions.md)
+- Generated: [Error-Handling-File-IO-Cheat-Sheet.jpg](../../revision/topics/errors-files/Error-Handling-File-IO-Cheat-Sheet.jpg) · [Interview questions](../../revision/topics/errors-files/Interview-Questions.md)
 
 ### Quick check: 3 / 3
 | # | Question | My answer | Interview-ready version |

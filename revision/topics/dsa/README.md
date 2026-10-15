@@ -1,7 +1,7 @@
 # DSA: Big-O + two pointers
 
-**Status:** ✅ done · **Sessions:** [25 Sep](../../log/2026-09-25_w0-d1/notes.md) · **Code:** [`drill/neetcode/`](../../drill/neetcode/) (contains duplicate, valid anagram, valid palindrome)
-**Cheat sheets:** [Big-O](../../log/2026-09-25_w0-d1/Big-O-Cheat-Sheet.jpg) · [Two pointers](../../log/2026-09-25_w0-d1/Two-Pointers-Cheat-Sheet.jpg) · **Interview Qs:** [day 1 set](../../log/2026-09-25_w0-d1/Interview-Questions.md) · [short answers](../INTERVIEW-QA.md#big-o)
+**Status:** ✅ done · **Sessions:** [25 Sep](../../../log/2026-09-25_w0-d1/notes.md) · **Code:** [`drill/neetcode/`](../../../drill/neetcode) (contains duplicate, valid anagram, valid palindrome)
+**Cheat sheets:** [Big-O](Big-O-Cheat-Sheet.jpg) · [Two pointers](Two-Pointers-Cheat-Sheet.jpg) · **Interview Qs:** [day 1 set](../../../log/2026-09-25_w0-d1/Interview-Questions.md) · [short answers](../../INTERVIEW-QA.md#big-o)
 
 ## Must know
 **Big-O**
@@ -25,5 +25,8 @@
 - Merged two inputs into one n (two loops over a and b = O(a·b)).
 
 ## Gaps
-- [ ] NeetCode backlog: Two Sum, Group Anagrams (Mon/Wed drill).
-- [ ] Fast/slow pointers for linked lists (W4).
+- [ ] NeetCode docstrings are blank: fill Pattern / Time / Space / Trick in `contains_duplicate.py`, `valid_anagram.py`, `valid_palindrome.py` (`valid_anagram` still has a `...` stub).
+- [ ] **Arrays & hashing** pattern (set to spot repeats, dict/Counter to count) is coded but has no notes: add it to *Must know* once the docstrings are done.
+- [ ] Backlog: Two Sum, Group Anagrams.
+- [ ] Next NeetCode patterns: sliding window, stack, binary search; fast/slow pointers in W4.
+- [ ] No interview-question file of its own: questions sit in the mixed [25 Sep set](../../../log/2026-09-25_w0-d1/Interview-Questions.md).

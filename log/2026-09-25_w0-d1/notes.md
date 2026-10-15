@@ -9,7 +9,7 @@ Order: DSA → Engineering → Theory (job ads) → Career
 - Space: extra memory only. `sorted(a)` O(n), `a.sort()` in place. Recursion depth d → O(d) stack.
 - Key trade: spend O(n) memory (a set) to cut O(n²) time to O(n).
 - Interview answer form: "O(__) time where n is __, because __; O(__) space for __."
-- Generated: [Big-O-Cheat-Sheet.jpg](Big-O-Cheat-Sheet.jpg) (source: `Big-O-Cheat-Sheet.source.html`)
+- Generated: [Big-O-Cheat-Sheet.jpg](../../revision/topics/dsa/Big-O-Cheat-Sheet.jpg) (source: `Big-O-Cheat-Sheet.source.html`)
 
 ### Quiz: 5 / 7
 | # | Code | My answer | Correct (time / space) |
@@ -30,7 +30,7 @@ Order: DSA → Engineering → Theory (job ads) → Career
 - Why it works: on sorted data every move rules out one element for good (sum too big → drop the right; too small → drop the left).
 - Problems: Valid Palindrome (skip non-alphanumerics) · Two Sum II (template A, 1-indexed) · Container With Most Water (move the shorter line) · 3Sum (sort + anchor + Two Sum II, skip duplicates, O(n²)).
 - Pitfalls: `l < r` not `<=`, sort first, skip 3Sum duplicates, every branch must move a pointer.
-- Generated: [Two-Pointers-Cheat-Sheet.jpg](Two-Pointers-Cheat-Sheet.jpg)
+- Generated: [Two-Pointers-Cheat-Sheet.jpg](../../revision/topics/dsa/Two-Pointers-Cheat-Sheet.jpg)
 
 ## ML core · Descriptive statistics (taught, practical pending)
 - Centre: mean (pulled by outliers) vs **median** (robust) vs mode (categories). Skewed data → report the median.
@@ -38,7 +38,7 @@ Order: DSA → Engineering → Theory (job ads) → Career
 - Outliers: beyond Q1 − 1.5·IQR or Q3 + 1.5·IQR (box plot); |z| > 3 for roughly normal data.
 - Shape: histogram first. Right skew → mean > median (income, latency). Mean is pulled toward the tail.
 - z = (x − mean)/SD → StandardScaler. Production: latency p50/p95/p99, CV results as mean ± SD, drift = comparing distributions.
-- Generated: [Descriptive-Statistics-Cheat-Sheet.jpg](Descriptive-Statistics-Cheat-Sheet.jpg)
+- Generated: [Descriptive-Statistics-Cheat-Sheet.jpg](../../revision/topics/statistics/Descriptive-Statistics-Cheat-Sheet.jpg)
 
 ## Engineering · Docker + Redis ⬜
 **Docker:** Dockerfile (recipe) → image (read-only layers) → container (running instance + writable layer); registry shares images.

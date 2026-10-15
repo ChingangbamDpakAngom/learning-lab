@@ -1,7 +1,7 @@
 # OOP + dataclasses
 
-**Status:** ✅ done · **Sessions:** [6–7 Oct](../../log/2026-10-06_w2-d2/notes.md) · [8 Oct, dataclasses](../../log/2026-10-08_w2-d4/notes.md) · **Code:** [`drill/oop/`](../../drill/oop/) (oop1 → oop6, dataclasses_basics.py)
-**Cheat sheet:** [OOP](../../log/2026-10-06_w2-d2/OOP-Cheat-Sheet.jpg) · **Interview Qs:** [29 OOP Qs](../../log/2026-10-06_w2-d2/OOP-Interview-Questions.md) · [dataclass Qs (8 Oct)](../../log/2026-10-08_w2-d4/notes.md#interview-questions) · short answers: [OOP](../INTERVIEW-QA.md#oop), [Dataclasses](../INTERVIEW-QA.md#dataclasses)
+**Status:** ✅ done · **Sessions:** [6–7 Oct](../../../log/2026-10-06_w2-d2/notes.md) · [8 Oct, dataclasses](../../../log/2026-10-08_w2-d4/notes.md) · **Code:** [`drill/oop/`](../../../drill/oop) (oop1 → oop6, dataclasses_basics.py)
+**Cheat sheet:** [OOP](OOP-Cheat-Sheet.jpg) · **Interview Qs:** [29 OOP Qs](Interview-Questions.md) · [dataclass Qs (8 Oct)](../../../log/2026-10-08_w2-d4/notes.md#interview-questions) · short answers: [OOP](../../INTERVIEW-QA.md#oop), [Dataclasses](../../INTERVIEW-QA.md#dataclasses)
 **Resources:** Corey Schafer OOP 1, 2, 3, 4, 6 · ArjanCodes *Data Classes* (0:00–15:00)
 
 ## Must know
@@ -29,4 +29,7 @@
 ## Gaps
 - [ ] [PYnative OOP exercises](https://pynative.com/python-object-oriented-programming-oop-exercise/) (~1 h).
 - [ ] Re-test `__post_init__` + dataclass vs Pydantic (weak spot).
+- [ ] Composition vs inheritance ("has-a" vs "is-a", prefer composition): classic follow-up, not covered.
+- [ ] `__eq__` / `__hash__` link: why a frozen dataclass can be a dict key (one-liner).
+- [ ] **Type hints + Pydantic** (plan W2 topic, done when "you can validate a request body and show the error"): not studied yet, moved to W3 with FastAPI.
 - [ ] Later: LeetCode design problems (Min Stack, LRU Cache).

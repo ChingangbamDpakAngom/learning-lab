@@ -1,7 +1,7 @@
 # Descriptive statistics
 
-**Status:** ✅ theory · **Sessions:** [25 Sep](../../log/2026-09-25_w0-d1/notes.md) · **Code:** [`drill/stats/describe.py`](../../drill/stats/describe.py)
-**Cheat sheet:** [Descriptive stats](../../log/2026-09-25_w0-d1/Descriptive-Statistics-Cheat-Sheet.jpg) · **Interview Qs:** [day 1 set §3](../../log/2026-09-25_w0-d1/Interview-Questions.md) · [short answers](../INTERVIEW-QA.md#descriptive-statistics)
+**Status:** ✅ theory · **Sessions:** [25 Sep](../../../log/2026-09-25_w0-d1/notes.md) · **Code:** [`drill/stats/describe.py`](../../../drill/stats/describe.py)
+**Cheat sheet:** [Descriptive stats](Descriptive-Statistics-Cheat-Sheet.jpg) · **Interview Qs:** [day 1 set §3](../../../log/2026-09-25_w0-d1/Interview-Questions.md) · [short answers](../../INTERVIEW-QA.md#descriptive-statistics)
 
 ## Must know
 - Centre: mean (pulled by outliers) vs **median** (robust) vs mode (categories). Skewed data → report the median.
@@ -15,5 +15,6 @@
 - None recorded yet (no quiz on this topic).
 
 ## Gaps
-- [ ] Practical: 1,000 random numbers → mean, median, SD, histogram (NumPy drill step 8 covers part of it).
+- [ ] Practical never done: 1,000 random numbers → mean, median, SD, histogram (NumPy drill step 8 covers part of it).
+- [ ] Probability + common distributions (normal, binomial), correlation vs causation (SKILLS-CHECKLIST "Stats for interviews").
 - [ ] p-values, A/B tests (W6).

@@ -11,7 +11,7 @@
 - Handler = **where** logs go (console, file); formatter = **how they look**. Concept only; `basicConfig` is enough for labs.
 - Silence a noisy library: `logging.getLogger("urllib3").setLevel(logging.WARNING)`.
 - Never log secrets (API keys, personal data).
-- Generated: [Logging-Cheat-Sheet.jpg](Logging-Cheat-Sheet.jpg) · [Interview questions](Interview-Questions.md)
+- Generated: [Logging-Cheat-Sheet.jpg](../../revision/topics/logging/Logging-Cheat-Sheet.jpg) · [Interview questions](../../revision/topics/logging/Interview-Questions.md)
 
 ### Recall check: 1.5 / 2
 | # | Question | My answer | Interview-ready version |

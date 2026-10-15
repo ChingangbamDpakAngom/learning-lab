@@ -9,7 +9,7 @@
 - set: unique items, O(1) `in`, `& | -`.
 - Comprehensions `[f(x) for x in xs if cond]`; `( ... )` = lazy generator for big data. Too complex → write a loop.
 - Truthiness: `0`, `""`, `[]`, `{}`, `None` are falsy; everything else is truthy. `if n % 2` means "if n is odd".
-- Generated: [Python-Core-Cheat-Sheet.jpg](Python-Core-Cheat-Sheet.jpg)
+- Generated: [Python-Core-Cheat-Sheet.jpg](../../revision/topics/python-core/Python-Core-Cheat-Sheet.jpg)
 
 ### Quiz: 5 / 7
 | # | Question | My answer | Correct |

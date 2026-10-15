@@ -1,6 +1,6 @@
 # NumPy
 
-**Status:** ⏳ brush-up in progress (learned before, functions forgotten) · **Sessions:** 15 Oct (W2 brush-up) · **Code:** [`drill/numpy/numpy_brushup.py`](../../drill/numpy/numpy_brushup.py)
+**Status:** ⏳ brush-up in progress (learned before, functions forgotten) · **Sessions:** 15 Oct (W2 brush-up) · **Code:** [`drill/numpy/numpy_brushup.py`](../../../drill/numpy/numpy_brushup.py)
 **Cheat sheet:** to make from whatever I had to look up · **Interview Qs:** none yet
 **Resources:** [100 NumPy exercises](https://github.com/rougier/numpy-100) #1–30 · [PDSH ch. 2](https://jakevdp.github.io/PythonDataScienceHandbook/) for lookups only
 
@@ -20,5 +20,8 @@
 
 ## Gaps
 - [ ] Drill steps 1–10.
+- [ ] Views vs copies: slicing returns a **view**, so editing it changes the original; use `.copy()`. Classic gotcha.
+- [ ] `np.random.default_rng(seed)` for reproducible data.
+- [ ] dtype gotcha: assigning 2.7 into an int array silently stores 2.
 - [ ] Cheat sheet + topic card + interview Qs when done.
 - [ ] Revisit in W6 (ML fundamentals) → update this file, not a new one.

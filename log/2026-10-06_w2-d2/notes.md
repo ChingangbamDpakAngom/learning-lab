@@ -1,6 +1,6 @@
 # Tue 6 Oct 2026 · Week 2, Day 2 (modules lesson, continued)
 
-**Revision:** [Modules + Imports cheat sheet](Modules-Imports-Cheat-Sheet.jpg) · [9 interview questions](Interview-Questions.md) (covers W2 D1 + D2) · [OOP cheat sheet](OOP-Cheat-Sheet.jpg) · [29 OOP questions](OOP-Interview-Questions.md)
+**Revision:** [Modules + Imports cheat sheet](../../revision/topics/modules-imports/Modules-Imports-Cheat-Sheet.jpg) · [9 interview questions](../../revision/topics/modules-imports/Interview-Questions.md) (covers W2 D1 + D2) · [OOP cheat sheet](../../revision/topics/oop/OOP-Cheat-Sheet.jpg) · [29 OOP questions](../../revision/topics/oop/Interview-Questions.md)
 
 ## Key points: why · how · when (revise from this table)
 **Study strategy:** remember *why it exists, how it works, when to use it*, not every line of code. Exception: a few core lines to type from memory for live coding:
@@ -97,7 +97,7 @@ Run: `python main.py` from `own_modules/` → `Hello, Deepak! · 5 · 6 · IMPOR
 - `-e` has no good short video → [setuptools: Development Mode](https://setuptools.pypa.io/en/latest/userguide/development_mode.html), first section only (3 min read)
 
 **OOP (Week 1 carry-over, essentials only)**
-- [x] Corey: [OOP 1: Classes and Instances](https://www.youtube.com/watch?v=ZDa-Z5JzLYM) (15 min) → `drill/oop/oop1_classes.py` (runs). **`self` = the instance the method was called on** (`emp_1.who_am_i()` → `self is emp_1` True); `obj.method()` = `Class.method(obj)`. Chose `email()` as a method (stays correct if `first` changes). [10 OOP interview questions](OOP-Interview-Questions.md)
+- [x] Corey: [OOP 1: Classes and Instances](https://www.youtube.com/watch?v=ZDa-Z5JzLYM) (15 min) → `drill/oop/oop1_classes.py` (runs). **`self` = the instance the method was called on** (`emp_1.who_am_i()` → `self is emp_1` True); `obj.method()` = `Class.method(obj)`. Chose `email()` as a method (stays correct if `first` changes). [10 OOP interview questions](../../revision/topics/oop/Interview-Questions.md)
 - [x] Corey: [OOP 2: Class Variables](https://www.youtube.com/watch?v=BJ-VvGyQxho) (12 min) → `drill/oop/oop2_class_variables.py` (runs). Class var lives in the class body, shared; `self.x` looks on instance then class; assigning via an instance shadows it; counters use `Employee.num_of_emps`. Q11–15 added to OOP questions.
 - [x] Corey: [OOP 4: Inheritance](https://www.youtube.com/watch?v=RSl87lqOXDE) (20 min) → `drill/oop/oop4_inheritance.py` (runs). `super()` reuses the parent's setup; lookup instance → child → parent (MRO); `employees=None` avoids the shared-list trap. OOP 5 skipped: only `__repr__` (developer view) vs `__str__` (user view). Next: OOP 6 property + 4 pillars. Fix: indentation mixes 4/5/8/10 spaces → use 4 (Shift+Alt+F).
 

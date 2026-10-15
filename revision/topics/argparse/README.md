@@ -1,7 +1,7 @@
 # argparse (CLI)
 
-**Status:** ✅ done · **Sessions:** 10–15 Oct (no day folder; summary in [LEARNED.md](../LEARNED.md#13-argparse-cli--1015-oct)) · **Code:** [`drill/cli/`](../../drill/cli/) (argparse_basics.py, wordcount.py)
-**Interview Qs:** [short answers](../INTERVIEW-QA.md#argparse-cli)
+**Status:** ✅ done · **Sessions:** 10–15 Oct (no day folder; summary in [LEARNED.md](../../LEARNED.md#13-argparse-cli--1015-oct)) · **Code:** [`drill/cli/`](../../../drill/cli) (argparse_basics.py, wordcount.py)
+**Interview Qs:** [short answers](../../INTERVIEW-QA.md#argparse-cli)
 **Resources:** NeuralNine *Argument Parsing with argparse* (whole) · anthonywritescode *argparse tutorial #044* (`main(argv) -> int` pattern)
 
 ## Must know
@@ -15,5 +15,6 @@
 - None recorded yet.
 
 ## Gaps
+- [ ] Use it for real in lab 01 (`--month`, `--rows`, `--out`, `--verbose`), then tick CLI in SKILLS-CHECKLIST.
+- [ ] No cheat sheet yet.
 - [ ] Subcommands (`add_subparsers`): skipped, look up when needed.
-- [ ] Use it for real in lab 01 (`--month`, `--rows`, `--out`, `--verbose`).

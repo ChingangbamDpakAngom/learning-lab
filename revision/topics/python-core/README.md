@@ -1,7 +1,7 @@
 # Python core
 
-**Status:** ✅ done (quiz 5/7) · **Sessions:** [28 Sep](../../log/2026-09-28_w1-d1/notes.md)
-**Cheat sheet:** [Python core](../../log/2026-09-28_w1-d1/Python-Core-Cheat-Sheet.jpg) · **Interview Qs:** [short answers](../INTERVIEW-QA.md#python-core)
+**Status:** ✅ done (quiz 5/7) · **Sessions:** [28 Sep](../../../log/2026-09-28_w1-d1/notes.md)
+**Cheat sheet:** [Python core](Python-Core-Cheat-Sheet.jpg) · **Interview Qs:** [short answers](../../INTERVIEW-QA.md#python-core)
 
 ## Must know
 - Default args are evaluated **once**, when `def` runs → `items=[]` is shared across calls. Use `items=None`.
@@ -19,4 +19,8 @@
 - Didn't read `key=` and `reverse=` to say *which* 3 items.
 
 ## Gaps
-- [ ] `*args/**kwargs`, generators (`yield`), decorators, the GIL (planned Sun 18 Oct).
+- [ ] `*args/**kwargs`: ticked in SKILLS-CHECKLIST but never noted or quizzed.
+- [ ] Generators + `yield`, decorators, the GIL (Sun 18 Oct).
+- [ ] Writing your own context manager (`__enter__`/`__exit__` or `contextlib.contextmanager`): the usual follow-up to "what does `with` do?".
+- [ ] Interview one-liners not in the notes: `enumerate`, `zip`, `lambda`, `is` vs `==`.
+- [ ] No interview-question file (only the [short answers](../../INTERVIEW-QA.md#python-core)).

@@ -85,7 +85,7 @@
 **Sunday weekly review (1.5 h), in order:**
 1. **W2 deep** (45 m). For each topic: open the card in recall mode → say What · Why · How · Solves · When **out loud** → reveal → rate it.
    Topics: modules → uv → OOP → dataclasses → pytest → git → argparse → NumPy → pandas → SQL.
-2. **Interview questions** (20 m): answer 10 from the [29 OOP Qs](../log/2026-10-06_w2-d2/OOP-Interview-Questions.md) and the pytest section of [INTERVIEW-QA.md](INTERVIEW-QA.md) out loud.
+2. **Interview questions** (20 m): answer 10 from the [29 OOP Qs](topics/oop/Interview-Questions.md) and the pytest section of [INTERVIEW-QA.md](INTERVIEW-QA.md) out loud.
 3. **W0–W1 quick pass** (15 m), one line each: Big-O (time **and** space), Python core, errors + retries, logging.
 4. **Quiz with Claude** (10 m): `Quiz` in the revision Project ([CONTEXT.md](CONTEXT.md)).
 5. **Log it:** every Shaky card or missed question goes into [weak-spots.md](../log/weak-spots.md) → re-test on day 3.

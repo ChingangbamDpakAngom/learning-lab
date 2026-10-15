@@ -1,6 +1,6 @@
 # SQL
 
-**Status:** 🟡 part 1 only · **Sessions:** [28 Sep, part 1](../../log/2026-09-28_w1-d1/notes.md) · **Code:** [`drill/sql/`](../../drill/sql/) (empty so far) · **Playground:** https://shell.duckdb.org
+**Status:** 🟡 part 1 only · **Sessions:** [28 Sep, part 1](../../../log/2026-09-28_w1-d1/notes.md) · **Code:** [`drill/sql/`](../../../drill/sql) (empty so far) · **Playground:** https://shell.duckdb.org
 **Interview Qs:** none yet
 
 ## Must know (part 1)
@@ -15,6 +15,7 @@
 
 ## Gaps
 - [ ] Part 2: GROUP BY / HAVING, `COUNT(*)` vs `COUNT(col)` (SQL Saturday, 17 Oct).
-- [ ] Joins, CTEs (`WITH`), window functions (ROW_NUMBER, RANK, LAG, running totals).
-- [ ] Practice: SQLBolt 6–12 → PostgreSQL Exercises "Joins" + "Aggregates" → DataLemur easy.
-- [ ] Interview Qs + cheat sheet once part 2 is done.
+- [ ] Logical order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT (why WHERE can't use an aggregate or a SELECT alias). Top interview question.
+- [ ] Joins (INNER vs LEFT, where NULLs appear), CTEs (`WITH`), window functions (ROW_NUMBER, RANK, LAG, running totals).
+- [ ] Practice: SQLBolt 6–12 → PostgreSQL Exercises "Joins" + "Aggregates" → DataLemur easy. `drill/sql/` is still empty.
+- [ ] Cheat sheet + interview Qs once part 2 is done.

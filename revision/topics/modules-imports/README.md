@@ -1,7 +1,7 @@
 # Modules, imports, environments (venv, uv, `-m`, `-e`)
 
-**Status:** ✅ done · **Sessions:** [5 Oct](../../log/2026-10-05_w2-d1/notes.md) · [6 Oct](../../log/2026-10-06_w2-d2/notes.md) · [8 Oct, uv setup](../../log/2026-10-08_w2-d4/notes.md) · **Code:** [`drill/modules/`](../../drill/modules/)
-**Cheat sheet:** [Modules + imports](../../log/2026-10-06_w2-d2/Modules-Imports-Cheat-Sheet.jpg) · **Interview Qs:** [6 Oct set](../../log/2026-10-06_w2-d2/Interview-Questions.md) · [short answers](../INTERVIEW-QA.md#modules-imports--environments)
+**Status:** ✅ done · **Sessions:** [5 Oct](../../../log/2026-10-05_w2-d1/notes.md) · [6 Oct](../../../log/2026-10-06_w2-d2/notes.md) · [8 Oct, uv setup](../../../log/2026-10-08_w2-d4/notes.md) · **Code:** [`drill/modules/`](../../../drill/modules)
+**Cheat sheet:** [Modules + imports](Modules-Imports-Cheat-Sheet.jpg) · **Interview Qs:** [6 Oct set](Interview-Questions.md) · [short answers](../../INTERVIEW-QA.md#modules-imports--environments)
 **Resources:** Corey Schafer *Import Modules* + *`if __name__ == '__main__'`* · Python Morsels *Modules are cached* · Caleb Curry *sys.path* · NeuralNine *Importing Your Own Modules* · anthonywritescode *don't run `python my/script.py`*
 
 ## Must know
@@ -29,4 +29,4 @@
 - Git Bash: backslash paths get eaten → always use `/`.
 
 ## Gaps
-- None open. Use `-m` / `uv sync` for real in lab 01.
+- [ ] None open on theory. Use `-m` and `uv sync` for real in lab 01.
