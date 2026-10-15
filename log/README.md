@@ -6,6 +6,8 @@ Plan: [PLAN.md](../PLAN.md) (v4, AI engineer). Daily tracker: `D:\portfolio\road
 
 Cheat sheets: one per topic, `Topic-Cheat-Sheet.source.html` (uses `assets/cheatsheet.css`) → `python assets/render.py <file>` → `Topic-Cheat-Sheet.jpg`.
 
+By topic: [revision/topics/](../revision/topics/README.md) compiles every day's notes into one file per topic (updated whenever a topic is studied again).
+
 One folder per day: `YYYY-MM-DD_wW-dD/` holding `notes.md` (what I learned, quiz results, mistakes, open questions) plus anything generated that day (cheat sheets, diagrams, snippets).
 
 | Date | Week · Day | Topics | Files |

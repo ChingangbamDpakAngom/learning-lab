@@ -5,6 +5,7 @@ Everything for revising before an interview, in one place. Start with the topic 
 | Use it for | File | Online |
 |---|---|---|
 | **Revise a topic**: What · Why · How · Solves, with recall mode | [topic-cards.html](topic-cards.html) | [Topic Cards](https://claude.ai/artifact/FQhbAeERhqnSYSBS7UgVpK) |
+| **Everything on one topic**: compiled notes, mistakes and open gaps, one file per topic across all sessions | [topics/](topics/README.md) | — |
 | **Find a resource**: every video, doc and practice site, week by week, with the parts to watch | [roadmap-resources.html](roadmap-resources.html) | [Roadmap Library](https://claude.ai/artifact/DpMiXAhi6wVtuU1A6qJ8Nt) |
 | **This week's plan**: what's left, in order, with what to read + the revision schedule | [WEEK2-PLAN.md](WEEK2-PLAN.md) | — |
 | **What I've learned, in order**: every topic with the resources I used, my code and notes | [LEARNED.md](LEARNED.md) | — |
