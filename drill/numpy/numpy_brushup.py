@@ -30,6 +30,7 @@ Step 10. (Stretch) Time a Python loop sum vs np.sum on 1,000,000 numbers with ti
 """
 
 import numpy as np
+import time
 
 items = np.array([
     [120, 80, 95],
@@ -79,9 +80,9 @@ def main() -> None:
                 {biggest_total_index}""")
 
     # Step 5 : Filter with a condition
-    values_above_100 = np.where(items >100)
+    values_above_100 = items[np.where(items >100)]
     how_many = len(values_above_100)
-    same_shape = np.where(items>100, "Hihg", "Low")
+    same_shape = np.where(items>100, "High", "Low")
 
     print(f"""
         {values_above_100}
@@ -89,17 +90,49 @@ def main() -> None:
         {same_shape}
 """)
 
-    # Step 6
+    # Step 6 : Broadcasting
+    mean_value = items.mean(axis=0)
+    std_col = items.std(axis=0)
+    z_score = (items - mean_value)/std_col
 
-    # Step 7
+    print(z_score)
 
-    # Step 8
+    # Step 7 : Add a row and reshape
+    new_month = np.array([125,88,102])
+    latest_table = np.vstack([items,new_month])
+    print(latest_table.shape)
+    print(latest_table.flatten())
 
-    # Step 9
 
+    # Step 8 : Statistics on all the values
+    median = np.median(items)
+    percentile_90 = np.percentile(items, 90)
+    count_chapter = np.unique(chapters, return_counts=True)
+
+    print(f"""  {median}
+                {percentile_90}
+                {count_chapter}""")
+
+    # Step 9 : cosine similarity
+#     Cosine Similarity is a metric used to measure how similar two vectors are,
+#     regardless of their magnitude. It is frequently used in text analysis, recommendation systems, and clustering tasks, where the orientation of data (rather than its scale) is more important.
+    cosine_similarity = a@b /(np.linalg.norm(a) * np.linalg.norm(b))
+
+    print(cosine_similarity)
     # Step 10
-    ...
 
+    nums = np.arange(1_000_000)
+    start = time.perf_counter()
+    total = 0
+    for n in nums:
+        total += n
+    loop_time = time.perf_counter() - start
+
+    start = time.perf_counter()
+    np_total = nums.sum()
+    np_time =  time.perf_counter() - start
+
+    print(f"loop: {loop_time:.4f}s  numpy: {np_time:.4f}s  -> {loop_time / np_time:.0f} x faster")
 
 if __name__ == "__main__":
     main()
