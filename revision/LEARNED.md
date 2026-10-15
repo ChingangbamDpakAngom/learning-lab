@@ -93,7 +93,18 @@ Revise a topic with the [Topic Cards](https://claude.ai/artifact/FQhbAeERhqnSYSB
 - **Notes:** [8 Oct](../log/2026-10-08_w2-d4/notes.md) · **[explainer: raises, parametrize, mocker](explainers/pytest-raises-parametrize-mocker.md)**
 - **Key idea:** test the happy path, the error path, and external calls (mocked).
 
+### 12. Git basics · 10 Oct
+- **Resources:** Corey Schafer [Git Tutorial for Beginners: Command-Line Fundamentals](https://www.youtube.com/watch?v=HVsySz-h9r4) (whole) · [Pro Git](https://git-scm.com/book/en/v2) as a reference only (ch. 2, 3.1–3.2, 6.2).
+- **Practice:** `D:/portfolio/git-sandbox` (outside the repo): init, add, commit, reset, branches, `.gitignore`, `branch --merged`, `branch -d`.
+- **Not yet done:** a real merge conflict and a pull request; both come in lab 01. Deeper git (stash, revert/reset, rebase) is parked for the buffer week.
+- **Key idea:** edit → `add` (stage) → `commit` (local snapshot) → `push` (GitHub). `pull` = fetch + merge. Commit never uploads.
+
+### 13. argparse (CLI) · 10–15 Oct
+- **Resources:** NeuralNine [Argument Parsing with argparse in Python](https://www.youtube.com/watch?v=88pl8TuuKz0) (whole) · anthonywritescode [argparse tutorial #044](https://www.youtube.com/watch?v=-Sgw-6a1HjU) (code-along pattern: `main(argv) -> int`).
+- **Code:** [`drill/cli/`](../drill/cli/) (argparse_basics.py, wordcount.py)
+- **Key idea:** create a parser → `add_argument` for every input (positional = compulsory, `--` = optional with `default`, `store_true` = flag) → `parse_args(argv)` once → read `args.x`. `--help`, type conversion and errors come free.
+
 ---
 
 ## Next
-Lab 01 (NHSBSA downloader + tests) · NumPy + pandas · SQL joins/CTEs/windows · git + argparse.
+Lab 01 (NHSBSA downloader + CLI + tests, first branch + pull request) · NumPy + pandas · SQL joins/CTEs/windows · lab 03.

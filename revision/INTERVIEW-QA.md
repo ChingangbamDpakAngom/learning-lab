@@ -128,5 +128,18 @@ Levels: 🟢 screening · 🟡 technical · 🔴 follow-up probe. Last updated: 
 - 🔴 **Lost update with GET + SET?** Race condition; use atomic `INCR` (or MULTI/EXEC, Lua).
 - 🟡 **Redis vs Postgres for everything?** RAM is costly, durability weaker, no rich queries: Redis sits beside the database.
 
+## Git
+- 🟢 **`add` vs `commit` vs `push`?** `add` stages changes (picks them for the next snapshot), `commit` saves the snapshot locally, `push` uploads commits to GitHub.
+- 🟢 **`pull` vs `fetch`?** `fetch` only downloads new commits; `pull` = fetch + merge into your branch.
+- 🟡 **Push rejected with "fetch first"?** Someone pushed commits you don't have: `git pull` (resolve any conflict), then push again.
+- 🟡 **What goes in `.gitignore`?** `.venv` (big, machine-specific, rebuilt from `uv.lock`), `.env` (secrets), data files and logs.
+- 🟡 **Walk me through making a change to our codebase.** `clone` → `switch -c feature` → small commits → push → pull request → review → merge → delete the branch.
+
+## argparse (CLI)
+- 🟢 **Positional vs optional argument?** Positional (no dashes) is compulsory; `--name` is optional and falls back to its `default` (or `None`).
+- 🟢 **What does `action="store_true"` do?** Makes a flag with no value: `True` if typed, `False` if not.
+- 🟡 **Why `main(argv=None) -> int` and `raise SystemExit(main())`?** `parse_args(argv)` lets tests pass a list instead of the terminal; the returned int becomes the exit code (0 = success) that shells and CI check.
+- 🟡 **What does argparse give you for free?** `--help`, type conversion, and clear errors with exit code 2 for missing or invalid arguments.
+
 ## Coming next (added as I learn them)
-argparse · git · NumPy · pandas · SQL joins/CTEs/windows · generators, decorators, `*args/**kwargs`, the GIL · then W3 (async, FastAPI, LLM basics, prompting, structured output, tool calling).
+NumPy · pandas · SQL joins/CTEs/windows · generators, decorators, `*args/**kwargs`, the GIL · then W3 (async, FastAPI, LLM basics, prompting, structured output, tool calling).
