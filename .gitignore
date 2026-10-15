@@ -10,6 +10,7 @@ venv/
 
 # Data and secrets: download it, don't commit it
 data/
+*.csv
 *.parquet
 *.duckdb
 .env
