@@ -1,0 +1,3 @@
+The NHS publishes prescribing data every month.
+The data is open and the NHS API returns data as JSON.
+the end
