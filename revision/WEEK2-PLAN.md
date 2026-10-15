@@ -1,4 +1,25 @@
-# Week 2 finish + revision plan (Thu 8 – Sun 11 Oct)
+# Week 2 catch-up: finish everything by Sun 18 Oct, then W3
+
+**Updated Thu 15 Oct.** Done since the first plan: git basics ✅ · argparse ✅. NumPy + pandas = brush-up only (learned before, functions forgotten).
+
+| Day | Block 1 | Block 2 | Block 3 |
+|---|---|---|---|
+| **Thu 15** | **Lab 01** start (new chat): spec, starter files, branch | Lab 01 build: `download_month` + retries | — |
+| **Fri 16** | Lab 01 finish: CLI + tests → **pull request → merge** ✅ ship | **NumPy brush-up** (1.5 h) | **pandas brush-up** part 1 (1.5 h) |
+| **Sat 17** | pandas part 2 (1 h) → **lab 03** clean + profile (2 h) | **SQL Saturday**: GROUP BY/HAVING, joins, CTEs, windows (2 h) | — |
+| **Sun 18** | **Python Qs**: `*args/**kwargs`, generators, decorators, the GIL (1.5 h, in chat) | **Full revision** W0–W2 (2 h, checklist below) | Plan W3 (10 m) |
+
+**Brush-up method (NumPy, pandas, SQL): exercises first, look up only what you've forgotten.** No videos.
+- NumPy: [100 NumPy exercises](https://github.com/rougier/numpy-100) #1–30 → anything missed, look up in [PDSH ch. 2](https://jakevdp.github.io/PythonDataScienceHandbook/).
+- pandas: [Kaggle Learn Pandas](https://www.kaggle.com/learn/pandas): do each lesson's **exercise first**, read the lesson only if stuck.
+- SQL: [SQLBolt](https://sqlbolt.com/) 6–12 (joins, aggregates) → [PostgreSQL Exercises](https://pgexercises.com/) "Joins" + "Aggregates" (includes window functions).
+- Make one **cheat sheet** per topic from what you had to look up: that's exactly what you forget.
+
+**If a shift or a bad day costs a block:** cut lab 03 down to "profile only" (nulls, dtypes, duplicates) first, then move SQL windows to W3 Sat. Never cut lab 01 or the Sunday revision.
+
+---
+
+# Original plan (Thu 8 – Sun 11 Oct)
 
 **Where I am:** about 2 days behind plan v4.2. Sunday is light because of the M&S induction at 6 am.
 
