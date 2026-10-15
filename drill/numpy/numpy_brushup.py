@@ -44,6 +44,10 @@ b = np.array([2, 4, 6])
 c = np.array([3, -1, 0])
 
 
+def cosine(x: np.ndarray, y: np.ndarray) -> float:
+    return float(x @ y / (np.linalg.norm(x) * np.linalg.norm(y)))
+
+
 def main() -> None:
     # Step 1 : inspecting array
     print(f"""shape: {items.shape}, 
@@ -66,13 +70,13 @@ def main() -> None:
     percentage = (change /previous_month *100).round(2)
 
     print(f"""
-    cost of every value at £8.50 per item: {cost} 
-    Month on month % changes: 0{percentage}
+    cost of every value at GBP 8.50 per item: {cost}
+    Month on month % changes: {percentage}
     """)
 
     # Step 4 : Total and averages with axis
     total_per_region = np.sum(items, axis = 0)
-    average_per_month = (np.sum(items, axis = 1)/len(items[0,:]))
+    average_per_month = items.mean(axis=1).round(2)
     biggest_total_index =  total_per_region.argmax()
 
     print(f"""  {total_per_region}
@@ -80,9 +84,9 @@ def main() -> None:
                 {biggest_total_index}""")
 
     # Step 5 : Filter with a condition
-    values_above_100 = items[np.where(items >100)]
-    how_many = len(values_above_100)
-    same_shape = np.where(items>100, "High", "Low")
+    values_above_100 = items[items > 100]
+    how_many = (items > 100).sum()
+    same_shape = np.where(items > 100, "high", "normal")
 
     print(f"""
         {values_above_100}
@@ -95,7 +99,8 @@ def main() -> None:
     std_col = items.std(axis=0)
     z_score = (items - mean_value)/std_col
 
-    print(z_score)
+    print(z_score.round(2))
+    print(np.allclose(z_score.mean(axis=0), 0))
 
     # Step 7 : Add a row and reshape
     new_month = np.array([125,88,102])
@@ -107,19 +112,19 @@ def main() -> None:
     # Step 8 : Statistics on all the values
     median = np.median(items)
     percentile_90 = np.percentile(items, 90)
-    count_chapter = np.unique(chapters, return_counts=True)
+    names, counts = np.unique(chapters, return_counts=True)
 
     print(f"""  {median}
                 {percentile_90}
-                {count_chapter}""")
+                {dict(zip(names.tolist(), counts.tolist()))}""")
 
     # Step 9 : cosine similarity
-#     Cosine Similarity is a metric used to measure how similar two vectors are,
-#     regardless of their magnitude. It is frequently used in text analysis, recommendation systems, and clustering tasks, where the orientation of data (rather than its scale) is more important.
-    cosine_similarity = a@b /(np.linalg.norm(a) * np.linalg.norm(b))
+    # Measures how similar two vectors are by direction, regardless of their size
+    # (1 = same direction, 0 = unrelated). Used to rank embeddings in RAG.
+    print(cosine(a, b))
+    print(round(cosine(a, c), 4))
 
-    print(cosine_similarity)
-    # Step 10
+    # Step 10 : Python loop vs NumPy
 
     nums = np.arange(1_000_000)
     start = time.perf_counter()
