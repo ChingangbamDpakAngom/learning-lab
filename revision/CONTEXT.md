@@ -32,23 +32,26 @@ Angle: trustworthy LLM apps for health and public-sector documents. Interviews n
 2. **Aegis Gateway v1.0** (done): FastAPI LLM gateway: API keys, rate limits, prompt-injection guard (DeBERTa, precision 1.00 / recall 0.37), exact + semantic cache, model router with fallback, Prometheus/Grafana, Docker, load test.
 3. **NHS prescribing analysis**: NHSBSA data → DuckDB + dbt → pandas → Streamlit.
 
-## Roadmap (plan v5.1): essentials by Sun 22 Nov, buffer 23–29 Nov
+## Roadmap (plan v6, shift-aware): essentials by Sun 6 Dec, buffer 7–13 Dec
+Up to 3 × 12 h M&S shifts a week → about 20 h of study a week (4 full days + a light Saturday). AI core at full depth; ML at concept level (StatQuest book).
 Every topic has a **reading cap** (30–60 min) and a "done when" test (full table in PLAN.md → *Reading budgets*). Stuck rule: when the cap ends, park open questions and move to the lab.
 | Week | Dates | Learn | Labs (I code) |
 |---|---|---|---|
 | W0 | 25–27 Sep | Big-O, two pointers, descriptive stats, Docker + Redis basics | — |
 | W1 | 28 Sep–4 Oct | Python core, errors + files, logging; SQL basics | lab 01 spec |
-| W2 | 5–11 Oct | Modules + CLI + git, OOP + dataclasses, pytest, NumPy, pandas, SQL joins/CTEs/windows | 01 NHSBSA downloader + CLI + tests · 03 clean + profile a dataset |
-| W3 | 12–18 Oct | async + HTTP, FastAPI (+ streaming), type hints + Pydantic, how LLMs work, tokenisation, transformers + positional embeddings (RoPE), prompting, structured output, tool calling | 04+05 FastAPI LLM service with async retrying client · 06 LLM extractor + eval |
-| W4 | 19–25 Oct | Embeddings, vector DBs, parsing, chunking, hybrid search, reranking, citations, grounding options, LLM evals | 07 RAG API on Chroma · 08 eval harness + error analysis |
-| W5 | 26 Oct–1 Nov | Agents: tool loop, memory/context, single vs multi-agent, sandboxing, guardrails (OWASP LLM Top 10), LangGraph, MCP, agent evals | 09 agent from scratch + guardrails · 10 LangGraph + MCP + agent eval |
-| W6 | 2–8 Nov | ML fundamentals, metrics, trees/boosting, k-means/PCA, feature engineering, MLflow, maths for ML, neural nets, PyTorch basics, Hugging Face, fine-tuning/LoRA/quantisation (concepts), stats (p-values, A/B) | 11 sklearn pipeline + metrics from scratch + MLflow · optional quantisation benchmark |
-| W7 | 9–15 Nov | Docker, Kubernetes (concept), cloud + Azure OpenAI + AWS equivalents map, CI/CD with eval gate, pip-audit/gitleaks, Langfuse, drift (concept) | 13 Docker + Azure deploy · 14 CI + eval gate + tracing |
-| W8 | 16–22 Nov | AI system design, responsible AI, question bank, STAR stories, dissertation pitch, "why AI engineering?", right-to-work answer | 17 3-hour take-home practice + mocks |
-| Buffer | 23–29 Nov | No new topics: catch-up + mocks | — |
-| Dec | optional | Labs 12 PyTorch loop, 15 TF-IDF vs HF zero-shot, 16 LoRA + model card; Postgres, Spark, K8s, Terraform | — |
+| W2 | 5–11 Oct | Modules + CLI + git, OOP + dataclasses, pytest, NumPy, pandas, SQL joins/CTEs/windows | 01 NHSBSA downloader + CLI + tests |
+| W2+ | 12–18 Oct | Catch-up: argparse, git, gap fixes, NumPy + pandas brush-up, SQL GROUP BY/joins/CTEs/windows | 01 shipped as the first pull request |
+| W3 | 19–25 Oct | Python Qs + shell basics (W2 close), async + HTTP, FastAPI + Pydantic + type hints, how LLMs work + tokenisation | 04+05 FastAPI LLM service with async retrying client · 03 profile only |
+| W4 | 26 Oct–1 Nov | Transformers + positional embeddings (RoPE), prompting + structured output, tool calling, embeddings + vector DBs | 06 LLM extractor + eval · 07 spec |
+| W5 | 2–8 Nov | Parsing, chunking, hybrid search, reranking, citations, grounding options, LLM evals, error analysis | 07 RAG API on Chroma · 08 eval harness + error analysis |
+| W6 | 9–15 Nov | Agents: tool loop, memory/context, guardrails (OWASP LLM Top 10), LangGraph + MCP + agent evals | 09 agent from scratch + guardrails · 10 LangGraph + MCP + agent eval |
+| W7 | 16–22 Nov | ML concepts (StatQuest book: metrics, regression, gradient descent, trees/boosting, neural nets + backprop), fine-tuning/LoRA/quantisation (concepts), stats (distributions, p-values, A/B), Docker | 11 sklearn pipeline + metrics from scratch · 13 Dockerise |
+| W8 | 23–29 Nov | Cloud + Azure OpenAI + AWS map, CI/CD with eval gate, pip-audit/gitleaks, Langfuse, AI system design, responsible AI | 13 Azure deploy · 14 CI + eval gate + tracing |
+| W9 | 30 Nov–6 Dec | Interview mode: design practice, STAR stories, dissertation pitch, "why AI engineering?", right-to-work answer, mocks | 17 3-hour take-home practice |
+| Buffer | 7–13 Dec | No new topics: catch-up + mocks | — |
+| Later | optional | Labs 12 PyTorch loop, 15 TF-IDF vs HF zero-shot, 16 LoRA + model card; quantisation benchmark; Postgres, Spark, K8s, Terraform | — |
 
-Drill: NeetCode Mon/Wed (+Fri until W3; AI coding katas from W4), interview questions Tue, 30-min mock Thu (from W3), SQL Sat.
+Drill: NeetCode Mon/Wed, interview questions Tue, AI coding kata Fri (from W4), SQL + mock on light Saturdays. Thursdays are usually shift days.
 
 ## Progress (8 Oct): about 2 days behind
 **Learned so far (quiz me on these):**

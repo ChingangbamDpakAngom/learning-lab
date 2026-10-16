@@ -6,8 +6,8 @@
 | Day | Block 1 | Block 2 | Block 3 |
 |---|---|---|---|
 | **Thu 15** | **Lab 01** start (new chat): spec, starter files, branch | Lab 01 build: `download_month` + retries | — |
-| **Fri 16** | 🩹 HTTP `timeout=` + `raise_for_status()` (10 m) · 🩹 pytest: `-k`/`-x`/`-v` + `monkeypatch` (25 m) → Lab 01 finish: CLI + tests → **pull request → merge** ✅ ship | **NumPy brush-up** ✅ drill done (🩹 views vs copies, `default_rng` → Mon revision) | pandas part 1 → moves to Sat |
-| **Sat 17** | 🩹 **Shell basics**: `cd`, `ls`, pipes, `>`, env vars, `which` (30 m) → **pandas** parts 1 + 2 (2 h) → **lab 03** profile only (1 h) | **SQL Saturday** (2 h): 🩹 logical order + `COUNT(*)` vs `COUNT(col)` first, then GROUP BY/HAVING, INNER vs LEFT joins, CTEs, windows | — |
+| **Fri 16** | 🩹 HTTP `timeout=` + `raise_for_status()` (10 m) · 🩹 pytest: `-k`/`-x`/`-v` + `monkeypatch` (25 m) → Lab 01 build (ship moves to Sat) | **NumPy brush-up** ✅ drill done (🩹 views vs copies, `default_rng` → Mon revision) | pandas part 1 → moves to Sat |
+| **Sat 17** | **Lab 01 finish** (not shipped on Fri): CLI + tests → **pull request → merge** (2 h) | **pandas** drill finish (1.5 h) | **SQL Saturday** (2 h): 🩹 logical order + `COUNT(*)` vs `COUNT(col)` first, then GROUP BY/HAVING, INNER vs LEFT joins, CTEs, windows |
 | **Sun 18** | 🏭 **Shift 06:00–18:00**: no study. Optional 20 min phone recall (Topic Cards: modules + OOP) | — | — |
 
 ## Week of Sun 18 Oct (rota received 15 Oct)
@@ -15,14 +15,14 @@
 
 | Day | Rota | Plan |
 |---|---|---|
-| **Mon 19** | FLEX | If free: **Python Qs** (1.5 h, in chat): `*args/**kwargs`, generators, decorators, 🩹 context managers, the GIL → **full W0–W2 revision** (2 h) incl. 🩹 OOP composition vs inheritance + `__eq__`/`__hash__` and 🩹 NeetCode docstrings → Apply. If called in: rest. |
-| **Tue 20** | FLEX | If free: **W3 starts**: async + HTTP (40 min cap) → lab 04+05 spec → Apply. If called in: rest. |
-| **Wed 21** | rest | Anything Mon/Tue lost first, then the next W3 topic + 🩹 Docker + Redis hands-on (20 m) → Apply |
+| **Mon 19** | FLEX | If free: **Python Qs** (in chat): `*args/**kwargs`, generators, decorators, 🩹 context managers, the GIL + 🩹 **shell basics** (30 m) + **W0–W2 recall** incl. 🩹 composition vs inheritance, `__eq__`/`__hash__` + 🩹 NeetCode docstrings → Apply. If called in: this moves to the next free day. |
+| **Tue 20** | FLEX | If free: **W3 starts**: async + HTTP (40 min cap) → lab 04+05 spec → Apply. If called in: moves on. |
+| **Wed 21** | rest | Anything Mon/Tue lost first, then FastAPI + Pydantic + type hints → lab 04+05 build → Apply |
 | **Thu 22** | 🏭 06:00–18:00 | No study |
-| **Fri 23** | rest | Next W3 topic + lab → Apply |
-| **Sat 24** | rest | Next W3 topic + **SQL Saturday** + funnel review |
+| **Fri 23** | rest | How LLMs work + tokenisation → lab 04+05 tests → ship → Apply |
+| **Sat 24** | rest (light) | Lab 03 profile only (1 h) + **SQL Saturday** + funnel review |
 
-Whether the tracker's W3+ dates shift by a week is still open (the buffer week would absorb it).
+From W3 on, the day-by-day plan lives in the **tracker (plan v6)**: 4 full study days + a light Saturday a week, Thursdays marked as likely shifts, essentials by Sun 6 Dec. 🩹 Docker + Redis hands-on moved to the W7 Docker day.
 
 **Brush-up method (NumPy, pandas, SQL): exercises first, look up only what you've forgotten.** No videos.
 - NumPy: [100 NumPy exercises](https://github.com/rougier/numpy-100) #1–30 → anything missed, look up in [PDSH ch. 2](https://jakevdp.github.io/PythonDataScienceHandbook/).
