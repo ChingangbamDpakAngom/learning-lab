@@ -1,13 +1,14 @@
 # Week 2 catch-up: finish everything by Sun 18 Oct, then W3
 
-**Updated Thu 15 Oct.** Done since the first plan: git basics ✅ · argparse ✅. NumPy + pandas = brush-up only (learned before, functions forgotten).
+**Updated Fri 16 Oct.** Done since the first plan: git basics ✅ · argparse ✅. NumPy + pandas = brush-up only (learned before, functions forgotten).
+**Gap fixes added 16 Oct** (from the per-topic review in [topics/](topics/README.md)): marked 🩹 below, about 2 h in total.
 
 | Day | Block 1 | Block 2 | Block 3 |
 |---|---|---|---|
 | **Thu 15** | **Lab 01** start (new chat): spec, starter files, branch | Lab 01 build: `download_month` + retries | — |
-| **Fri 16** | Lab 01 finish: CLI + tests → **pull request → merge** ✅ ship | **NumPy brush-up** (1.5 h) | **pandas brush-up** part 1 (1.5 h) |
-| **Sat 17** | pandas part 2 (1 h) → **lab 03** clean + profile (2 h) | **SQL Saturday**: GROUP BY/HAVING, joins, CTEs, windows (2 h) | — |
-| **Sun 18** | **Python Qs**: `*args/**kwargs`, generators, decorators, the GIL (1.5 h, in chat) | **Full revision** W0–W2 (2 h, checklist below) | Plan W3 (10 m) |
+| **Fri 16** | 🩹 HTTP `timeout=` + `raise_for_status()` (10 m) · 🩹 pytest: `-k`/`-x`/`-v` + `monkeypatch` (25 m) → Lab 01 finish: CLI + tests → **pull request → merge** ✅ ship | **NumPy brush-up** (1.5 h, incl. 🩹 views vs copies, `default_rng`) | pandas part 1 → moves to Sat |
+| **Sat 17** | 🩹 **Shell basics**: `cd`, `ls`, pipes, `>`, env vars, `which` (30 m) → **pandas** parts 1 + 2 (2 h) → **lab 03** profile only (1 h) | **SQL Saturday** (2 h): 🩹 logical order + `COUNT(*)` vs `COUNT(col)` first, then GROUP BY/HAVING, INNER vs LEFT joins, CTEs, windows | — |
+| **Sun 18** | **Python Qs** (1.5 h, in chat): `*args/**kwargs`, generators, decorators, 🩹 context managers, the GIL | **Full revision** W0–W2 (2 h) incl. 🩹 OOP composition vs inheritance + `__eq__`/`__hash__` (15 m) and 🩹 NeetCode docstrings (20 m) | 🩹 Docker + Redis hands-on (20 m) · Plan W3 (10 m) |
 
 **Brush-up method (NumPy, pandas, SQL): exercises first, look up only what you've forgotten.** No videos.
 - NumPy: [100 NumPy exercises](https://github.com/rougier/numpy-100) #1–30 → anything missed, look up in [PDSH ch. 2](https://jakevdp.github.io/PythonDataScienceHandbook/).

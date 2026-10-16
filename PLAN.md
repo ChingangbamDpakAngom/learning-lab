@@ -91,7 +91,7 @@ Behind schedule? Cut the stretch goal first, then the Drill. Never cut Apply.
 |---|---|---|---|---|
 | 0 | 25–27 Sep | Setup, Big-O, descriptive stats | Create `learning-lab` | NHS business question + metrics |
 | 1 | 28 Sep–4 Oct | Python core, errors + files, logging; SQL basics (Drill) | — (lab 01 spec written) | NHS ingestion → DuckDB → dbt |
-| 2 | 5–11 Oct | Modules + CLI + git, OOP + pytest, NumPy (essentials), pandas, type hints + Pydantic; SQL joins/CTEs/windows (Drill) | 01 NHSBSA API downloader + tests · 03 clean + profile a dataset (NumPy stats folded in, replaces 02) | NHS v1 ships · study Aegis 0–2 |
+| 2 | 5–11 Oct (catch-up to 18 Oct) | Modules + CLI + git **+ shell basics**, OOP (**+ composition vs inheritance, `__eq__`/`__hash__`**) + pytest (**+ running tests: `-k`/`-x`/`-v`, `monkeypatch`**), NumPy (essentials **+ views vs copies, seeded random**), pandas, type hints + Pydantic; **Python Qs: `*args/**kwargs`, generators, decorators, context managers, the GIL**; **HTTP `timeout=` + `raise_for_status()`** (lab 01); SQL **logical order, GROUP BY/HAVING,** joins/CTEs/windows (Drill) | 01 NHSBSA API downloader + tests · 03 clean + profile a dataset (NumPy stats folded in, replaces 02) | NHS v1 ships · study Aegis 0–2 |
 | 3 | 12–18 Oct | async + HTTP/REST, FastAPI (incl. streaming responses / SSE), how LLMs work (incl. prompt caching, reasoning effort, multimodal), tokenisation, transformers + positional embeddings (RoPE), prompting, structured output, tool calling | 04+05 FastAPI LLM service with an async retrying client + tests · 06 LLM extractor + eval | New project spec + ingestion · study Aegis 3–7 |
 | 4 | 19–25 Oct | Document parsing, embeddings, vector DBs, chunking, hybrid search, reranking, citations, grounding options (prompt vs tool retrieval vs text-to-SQL), LLM evals + evaluating the judge | 07 RAG API on Chroma · 08 eval harness + error analysis | Project: retrieval + eval suite |
 | 5 | 26 Oct–1 Nov | Agents: tool loop, memory + context management, single vs multi-agent, sandboxed execution, guardrails (OWASP LLM Top 10), LangGraph, MCP, agent evals | 09 agent from scratch + guardrails · 10 LangGraph + MCP + agent eval | Project: agent + guardrails |
@@ -102,6 +102,8 @@ Behind schedule? Cut the stretch goal first, then the Drill. Never cut Apply.
 | Dec | optional | Lab 12 PyTorch training loop · lab 15 TF-IDF vs HF zero-shot · lab 16 LoRA fine-tune + model card · Postgres data modelling · K8s/Terraform only if ads ask; whatever interviews exposed | — | EPC / GridPulse (optional) |
 
 Behind by more than 2 days? Use Sunday morning first, then the buffer week. Never push a W2–W7 topic into December.
+
+**Gap review (16 Oct):** the per-topic review in `revision/topics/` found W0–W2 essentials that were never covered; the **bold** items in the W2 row above were added, scheduled in the catch-up (`revision/WEEK2-PLAN.md`, Fri 16 – Sun 18). Also added: Docker + Redis hands-on (20 min, a W0 item never done) and filling in the NeetCode docstrings (Drill). Gaps that the roadmap already covers later stay where they are (type hints + Pydantic W3, stats W6, production Dockerfile W7, git rebase/stash buffer).
 
 ## Reading budgets (from v5)
 Only the capped part of the Learn block is reading; the lab answers most of what reading can't.

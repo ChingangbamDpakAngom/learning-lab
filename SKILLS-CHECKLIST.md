@@ -6,9 +6,9 @@ Market demand (UK junior AI/ML ads, audits on 29 Sep, 5 Oct and 8 Oct 2026): ★
 
 ## 1. Python foundations (W1–W2)
 - [x] ★★★ **Python core**
-  - [x] functions, args/kwargs · [x] lists, dicts, sets, tuples · [x] comprehensions · [ ] generators · [ ] decorators · [ ] mutability gotchas
+  - [x] functions, args/kwargs · [x] lists, dicts, sets, tuples · [x] comprehensions · [ ] generators · [ ] decorators · [ ] mutability gotchas · [ ] context managers (`with`, `contextlib`) · [ ] `enumerate`, `zip`, `lambda`, `is` vs `==` · [ ] the GIL
 - [x] ★★★ **Errors + files**
-  - [x] try/except/else/finally, raise · [x] pathlib · [x] CSV + JSON · [x] retries with backoff
+  - [x] try/except/else/finally, raise · [x] pathlib · [x] CSV + JSON · [x] retries with backoff · [ ] HTTP `timeout=` + `raise_for_status()`
 - [x] ★★ **Logging**
   - [x] levels · [x] `getLogger(__name__)` · [x] `basicConfig` once in main · [x] `log.exception`
 - [x] ★★★ **Modules + packages**
@@ -20,15 +20,15 @@ Market demand (UK junior AI/ML ads, audits on 29 Sep, 5 Oct and 8 Oct 2026): ★
 - [ ] ★★★ **Git + shell**
   - [ ] add/commit/push/pull · [ ] branch + merge · [ ] PR flow + resolving a conflict · [ ] `.gitignore` · [ ] shell basics (cd, ls, pipes, env vars)
 - [x] ★★★ **OOP**
-  - [x] classes + `self` · [x] class vs instance variables · [x] classmethod + staticmethod · [x] inheritance + `super()` · [x] `@property` · [x] `__repr__` / `__str__` · [x] dataclasses
+  - [x] classes + `self` · [x] class vs instance variables · [x] classmethod + staticmethod · [x] inheritance + `super()` · [x] `@property` · [x] `__repr__` / `__str__` · [x] dataclasses · [ ] composition vs inheritance · [ ] `__eq__` / `__hash__`
 - [ ] ★★★ **pytest**
-  - [ ] asserts + test discovery · [ ] fixtures · [ ] `tmp_path` · [ ] parametrize · [ ] mocking HTTP (monkeypatch / respx)
+  - [ ] asserts + test discovery · [ ] fixtures · [ ] `tmp_path` · [ ] parametrize · [ ] mocking HTTP (monkeypatch / respx) · [ ] running tests: `-k`, `-x`, `-v`
 - [ ] ★★★ **NumPy**
-  - [ ] arrays, dtypes, shape · [ ] vectorisation · [ ] broadcasting · [ ] aggregations, percentiles, z-scores
+  - [ ] arrays, dtypes, shape · [ ] vectorisation · [ ] broadcasting · [ ] aggregations, percentiles, z-scores · [ ] views vs copies · [ ] seeded random (`default_rng`)
 - [ ] ★★★ **pandas**
   - [ ] read_csv/parquet · [ ] select + filter · [ ] missing values · [ ] strings · [ ] groupby/agg · [ ] merge · [ ] profiling (nulls, dtypes, duplicates)
 - [ ] ★★★ **SQL**
-  - [x] SELECT, WHERE, ORDER BY, LIMIT · [ ] GROUP BY + HAVING · [ ] joins · [ ] CTEs · [ ] window functions (ROW_NUMBER, RANK, LAG, running totals)
+  - [x] SELECT, WHERE, ORDER BY, LIMIT · [ ] GROUP BY + HAVING · [ ] joins · [ ] CTEs · [ ] window functions (ROW_NUMBER, RANK, LAG, running totals) · [ ] logical order of execution · [ ] `COUNT(*)` vs `COUNT(col)` · [ ] INNER vs LEFT joins + NULLs
 - [ ] ★★ **Type hints + Pydantic** (W3, with FastAPI)
   - [ ] type hints · [x] dataclasses vs Pydantic · [ ] validation at the boundary
 
@@ -96,7 +96,7 @@ Market demand (UK junior AI/ML ads, audits on 29 Sep, 5 Oct and 8 Oct 2026): ★
 
 ## 6. Production AI (W7)
 - [ ] ★★★ **Containers**
-  - [ ] images + layers · [ ] Dockerfile · [ ] compose · [ ] slim, non-root, `.dockerignore` · [ ] Kubernetes: pods + deployments (concept)
+  - [ ] images + layers · [ ] Dockerfile · [ ] compose · [ ] slim, non-root, `.dockerignore` · [ ] Kubernetes: pods + deployments (concept) · [ ] hands-on: Redis in Docker + `redis-cli` (W0 gap, do now)
 - [ ] ★★★ **Cloud**
   - [ ] compute, storage, IAM, secrets · [ ] managed LLMs (Azure OpenAI, Bedrock, Vertex) · [ ] deploy to Azure Container Apps
 - [ ] ★★★ **CI/CD**
