@@ -1,0 +1,149 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>pandas Cheat Sheet</title>
+<link rel="stylesheet" href="../../../log/assets/cheatsheet.css">
+<style>
+.row.c3>.card{min-width:0}
+.sig{table-layout:fixed}
+.sig td:first-child{font-family:"Cascadia Code",Consolas,monospace;font-size:14px;font-weight:600;width:58%;overflow-wrap:anywhere}
+.row.c2 .sig td:first-child{width:24%}
+.c3 pre{white-space:pre-wrap;overflow-wrap:anywhere}
+.sig td{font-size:15.5px}
+pre{font-size:14px}
+</style></head><body>
+
+<header>
+  <div>
+    <h1>pandas <span>for AI Engineers</span></h1>
+    <p class="sub">Load, inspect, clean, filter, group, join: the core that covers almost all day-to-day data work, plus eval-results and RAG recipes. Checked on pandas 3.</p>
+  </div>
+  <div class="tag">Python · Week 2<b>Inspect first. Vectorise. Check row counts.</b></div>
+</header>
+
+<div class="row c3">
+  <div class="card">
+    <h2><i>1</i>Read + write</h2>
+    <table class="sig">
+      <tr><td>pd.read_csv(path, encoding="utf-8")</td><td>also <code>usecols=</code>, <code>dtype=</code></td></tr>
+      <tr><td>pd.read_json(path, lines=True)</td><td><b>JSONL</b>: LLM logs, eval sets</td></tr>
+      <tr><td>pd.read_parquet(path)</td><td>fast, typed, compressed (big data)</td></tr>
+      <tr><td>pd.DataFrame(list_of_dicts)</td><td>API / LLM results → table</td></tr>
+      <tr><td>df.to_csv(path, index=False)</td><td>no extra index column</td></tr>
+      <tr><td>df.to_parquet(path)</td><td>needs <code>pyarrow</code></td></tr>
+    </table>
+    <h2 style="margin-top:16px"><i>2</i>Inspect (always first)</h2>
+    <table class="sig">
+      <tr><td>df.shape · df.head() · df.info()</td><td>size · peek · dtypes + non-null counts</td></tr>
+      <tr><td>df.describe()</td><td>count, mean, std, quartiles</td></tr>
+      <tr><td>df.isna().sum()</td><td>missing values per column</td></tr>
+      <tr><td>df.duplicated().sum()</td><td>duplicate rows (<code>subset=[...]</code>)</td></tr>
+      <tr><td>s.value_counts(normalize=True)</td><td>category counts / shares</td></tr>
+      <tr><td>s.nunique() · s.unique()</td><td>how many / which distinct</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>3</i>Select + filter</h2>
+    <table class="sig">
+      <tr><td>df["col"] · df[["a", "b"]]</td><td>one column (Series) · several (DataFrame)</td></tr>
+      <tr><td>df[(c1) &amp; (c2)] · | · ~</td><td>and · or · not; <b>brackets needed</b></td></tr>
+      <tr><td>df.loc[mask, ["a", "b"]]</td><td>rows by label/condition + columns</td></tr>
+      <tr><td>df.iloc[0, 2] · df.iloc[:5]</td><td>by position</td></tr>
+      <tr><td>s.isin(["x", "y"])</td><td>in a list</td></tr>
+      <tr><td>s.between(1, 10)</td><td>in a range</td></tr>
+      <tr><td>s.str.contains("q", case=False, na=False)</td><td>text search</td></tr>
+      <tr><td>df.query("latency_ms &gt; 100")</td><td>readable filter</td></tr>
+      <tr><td>df.nlargest(5, "cost")</td><td>top 5 rows by a column</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>4</i>Clean + fix types</h2>
+    <table class="sig">
+      <tr><td>df.drop_duplicates(subset=[...])</td><td>remove repeats</td></tr>
+      <tr><td>df.dropna(subset=["a"]) · fillna(0)</td><td>drop vs fill: a judgement call</td></tr>
+      <tr><td>s.str.strip().str.lower()</td><td>"&nbsp;LONDON " → "london"</td></tr>
+      <tr><td>s.str.replace(r"[£,]", "", regex=True)</td><td>strip symbols before converting</td></tr>
+      <tr><td>pd.to_numeric(s, errors="coerce")</td><td>bad values → NaN, not a crash</td></tr>
+      <tr><td>pd.to_datetime(s, format="%Y-%m")</td><td>then <code>s.dt.month</code>, <code>.dt.year</code></td></tr>
+      <tr><td>s.astype(int)</td><td>after filling NaN</td></tr>
+      <tr><td>df.rename(columns={"a": "b"})</td><td>also <code>df.drop(columns=[...])</code></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row c3">
+  <div class="card">
+    <h2><i>5</i>New columns</h2>
+    <table class="sig">
+      <tr><td>df["cpi"] = df["cost"] / df["items"]</td><td>vectorised maths on columns</td></tr>
+      <tr><td>np.where(cond, "fast", "slow")</td><td>if/else per row</td></tr>
+      <tr><td>(a / b).where(b &gt; 0)</td><td>keep where true, else NaN</td></tr>
+      <tr><td>s.map({"a": "gpt", "b": "claude"})</td><td>look up values with a dict</td></tr>
+      <tr><td>df.assign(x=...)</td><td>add columns in a chain</td></tr>
+      <tr><td>s.apply(func)</td><td><b>last resort</b>: a Python loop, slow</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>6</i>Group + summarise</h2>
+<pre>(df.groupby("model", as_index=False)
+   .agg(mean_score=("score", "mean"),
+        p95_ms=("latency_ms", lambda x: x.quantile(0.95)),
+        n=("question", "size"))
+   .sort_values("mean_score", ascending=False))</pre>
+    <table class="sig" style="margin-top:8px">
+      <tr><td>.transform("mean")</td><td>group value back on every row</td></tr>
+      <tr><td>groupby(..., dropna=False)</td><td>keep NaN keys (dropped by default)</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2><i>7</i>Combine + reshape</h2>
+    <table class="sig">
+      <tr><td>df.merge(lk, on="k", how="left")</td><td>SQL join: inner / left / outer</td></tr>
+      <tr><td>validate="many_to_one"</td><td>error if the lookup has duplicate keys</td></tr>
+      <tr><td>pd.concat([a, b], ignore_index=True)</td><td>stack tables (same columns)</td></tr>
+      <tr><td>df.pivot_table(index=, columns=, values=, aggfunc=)</td><td>long → wide summary</td></tr>
+      <tr><td>df.melt(id_vars=["k"])</td><td>wide → long</td></tr>
+      <tr><td>df.explode("chunks")</td><td>one row per list item</td></tr>
+      <tr><td>df.sample(frac=0.8, random_state=42)</td><td>reproducible sample / split</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="row c2">
+  <div class="card">
+    <h2><i>8</i>AI recipes you'll actually write</h2>
+<pre># eval results: which model / prompt is better?
+res = pd.read_json("eval_results.jsonl", lines=True)       # one JSON object per line
+res.groupby("model")["correct"].mean()                       # accuracy per model
+res.groupby("model")["latency_ms"].quantile(0.95)            # p95 latency per model
+res[~res["correct"]].sample(10, random_state=0)              # error analysis: read failures
+
+# table → text for embeddings / RAG
+df["text"] = df["practice"] + " in " + df["region"] + " prescribed " + df["items"].astype(str) + " items"
+docs = df.drop_duplicates(subset="text")["text"].tolist()    # dedupe before embedding
+
+# token / cost tracking from API logs
+logs.groupby(logs["ts"].dt.date)[["input_tokens", "output_tokens"]].sum()</pre>
+  </div>
+  <div class="card">
+    <h2><i>9</i>Gotchas interviewers love</h2>
+    <table class="sig">
+      <tr><td>Merge explosion</td><td>duplicate keys multiply rows. <b>Check len before/after</b>, use <code>validate=</code>.</td></tr>
+      <tr><td>and / or</td><td>use <code>&amp;</code> <code>|</code> with brackets; <code>and</code> raises an error on Series.</td></tr>
+      <tr><td>Chained assign</td><td><code>df[mask]["b"] = 0</code> changes nothing (pandas 3). Use <code>df.loc[mask, "b"] = 0</code>.</td></tr>
+      <tr><td>NaN</td><td>never <code>== np.nan</code>; use <code>isna()</code>. One NaN turns an int column into float.</td></tr>
+      <tr><td>groupby + NaN</td><td>rows with a NaN key vanish unless <code>dropna=False</code>.</td></tr>
+      <tr><td>apply</td><td>row-by-row Python: slow on big data; vectorise first.</td></tr>
+      <tr><td>Memory</td><td>very large files: <code>usecols</code>, <code>dtype</code>, <code>chunksize=</code>, parquet, or DuckDB / Polars.</td></tr>
+    </table>
+    <p class="note"><b>Skip until a job needs it:</b> MultiIndex tricks, styling, plotting via pandas, <code>eval</code>, rolling windows (W6), <code>inplace=True</code> (discouraged).</p>
+  </div>
+</div>
+
+<div class="quote">
+  <h2><i>✓</i>Interview lines</h2>
+  <p><em>First thing with a new dataset?</em> shape, dtypes, missing values, duplicates, value counts: then decide how to clean.
+  <em>Drop or fill missing values?</em> It depends on why they're missing: drop when rows are few or unusable, fill when a sensible default exists, and say which you chose.
+  <em>Merge vs concat?</em> merge joins on keys like SQL; concat stacks tables. <em>After a merge?</em> Check the row count.
+  <em>Why not loop over rows?</em> Column operations run in C (NumPy underneath); <code>apply</code> and loops are Python-speed.</p>
+</div>
+
+</body></html>

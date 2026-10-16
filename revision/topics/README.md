@@ -24,7 +24,8 @@ Each folder holds:
 | [Git](git/README.md) | 🟡 | 10 Oct | ❌ | conflict + PR (lab 01); **shell basics not started** |
 | [argparse (CLI)](argparse/README.md) | ✅ | 15 Oct | ❌ | lab 01 |
 | [SQL](sql/README.md) | 🟡 part 1 | 28 Sep | ❌ | GROUP BY, logical order, joins, CTEs, windows |
-| [NumPy](numpy/README.md) | ⏳ brush-up | 15 Oct | ❌ | drill 1–10; views vs copies |
+| [NumPy](numpy/README.md) | ✅ drill done | 15 Oct | ✅ | views vs copies, seeded rng, dtype truncation (Sunday revision) |
+| [pandas](pandas/README.md) | ⏳ brush-up | 16 Oct | ✅ | drill 1–13; lab 03 |
 
 Status: ✅ done to interview depth · 🟡 partly done · ⏳ in progress.
-Not started yet: pandas · type hints + Pydantic (W3) · shell basics · lab 03 · W3 onwards. A folder is created the first day a topic is studied.
+Not started yet: type hints + Pydantic (W3) · shell basics · lab 03 · W3 onwards. A folder is created the first day a topic is studied.
