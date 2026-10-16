@@ -27,5 +27,9 @@ Thumbs.db
 # Personal tracker (private)
 roadmap-tracker.html
 
+# Books and PDFs: personal copies, never published
+Book/
+*.pdf
+
 #logging
 *.log 
