@@ -1,4 +1,4 @@
-# Week 2 catch-up: finish by Mon 19 Oct (Sun 18 is a shift), then W3
+# Week 2 catch-up: finish by Sun 18 Oct (day off), W3 starts Mon 19
 
 **Updated Fri 16 Oct.** Done since the first plan: git basics ✅ · argparse ✅. NumPy + pandas = brush-up only (learned before, functions forgotten).
 **Gap fixes added 16 Oct** (from the per-topic review in [topics/](topics/README.md)): marked 🩹 below, about 2 h in total.
@@ -8,18 +8,18 @@
 | **Thu 15** | **Lab 01** start (new chat): spec, starter files, branch | Lab 01 build: `download_month` + retries | — |
 | **Fri 16** | 🩹 HTTP `timeout=` + `raise_for_status()` (10 m) · 🩹 pytest: `-k`/`-x`/`-v` + `monkeypatch` (25 m) → Lab 01 build (ship moves to Sat) | **NumPy brush-up** ✅ drill done (🩹 views vs copies, `default_rng` → Mon revision) | pandas part 1 → moves to Sat |
 | **Sat 17** | **Lab 01 finish** (not shipped on Fri): CLI + tests → **pull request → merge** (2 h) | **pandas** drill finish (1.5 h) | **SQL Saturday** (2 h): 🩹 logical order + `COUNT(*)` vs `COUNT(col)` first, then GROUP BY/HAVING, INNER vs LEFT joins, CTEs, windows |
-| **Sun 18** | 🏭 **Shift 06:00–18:00**: no study. Optional 20 min phone recall (Topic Cards: modules + OOP) | — | — |
+| **Sun 18** | **Day off from M&S** (shift cancelled): **Python Qs** (in chat): `*args/**kwargs`, generators, decorators, 🩹 context managers, the GIL | 🩹 **Shell basics** (30 m) + **W0–W2 recall** incl. 🩹 composition vs inheritance, `__eq__`/`__hash__` | 🩹 NeetCode docstrings · weekly review + plan the week |
 
 ## Week of Sun 18 Oct (rota received 15 Oct)
 🏭 = 12 h shift, no study · **FLEX** = may be called in: plan a full day, fall back to rest if called · Apply = 2 tailored applications on every study day Mon–Fri.
 
 | Day | Rota | Plan |
 |---|---|---|
-| **Mon 19** | FLEX | If free: **Python Qs** (in chat): `*args/**kwargs`, generators, decorators, 🩹 context managers, the GIL + 🩹 **shell basics** (30 m) + **W0–W2 recall** incl. 🩹 composition vs inheritance, `__eq__`/`__hash__` + 🩹 NeetCode docstrings → Apply. If called in: this moves to the next free day. |
-| **Tue 20** | FLEX | If free: **W3 starts**: async + HTTP (40 min cap) → lab 04+05 spec → Apply. If called in: moves on. |
-| **Wed 21** | rest | Anything Mon/Tue lost first, then FastAPI + Pydantic + type hints → lab 04+05 build → Apply |
+| **Mon 19** | FLEX | If free: **W3 starts**: async + HTTP (40 min cap) → lab 04+05 spec → Apply. If called in: moves to the next free day. |
+| **Tue 20** | FLEX | If free: FastAPI + Pydantic + type hints → lab 04+05 build → Apply. If called in: moves on. |
+| **Wed 21** | rest | How LLMs work + tokenisation → lab 04+05 tests → ship → Apply |
 | **Thu 22** | 🏭 06:00–18:00 | No study |
-| **Fri 23** | rest | How LLMs work + tokenisation → lab 04+05 tests → ship → Apply |
+| **Fri 23** | rest | **Catch-up slot**: anything Mon/Tue lost to a flex shift; nothing lost → start W4 early (transformers) → Apply |
 | **Sat 24** | rest (light) | Lab 03 profile only (1 h) + **SQL Saturday** + funnel review |
 
 From W3 on, the day-by-day plan lives in the **tracker (plan v6)**: 4 full study days + a light Saturday a week, Thursdays marked as likely shifts, essentials by Sun 6 Dec. 🩹 Docker + Redis hands-on moved to the W7 Docker day.
