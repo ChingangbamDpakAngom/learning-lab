@@ -54,37 +54,88 @@ Step 13. (Stretch) Save the clean data to drill/pandas/clean.csv without the ind
 
 import pandas as pd
 
+# data path
 DATA = "drill/pandas/prescriptions.csv"
 REGIONS = "drill/pandas/regions.csv"
 
 
 def main() -> None:
-    # Step 1
+    # Step 1 load file + inspect
+    df_data = pd.read_csv(DATA, encoding="utf-8")
 
-    # Step 2
+    print(df_data.shape)
+    print(df_data.dtypes)
+    print(df_data.head(3))
 
-    # Step 3
+    # Step 2 missing values per column, duplicate rows
+    print(df_data.isna().sum())
+    print(df_data.duplicated().sum())
 
-    # Step 4
+    # Step 3 drop duplicates, clean region
+    df_data = df_data.drop_duplicates()
+    df_data["region"] = df_data["region"].str.strip().str.lower()
 
-    # Step 5
+    print(len(df_data))
+    print(df_data["region"].unique())
 
-    # Step 6
+    # Step 4 fix types: cost, month, items
+    df_data["cost"] = df_data["cost"].str.replace("£", "").astype(float)
+    df_data["month"] = pd.to_datetime(df_data["month"], format="%Y-%m")
+    df_data["items"] = df_data["items"].fillna(0).astype(int)
 
-    # Step 7
+    print(df_data.dtypes)
+    print(df_data["items"].sum())
 
-    # Step 8
+    # Step 5 london rows with items > 90
+    london_busy = df_data[(df_data["region"] == "london") & (df_data["items"] > 90)]
 
-    # Step 9
+    print(london_busy[["practice", "items"]])
 
-    # Step 10
+    # Step 6 practice + items for Resp or Skin
+    resp_skin = df_data.loc[df_data["bnf_chapter"].isin(["Resp", "Skin"]), ["practice", "items"]]
 
-    # Step 11
+    print(resp_skin.shape)
 
-    # Step 12
+    # Step 7 cost per item, only where items > 0
+    df_data["cost_per_item"] = (df_data["cost"] / df_data["items"]).where(df_data["items"] > 0)
 
-    # Step 13
-    ...
+    print(df_data["cost_per_item"].tolist())
+
+    # Step 8 totals per region, biggest first
+    by_region = (
+        df_data.groupby("region", as_index=False)
+        .agg(total_items=("items", "sum"), total_cost=("cost", "sum"), practices=("practice", "nunique"))
+        .sort_values("total_items", ascending=False)
+    )
+
+    print(by_region)
+
+    # Step 9 rows per chapter
+    print(df_data["bnf_chapter"].value_counts())
+
+    # Step 10 left join region codes, check row count
+    df_regions = pd.read_csv(REGIONS)
+    merged = df_data.merge(df_regions, on="region", how="left")
+
+    print(len(df_data), len(merged))
+    print(merged.loc[merged["region_code"].isna(), "region"].unique())
+
+    # Step 11 pivot: months x chapters
+    pivot = df_data.pivot_table(index="month", columns="bnf_chapter", values="items", aggfunc="sum", fill_value=0)
+
+    print(pivot)
+    print(pivot.sum(axis=1).tolist())
+
+    # Step 12 text column for embeddings
+    df_data["text"] = (
+        df_data["practice"] + " in " + df_data["region"] + " prescribed "
+        + df_data["items"].astype(str) + " " + df_data["bnf_chapter"].str.lower() + " items"
+    )
+
+    print(df_data["text"].iloc[0])
+
+    # Step 13 save clean data
+    df_data.to_csv("drill/pandas/clean.csv", index=False)
 
 
 if __name__ == "__main__":
