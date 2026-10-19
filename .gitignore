@@ -24,6 +24,9 @@ data/
 .DS_Store
 Thumbs.db
 
+# Third-party practice repos: clone locally, never commit (no licence)
+drill/pandas/ninja/pandas-ninja/
+
 # Personal tracker (private)
 roadmap-tracker.html
 
