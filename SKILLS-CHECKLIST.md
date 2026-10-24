@@ -1,8 +1,18 @@
-# Skills checklist: junior AI engineer (plan v4.2)
+# Skills checklist: junior AI engineer (plan v7)
 
 Tick a topic only when **both** are true: I can explain it in 60 s (what → why → trade-off → example) **and** I've used it in a lab or drill. Sub-topics can be ticked as I go.
 
 Market demand (UK junior AI/ML ads, audits on 29 Sep, 5 Oct and 8 Oct 2026): ★★★ nearly every ad · ★★ most ads · ★ some ads / interviews only.
+
+## v7 buckets (24 Oct): how each topic is covered
+Shift weeks leave about 4 × 90-min blocks a week, so every topic below sits in one bucket. **Nothing is deleted**: 🔁 and ⏭ topics stay in this checklist and in `revision/` so they can be quizzed and ticked.
+
+**📘 Study block (interview core, in the v7 week table):** async + HTTP · FastAPI + Pydantic · how LLMs work + tokenisation + transformers · prompting + structured output · tool calling · embeddings + vector DBs · chunking/hybrid/reranking/citations · LLM evals + error analysis · agents + guardrails · LangGraph + MCP (concept) · ML concepts (metrics, overfitting, trees/boosting) · neural nets + backprop · fine-tuning vs RAG, LoRA, quantisation · production as a story (Docker, deploy, CI eval gate, tracing) · AI system design · responsible AI · behavioural/STAR · mocks.
+Labs kept: 01 (reduced), 04-06 merged, 07, 08, 09, reduced 17.
+
+**🔁 Revision only (10–20 min: phone `Quiz`, Saturday drill, no study block):** SQL joins/GROUP BY/CTEs/windows (SQLBolt, pgexercises) · Python Qs: `*args/**kwargs`, generators, decorators, context managers, the GIL · shell basics · NumPy/pandas recall · stats for interviews (p-values, A/B) · maths for ML (one-liners) · Hugging Face `pipeline` usage · cloud: Azure ↔ AWS map · observability, monitoring/drift · Kubernetes concept · agent evals · feature engineering + MLflow (what/why) · Airflow (concept).
+
+**⏭ Later (December, or only if an interview asks):** lab 03 (profile) · lab 10 LangGraph + MCP hands-on · lab 11 sklearn + MLflow · lab 12 PyTorch loop · lab 13 Azure deploy · lab 14 CI + eval gate · labs 15, 16 · full lab 17 · quantisation benchmark · k-means/PCA hands-on · Postgres, Spark, K8s, Terraform.
 
 ## 1. Python foundations (W1–W2)
 - [x] ★★★ **Python core**
@@ -15,17 +25,17 @@ Market demand (UK junior AI/ML ads, audits on 29 Sep, 5 Oct and 8 Oct 2026): ★
   - [x] imports + `sys.path` · [x] `__name__ == "__main__"` · [x] module cache · [x] absolute vs relative · [x] `__init__.py` · [x] `python -m` · [x] `pip install -e .`
 - [x] ★★★ **Environments**
   - [x] venv · [x] uv add/sync/run · [x] `pyproject.toml` + `uv.lock` · [x] requirements.txt
-- [ ] ★★ **CLI**
+- [x] ★★ **CLI**
   - [ ] argparse: positional + optional args, types, defaults, `--help`
-- [ ] ★★★ **Git + shell**
+- [x] ★★★ **Git + shell**
   - [ ] add/commit/push/pull · [ ] branch + merge · [ ] PR flow + resolving a conflict · [ ] `.gitignore` · [ ] shell basics (cd, ls, pipes, env vars)
 - [x] ★★★ **OOP**
   - [x] classes + `self` · [x] class vs instance variables · [x] classmethod + staticmethod · [x] inheritance + `super()` · [x] `@property` · [x] `__repr__` / `__str__` · [x] dataclasses · [ ] composition vs inheritance · [ ] `__eq__` / `__hash__`
-- [ ] ★★★ **pytest**
+- [x] ★★★ **pytest**
   - [ ] asserts + test discovery · [ ] fixtures · [ ] `tmp_path` · [ ] parametrize · [ ] mocking HTTP (monkeypatch / respx) · [ ] running tests: `-k`, `-x`, `-v`
-- [ ] ★★★ **NumPy**
+- [x] ★★★ **NumPy**
   - [ ] arrays, dtypes, shape · [ ] vectorisation · [ ] broadcasting · [ ] aggregations, percentiles, z-scores · [ ] views vs copies · [ ] seeded random (`default_rng`)
-- [ ] ★★★ **pandas**
+- [x] ★★★ **pandas**
   - [ ] read_csv/parquet · [ ] select + filter · [ ] missing values · [ ] strings · [ ] groupby/agg · [ ] merge · [ ] profiling (nulls, dtypes, duplicates)
 - [ ] ★★★ **SQL**
   - [x] SELECT, WHERE, ORDER BY, LIMIT · [ ] GROUP BY + HAVING · [ ] joins · [ ] CTEs · [ ] window functions (ROW_NUMBER, RANK, LAG, running totals) · [ ] logical order of execution · [ ] `COUNT(*)` vs `COUNT(col)` · [ ] INNER vs LEFT joins + NULLs
