@@ -1,4 +1,8 @@
-# Plan v6: junior AI engineer by December (28 Sep → 6 Dec 2026, buffer to 13 Dec)
+# Plan v7: junior AI engineer by December (28 Sep → 5 Dec 2026, buffer to 13 Dec)
+
+**v7 (24 Oct): minimum plan that survives shift weeks.** v6 assumed 4 full study days a week; in practice FLEX call-ins and 12 h shifts left almost nothing, and applications never started. v7 counts **study blocks (90 min)**, not days: **4 blocks + 6 applications a week** is a successful week. Every topic is in one of three buckets (see *Week by week (v7)* and SKILLS-CHECKLIST.md): **📘 study block** (interview core: LLMs, RAG, evals, agents, ML concepts, system design), **🔁 revision only** (10–20 min phone `Quiz`/Saturday drill: SQL, Python Qs, shell, NumPy/pandas, stats, cloud map, observability), **⏭ later** (labs 03, 10–17 hands-on, MLflow, Azure deploy, CI; only if time or interviews ask). Weeks run Sun–Sat to match the rota.
+
+**Free day:** 1) 2 applications (40 min, master CV, tailor only the summary) → 2) one 90-min study block → 3) bonus block only if energy. **Shift day:** rest (optional 10-min `Quiz`). **Sunday 20 min:** count applications + blocks, slot next week's blocks into the rota.
 
 **v6 (16 Oct): shift-aware.** The M&S job means up to 3 × 12 h shifts a week (no study on shift days), so study time drops from about 34 h to about 20 h a week: 4 full study days + a light Saturday. Option C: **the AI core (LLMs, RAG, evals, agents, the lead project) keeps full depth**; ML becomes concept level from the StatQuest book (one small sklearn lab), production keeps only deploy + CI eval gate + tracing, monitoring/drift becomes a one-liner, the quantisation benchmark and k-means/PCA hands-on move to "later". W2 ran to 18 Oct (catch-up + gap fixes); W3 starts Mon 19 Oct; essentials end Sun 6 Dec; buffer 7–13 Dec. Thursdays are marked as likely shifts; each Thursday's rota email re-aligns the next week. Bus time = Atomic Habits (not study).
 
@@ -88,7 +92,22 @@ The aim of the early applications is to **measure the CV**, not to win.
 
 Behind schedule? Cut the stretch goal first, then the Drill. Never cut Apply.
 
-## Week by week
+## Week by week (v7, current)
+Each row = 4 study blocks (B1–B4, 90 min each). A block lost to a shift moves to the next free day; if the week runs out, it goes to the buffer, never cuts applications.
+
+| Wk | Dates (Sun–Sat) | B1 | B2 | B3 | B4 |
+|---|---|---|---|---|---|
+| A | 25–31 Oct | Lab 01 reduced: retries + their tests → commit | async + HTTP (40-min cap) | FastAPI + Pydantic + type hints | How LLMs work, tokenisation, transformers + attention (concept) |
+| B | 1–7 Nov | Prompting + structured output | Tool calling | **Lab 04-06 merged:** FastAPI LLM extractor (async retrying client, JSON output, tests) | Lab 04-06 finish + ship |
+| C | 8–14 Nov | Embeddings + vector DBs | Chunking, hybrid search, reranking, citations | **Lab 07** RAG API on Chroma | Lab 07 finish + ship |
+| D | 15–21 Nov | LLM evals + error analysis | **Lab 08** eval harness on lab 07 | Agents: tool loop, memory, guardrails (OWASP LLM Top 10) | **Lab 09** agent from scratch + guardrail |
+| E | 22–28 Nov | LangGraph + MCP (concept + tiny demo) | ML concepts (StatQuest): metrics, overfitting, bias/variance, trees + boosting | Neural nets + backprop; fine-tuning vs RAG vs prompting, LoRA, quantisation | Production as a story: Docker, deploy, CI eval gate, tracing (Aegis as the example) |
+| F | 29 Nov–5 Dec | AI system design framework (2 practice designs) | Responsible AI + STAR stories + dissertation pitch + "why AI?" + right-to-work answer | Mock interview with Claude | Take-home practice (reduced lab 17, 90 min) |
+| Buffer | 6–13 Dec | Catch-up for lost blocks, mocks, weak spots | | | |
+
+**Lead RAG project:** Claude builds it alongside; a project study block replaces a 📘 block only once its lab equivalent is done (07 → retrieval, 08 → evals, 09 → agent). Aegis stays the main demo until it ships.
+
+## Week by week (v6, superseded 24 Oct)
 | Wk | Dates | Learn | learning-lab (I build) | Project (Claude builds / I study) |
 |---|---|---|---|---|
 | 0 | 25–27 Sep | Setup, Big-O, descriptive stats | Create `learning-lab` | NHS business question + metrics |
